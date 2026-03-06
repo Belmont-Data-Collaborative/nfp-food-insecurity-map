@@ -1,0 +1,28 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.1.1, pluggy-1.6.0 -- /Users/bhagatpranish/Documents/dropbuild/build/nfp-food-insecurity-map-v3/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /Users/bhagatpranish/Documents/dropbuild/build/nfp-food-insecurity-map-v3
+plugins: cov-5.0.0, Faker-24.3.0
+collecting ... collected 19 items
+
+tests/integration/test_full_pipeline.py::test_full_pipeline_mock_mode PASSED [  5%]
+tests/unit/test_data_loader.py::test_load_geojson_normalizes_geoid PASSED [ 10%]
+tests/unit/test_data_loader.py::test_load_partners_mock_mode PASSED      [ 15%]
+tests/unit/test_data_loader.py::test_load_census_geoid_normalization PASSED [ 21%]
+tests/unit/test_data_loader.py::test_data_schema_error_raised PASSED     [ 26%]
+tests/unit/test_data_loader.py::test_load_partners_empty_dataframe PASSED [ 31%]
+tests/unit/test_geocoder.py::test_geocode_partners_uses_cache PASSED     [ 36%]
+tests/unit/test_geocoder.py::test_geocode_partners_returns_tuple PASSED  [ 42%]
+tests/unit/test_geocoder.py::test_geocode_partners_skips_blank_addresses PASSED [ 47%]
+tests/unit/test_geocoder.py::test_geocode_partners_handles_geocoding_failure PASSED [ 52%]
+tests/unit/test_layer_manager.py::test_build_choropleth_layer_returns_tuple PASSED [ 57%]
+tests/unit/test_layer_manager.py::test_build_partner_markers_returns_feature_group PASSED [ 63%]
+tests/unit/test_layer_manager.py::test_build_empty_tract_layer_returns_geojson PASSED [ 68%]
+tests/unit/test_layer_manager.py::test_build_partner_markers_unknown_type PASSED [ 73%]
+tests/unit/test_map_builder.py::test_build_base_map_returns_folium_map PASSED [ 78%]
+tests/unit/test_map_builder.py::test_build_map_with_no_data PASSED       [ 84%]
+tests/unit/test_map_builder.py::test_build_map_with_partners PASSED      [ 89%]
+tests/unit/test_scripts.py::test_import_shapefiles_no_src_imports PASSED [ 94%]
+tests/unit/test_scripts.py::test_generate_mock_data_no_src_imports PASSED [100%]
+
+============================== 19 passed in 8.23s ==============================
