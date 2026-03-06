@@ -26,7 +26,7 @@ def _get_secret(key: str, default: str | None = None) -> str | None:
 
 BDAIC_BUCKET: str = _get_secret("BDAIC_BUCKET", "") or "bdaic-nfp-bucket"
 
-USE_MOCK_DATA: bool = (_get_secret("USE_MOCK_DATA", "false") or "false").lower() == "true"
+USE_MOCK_DATA: bool = (_get_secret("USE_MOCK_DATA", "true") or "true").lower() == "true"
 
 MOCK_DATA_DIR: str = _get_secret("MOCK_DATA_DIR", "data/mock") or "data/mock"
 
