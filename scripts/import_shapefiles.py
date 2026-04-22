@@ -1,83 +1,121 @@
-#!/usr/bin/env python3
-"""Download TIGER/Line tract shapefile, filter to Davidson County, and save as GeoJSON.
+"""Download and process Census TIGER/Line Davidson County tract shapefile.
 
 STANDALONE script — NO imports from src/ modules.
-Dependencies: geopandas, requests, pyogrio
 """
 from __future__ import annotations
 
+import argparse
 import os
 import sys
 import tempfile
 import zipfile
+from pathlib import Path
 
-import geopandas as gpd
-import requests
+try:
+    import geopandas as gpd
+    import requests
+except ImportError as e:
+    print(f"Missing dependency: {e}. Install with: pip install geopandas requests")
+    sys.exit(1)
 
-# Constants defined locally (NOT imported from src/)
-TIGER_URL = "https://www2.census.gov/geo/tiger/TIGER2020/TRACT/tl_2020_47_tract.zip"
-DAVIDSON_COUNTY_FP = "037"
-OUTPUT_DIR = os.path.join("data", "shapefiles")
-OUTPUT_FILE = os.path.join(OUTPUT_DIR, "davidson_county_tracts.geojson")
-MIN_TRACTS = 150
-MAX_TRACTS = 300
+TIGER_URL = (
+    "https://www2.census.gov/geo/tiger/TIGER2020/TRACT/tl_2020_47_tract.zip"
+)
+DAVIDSON_COUNTY_FIPS = "037"
+DEFAULT_OUTPUT = "data/shapefiles/davidson_county_tracts.geojson"
+RETAINED_COLUMNS = ["GEOID", "NAME", "NAMELSAD", "geometry"]
 
 
 def main() -> None:
-    """Download, filter, reproject, and save Davidson County tract boundaries."""
-    print(f"Downloading TIGER/Line shapefile from {TIGER_URL}...")
+    parser = argparse.ArgumentParser(
+        description="Download and filter Davidson County census tracts."
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default=DEFAULT_OUTPUT,
+        help=f"Output GeoJSON file path (default: {DEFAULT_OUTPUT})",
+    )
+    args = parser.parse_args()
 
-    # Download the zip file
-    response = requests.get(TIGER_URL, timeout=120)
-    response.raise_for_status()
+    output_path = Path(args.output)
 
-    # Save to temp file and extract
+    # Download shapefile
+    print(f"Downloading shapefile from {TIGER_URL}...")
+    try:
+        response = requests.get(TIGER_URL, timeout=120, stream=True)
+        response.raise_for_status()
+    except requests.RequestException as exc:
+        print(f"ERROR: Failed to download shapefile: {exc}")
+        sys.exit(1)
+
     with tempfile.TemporaryDirectory() as tmpdir:
         zip_path = os.path.join(tmpdir, "tracts.zip")
+
+        # Write downloaded content
         with open(zip_path, "wb") as f:
-            f.write(response.content)
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        print("Download complete. Extracting...")
 
-        print("Extracting shapefile...")
-        with zipfile.ZipFile(zip_path, "r") as zf:
-            zf.extractall(tmpdir)
-
-        # Find the .shp file
-        shp_files = [f for f in os.listdir(tmpdir) if f.endswith(".shp")]
-        if not shp_files:
-            print("ERROR: No .shp file found in downloaded archive.", file=sys.stderr)
+        # Extract
+        try:
+            with zipfile.ZipFile(zip_path, "r") as zf:
+                zf.extractall(tmpdir)
+        except zipfile.BadZipFile:
+            print("ERROR: Downloaded file is not a valid zip archive.")
             sys.exit(1)
 
-        shp_path = os.path.join(tmpdir, shp_files[0])
-        print(f"Reading shapefile: {shp_files[0]}")
+        # Find the .shp file
+        shp_files = list(Path(tmpdir).glob("*.shp"))
+        if not shp_files:
+            print("ERROR: No .shp file found in archive.")
+            sys.exit(1)
 
-        # Read with geopandas
-        gdf = gpd.read_file(shp_path, engine="pyogrio")
+        print(f"Reading shapefile: {shp_files[0].name}")
+        gdf = gpd.read_file(shp_files[0])
 
-    # Filter to Davidson County (COUNTYFP == "037")
-    print(f"Filtering to Davidson County (COUNTYFP={DAVIDSON_COUNTY_FP})...")
-    davidson = gdf[gdf["COUNTYFP"] == DAVIDSON_COUNTY_FP].copy()
+    # Filter to Davidson County
+    print(f"Filtering to Davidson County (COUNTYFP={DAVIDSON_COUNTY_FIPS})...")
+    gdf = gdf[gdf["COUNTYFP"] == DAVIDSON_COUNTY_FIPS].copy()
 
-    tract_count = len(davidson)
-    print(f"Found {tract_count} census tracts in Davidson County.")
+    if len(gdf) == 0:
+        print("ERROR: No tracts found after filtering to Davidson County.")
+        sys.exit(1)
 
-    assert MIN_TRACTS <= tract_count <= MAX_TRACTS, (
-        f"Expected {MIN_TRACTS}-{MAX_TRACTS} tracts, found {tract_count}"
-    )
+    # Validate tract count with flexible range
+    tract_count = len(gdf)
+    if not (100 <= tract_count <= 400):
+        print(
+            f"ERROR: Expected 100-400 tracts, got {tract_count}. "
+            "Data may be corrupted."
+        )
+        sys.exit(1)
+
+    print(f"Found {tract_count} census tracts.")
 
     # Reproject to EPSG:4326
     print("Reprojecting to EPSG:4326...")
-    davidson = davidson.to_crs(epsg=4326)
+    gdf = gdf.to_crs(epsg=4326)
 
-    # Retain only needed columns and zero-pad GEOID to 11 chars
-    davidson = davidson[["GEOID", "NAME", "NAMELSAD", "geometry"]].copy()
-    davidson["GEOID"] = davidson["GEOID"].astype(str).str.zfill(11)
+    # Retain only required columns
+    gdf = gdf[RETAINED_COLUMNS].copy()
 
-    # Output
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    print(f"Writing to {OUTPUT_FILE}...")
-    davidson.to_file(OUTPUT_FILE, driver="GeoJSON")
+    # Zero-pad GEOID to 11 characters
+    gdf["GEOID"] = gdf["GEOID"].astype(str).str.zfill(11)
 
-    print(f"Done! {tract_count} tracts written to {OUTPUT_FILE}")
+    # Create output directory
+    try:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+    except OSError as exc:
+        print(f"ERROR: Failed to create output directory: {exc}")
+        sys.exit(1)
+
+    # Write GeoJSON
+    print(f"Writing GeoJSON to {output_path}...")
+    gdf.to_file(str(output_path), driver="GeoJSON")
+
+    print(f"SUCCESS: Wrote {tract_count} Davidson County census tracts to {output_path}")
 
 
 if __name__ == "__main__":

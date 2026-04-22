@@ -1,114 +1,109 @@
+"""Integration test: pipeline outputs match the contract the frontend expects.
+
+Skips when the pipeline hasn't been run in this working tree yet.
+"""
 from __future__ import annotations
 
 import json
-import os
-import shutil
 from pathlib import Path
-from unittest.mock import MagicMock, patch
 
-import folium
 import pandas as pd
 import pytest
 
-FIXTURES_DIR = Path(__file__).resolve().parent.parent / "fixtures"
+
+DATA = Path("data")
 
 
-@pytest.fixture
-def mock_data_dir(tmp_path):
-    """Set up a temporary mock data directory with fixture files."""
-    mock_dir = tmp_path / "mock"
-    mock_dir.mkdir()
-
-    # Copy fixture files with mock naming convention
-    shutil.copy(FIXTURES_DIR / "sample_partners.csv", mock_dir / "mock_nfp_partners.csv")
-    shutil.copy(FIXTURES_DIR / "sample_census.csv", mock_dir / "mock_census_tract_data.csv")
-    shutil.copy(FIXTURES_DIR / "sample_cdc_places.csv", mock_dir / "mock_cdc_places_data.csv")
-    shutil.copy(FIXTURES_DIR / "sample_geocode_cache.csv", mock_dir / "mock_geocode_cache.csv")
-
-    return str(mock_dir)
+def _skip_if_missing(path: Path) -> None:
+    if not path.exists():
+        pytest.skip(f"{path} not generated yet — run `python -m pipeline` first")
 
 
-@pytest.fixture
-def sample_geojson():
-    """Load sample GeoJSON fixture."""
-    with open(FIXTURES_DIR / "sample_tracts.geojson") as f:
-        return json.load(f)
+class TestGeoJsonOutputs:
+    def test_tracts_geojson_exists(self):
+        path = DATA / "tracts.geojson"
+        _skip_if_missing(path)
+        gj = json.loads(path.read_text())
+        assert gj["type"] == "FeatureCollection"
+        assert len(gj["features"]) > 100
+        for feat in gj["features"][:5]:
+            geoid = feat["properties"].get("GEOID", "")
+            assert len(str(geoid)) == 11, f"GEOID not 11-padded: {geoid!r}"
+
+    def test_zipcodes_geojson_exists(self):
+        path = DATA / "zipcodes.geojson"
+        _skip_if_missing(path)
+        gj = json.loads(path.read_text())
+        assert gj["type"] == "FeatureCollection"
+        assert len(gj["features"]) > 0
+
+    def test_counties_and_msa_geojsons(self):
+        for name in ("counties.geojson", "msa.geojson"):
+            path = DATA / name
+            _skip_if_missing(path)
+            gj = json.loads(path.read_text())
+            assert gj["type"] == "FeatureCollection"
+            assert len(gj["features"]) > 0
+
+    def test_partners_geojson(self):
+        path = DATA / "partners.geojson"
+        _skip_if_missing(path)
+        gj = json.loads(path.read_text())
+        assert gj["type"] == "FeatureCollection"
+        for feat in gj["features"][:5]:
+            props = feat["properties"]
+            assert "partner_name" in props
+            assert "partner_type" in props
+
+    def test_giving_matters_geojson_uses_unified_keys(self):
+        path = DATA / "giving_matters.geojson"
+        if not path.exists():
+            pytest.skip("giving_matters step is disabled or was skipped")
+        gj = json.loads(path.read_text())
+        assert gj["type"] == "FeatureCollection"
+        for feat in gj["features"][:5]:
+            props = feat["properties"]
+            assert "partner_name" in props, "giving_matters must use partner_name (not name)"
+            assert "partner_type" in props, "giving_matters must use partner_type (not category)"
 
 
-@patch("src.map_builder.st")
-@patch("src.data_loader.st")
-@patch("src.geocoder.st")
-def test_full_pipeline_mock_mode(
-    mock_geocoder_st, mock_dl_st, mock_mb_st, mock_data_dir, sample_geojson
-):
-    """Full pipeline: load mock data -> geocode -> build map -> verify output."""
-    # Disable Streamlit decorators
-    for mock_st in (mock_dl_st, mock_geocoder_st, mock_mb_st):
-        mock_st.cache_data = lambda *a, **kw: (lambda f: f)
-        mock_st.cache_resource = lambda *a, **kw: (lambda f: f)
-        mock_st.spinner = MagicMock(
-            return_value=MagicMock(__enter__=MagicMock(), __exit__=MagicMock())
-        )
-
-    # Mock session_state for build_map
-    mock_mb_st.session_state = {}
-
-    from src.data_loader import load_partners, load_census, load_cdc_places, load_geocode_cache
-    from src.geocoder import geocode_partners
-    from src.map_builder import build_map
-
-    # Step 1: Load data in mock mode
-    partners_df = load_partners.__wrapped__(use_mock=True, mock_dir=mock_data_dir)
-    assert isinstance(partners_df, pd.DataFrame)
-    assert len(partners_df) > 0
-
-    census_df = load_census.__wrapped__(use_mock=True, mock_dir=mock_data_dir)
-    assert isinstance(census_df, pd.DataFrame)
-
-    cdc_df = load_cdc_places.__wrapped__(use_mock=True, mock_dir=mock_data_dir)
-    assert isinstance(cdc_df, pd.DataFrame)
-
-    cache_df = load_geocode_cache.__wrapped__(use_mock=True, mock_dir=mock_data_dir)
-    assert isinstance(cache_df, pd.DataFrame)
-
-    # Step 2: Geocode (mock the actual geocoder to avoid network calls)
-    with patch("src.geocoder.get_geolocator") as mock_geolocator:
-        mock_loc = MagicMock()
-        mock_loc.latitude = 36.16
-        mock_loc.longitude = -86.78
-        geolocator_instance = MagicMock()
-        geolocator_instance.geocode.return_value = mock_loc
-        mock_geolocator.return_value = geolocator_instance
-
-        geocoded_df, updated_cache = geocode_partners(partners_df, cache_df)
-
-    assert isinstance(geocoded_df, pd.DataFrame)
-    assert "latitude" in geocoded_df.columns
-    assert "longitude" in geocoded_df.columns
-
-    # Step 3: Build map with a choropleth layer
-    income_layer = {
-        "id": "median_income",
-        "display_name": "Median Household Income (Census)",
-        "csv_column": "median_household_income",
-        "unit": "$",
-        "format_string": "${:,.0f}",
-        "data_vintage": "American Community Survey 2022",
+class TestParquetAndCsvContracts:
+    REQUIRED_COLUMNS = {
+        "acs_tract": {"GEOID", "DP03_0062E", "DP03_0119PE", "DP05_0001E"},
+        "acs_zip": {"GEOID", "DP03_0062E", "DP03_0119PE", "DP05_0001E"},
+        "health_lila_tract": {"GEOID", "DIABETES", "BPHIGH", "OBESITY"},
+        "health_lila_zip": {"GEOID", "DIABETES", "BPHIGH", "OBESITY"},
+        "usda_lila_tract": {"GEOID", "LILATracts_1And10", "lapop1", "lalowi1"},
     }
 
-    # Set choropleth data in mock session_state
-    mock_mb_st.session_state["choropleth_data"] = census_df
+    CSV_RENAMES = {"health_lila_tract": "health_tract", "health_lila_zip": "health_zip"}
 
-    m = build_map(
-        geojson=sample_geojson,
-        partners_df=geocoded_df,
-        selected_layer=income_layer,
-        show_partners=True,
-    )
-    assert isinstance(m, folium.Map)
+    @pytest.mark.parametrize("stem", list(REQUIRED_COLUMNS.keys()))
+    def test_parquet_has_required_columns(self, stem: str):
+        path = DATA / f"{stem}.parquet"
+        _skip_if_missing(path)
+        df = pd.read_parquet(path)
+        missing = self.REQUIRED_COLUMNS[stem] - set(df.columns)
+        assert not missing, f"{path} missing: {missing}"
 
-    # Step 4: Verify the map can render to HTML
-    html = m.get_root().render()
-    assert isinstance(html, str)
-    assert len(html) > 100, "Map HTML should be substantial"
-    assert "folium" in html.lower() or "leaflet" in html.lower()
+    @pytest.mark.parametrize("stem", list(REQUIRED_COLUMNS.keys()))
+    def test_csv_mirrors_parquet(self, stem: str):
+        csv_stem = self.CSV_RENAMES.get(stem, stem)
+        path = DATA / f"{csv_stem}.csv"
+        _skip_if_missing(path)
+        df = pd.read_csv(path, dtype={"GEOID": str})
+        missing = self.REQUIRED_COLUMNS[stem] - set(df.columns)
+        assert not missing, f"{path} missing: {missing}"
+
+
+class TestConfigJson:
+    def test_config_json_shape(self):
+        path = DATA / "config.json"
+        _skip_if_missing(path)
+        cfg = json.loads(path.read_text())
+        for key in ("project", "geography", "indicators", "partner_types", "palettes"):
+            assert key in cfg, f"config.json missing top-level key: {key}"
+        assert isinstance(cfg["indicators"], list) and cfg["indicators"]
+        for ind in cfg["indicators"]:
+            for field in ("id", "label", "col", "src", "granularities", "palette", "fmt"):
+                assert field in ind, f"indicator missing {field}: {ind}"

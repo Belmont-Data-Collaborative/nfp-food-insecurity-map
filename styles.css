@@ -1,0 +1,228 @@
+/* NFP Food Insecurity Map — shared styles
+   Palette: forest green brand + warm neutrals, elevated typography. */
+
+:root {
+  --nfp-green-900: #14391a;
+  --nfp-green-800: #1b5e20;
+  --nfp-green-700: #2e7d32;
+  --nfp-green-600: #3e8e41;
+  --nfp-green-300: #a8c9ac;
+  --nfp-green-100: #e3efe4;
+  --nfp-green-50:  #f1f6f1;
+
+  --ink-900: #151713;
+  --ink-800: #2a2d28;
+  --ink-700: #3e433c;
+  --ink-600: #5a6158;
+  --ink-500: #7a8178;
+  --ink-400: #9aa198;
+  --ink-300: #c3c8be;
+  --ink-200: #e1e4dd;
+  --ink-100: #eff1eb;
+  --ink-50:  #f8f9f5;
+  --paper:   #fbfbf7;
+
+  --accent-amber: #c96f17;
+  --accent-rust:  #a14b28;
+
+  --danger: #b3261e;
+
+  --radius-sm: 4px;
+  --radius:    8px;
+  --radius-lg: 12px;
+
+  --shadow-sm: 0 1px 2px rgba(20, 57, 26, 0.06), 0 1px 1px rgba(20, 57, 26, 0.04);
+  --shadow:    0 2px 6px rgba(20, 57, 26, 0.08), 0 1px 2px rgba(20, 57, 26, 0.05);
+  --shadow-lg: 0 10px 30px rgba(20, 57, 26, 0.14), 0 3px 8px rgba(20, 57, 26, 0.08);
+
+  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: "Source Serif 4", "Source Serif Pro", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --density-row: 34px;
+  --density-gap: 10px;
+}
+
+[data-density="compact"] {
+  --density-row: 26px;
+  --density-gap: 6px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  color: var(--ink-900);
+  background: var(--paper);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--nfp-green-800); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 600; letter-spacing: -0.01em; color: var(--nfp-green-900); margin: 0; }
+h1 { font-size: 2.4rem; line-height: 1.1; }
+h2 { font-size: 1.6rem; line-height: 1.2; }
+h3 { font-size: 1.15rem; line-height: 1.3; }
+
+.mono { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.02em; }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-500);
+}
+
+/* --- Top Nav --- */
+.topnav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 14px 28px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--ink-200);
+  position: sticky;
+  top: 0;
+  z-index: 500;
+}
+.topnav .brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--nfp-green-900);
+  font-size: 1.05rem;
+}
+.topnav .brand .mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--nfp-green-700);
+  display: grid;
+  place-items: center;
+  color: white;
+  font-weight: 700;
+  font-size: 0.8rem;
+  font-family: var(--font-sans);
+  letter-spacing: 0.02em;
+}
+.topnav .links {
+  display: flex;
+  gap: 2px;
+  margin-left: 12px;
+}
+.topnav .links a {
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: var(--ink-700);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.topnav .links a:hover { background: var(--ink-100); text-decoration: none; }
+.topnav .links a.active {
+  background: var(--nfp-green-100);
+  color: var(--nfp-green-900);
+}
+.topnav .spacer { flex: 1; }
+.topnav .meta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-500);
+  letter-spacing: 0.04em;
+}
+
+/* --- Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--ink-200);
+  background: white;
+  color: var(--ink-800);
+  font: 500 0.88rem var(--font-sans);
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+.btn:hover { background: var(--ink-50); border-color: var(--ink-300); }
+.btn.primary {
+  background: var(--nfp-green-800);
+  border-color: var(--nfp-green-800);
+  color: white;
+}
+.btn.primary:hover { background: var(--nfp-green-900); border-color: var(--nfp-green-900); }
+.btn.ghost { background: transparent; border-color: transparent; }
+.btn.ghost:hover { background: var(--ink-100); }
+.btn.small { padding: 4px 8px; font-size: 0.78rem; }
+
+/* --- Inputs --- */
+.field {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--ink-200);
+  border-radius: 6px;
+  background: white;
+  font: 400 0.88rem var(--font-sans);
+  color: var(--ink-900);
+}
+.field:focus {
+  outline: none;
+  border-color: var(--nfp-green-600);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+/* --- Chips --- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font: 500 0.74rem var(--font-sans);
+  background: var(--ink-100);
+  color: var(--ink-700);
+}
+.chip .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+/* --- Cards --- */
+.card {
+  background: white;
+  border: 1px solid var(--ink-200);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+
+/* --- Divider --- */
+.divider {
+  border: 0;
+  border-top: 1px solid var(--ink-200);
+  margin: 14px 0;
+}
+
+/* --- Table --- */
+.kv {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 14px;
+  font-size: 0.86rem;
+}
+.kv dt { color: var(--ink-500); font-family: var(--font-mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.06em; align-self: center; }
+.kv dd { margin: 0; color: var(--ink-900); font-weight: 500; }
+
+/* --- Scrollbar polish --- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--ink-200); border-radius: 10px; border: 2px solid var(--paper); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-300); }

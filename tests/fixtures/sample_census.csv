@@ -1,5 +1,4 @@
-GEOID,poverty_rate,median_household_income
-47037000100,12.5,65000
-47037000200,28.3,38000
-47037000300,,
-47037000400,8.1,89000
+GEOID,poverty_rate,median_household_income,data_vintage
+47037001700,12.5,58000,ACS 2022 5-Year Estimates
+47037001800,22.3,41000,ACS 2022 5-Year Estimates
+47037001900,8.7,74500,ACS 2022 5-Year Estimates

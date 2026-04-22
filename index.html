@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>NFP Food Insecurity Map — Home</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .hero-wrap { max-width: 1180px; margin: 0 auto; padding: 56px 28px 24px; }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .hero h1 { font-size: 3rem; line-height: 1.05; margin-bottom: 18px; }
+    .hero .lede {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--ink-700);
+      max-width: 52ch;
+    }
+    .hero .cta-row { display: flex; gap: 10px; margin-top: 26px; }
+    .hero-visual {
+      aspect-ratio: 4 / 3;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(46,125,50,0.14), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(201,111,23,0.14), transparent 55%),
+        var(--nfp-green-50);
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius-lg);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-visual svg { width: 100%; height: 100%; display: block; }
+
+    .stats {
+      max-width: 1180px;
+      margin: 12px auto 0;
+      padding: 0 28px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+    }
+    .stat { border-top: 1px solid var(--ink-200); padding-top: 14px; }
+    .stat .n { font-family: var(--font-serif); font-size: 2rem; font-weight: 600; color: var(--nfp-green-900); }
+    .stat .l { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-500); margin-top: 4px; }
+
+    .section {
+      max-width: 1180px;
+      margin: 64px auto;
+      padding: 0 28px;
+    }
+    .section h2 { margin-bottom: 8px; }
+    .section .section-sub { color: var(--ink-600); max-width: 60ch; margin-bottom: 28px; }
+
+    .nav-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .nav-card {
+      display: block;
+      padding: 28px;
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius-lg);
+      background: white;
+      color: var(--ink-800);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    }
+    .nav-card:hover {
+      border-color: var(--nfp-green-300);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .nav-card .num { font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-500); text-transform: uppercase; letter-spacing: 0.12em; }
+    .nav-card h3 { margin: 10px 0 8px; font-size: 1.35rem; }
+    .nav-card p { margin: 0; color: var(--ink-600); line-height: 1.55; font-size: 0.92rem; }
+    .nav-card .go { margin-top: 16px; color: var(--nfp-green-800); font-weight: 500; font-size: 0.9rem; }
+
+    .sources { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .source {
+      padding: 18px;
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius);
+      background: white;
+    }
+    .source .tag { font-family: var(--font-mono); font-size: 0.7rem; color: var(--nfp-green-700); text-transform: uppercase; letter-spacing: 0.1em; }
+    .source .name { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 600; margin-top: 6px; color: var(--nfp-green-900); }
+    .source .meta { color: var(--ink-500); font-size: 0.82rem; margin-top: 6px; }
+
+    .footer {
+      border-top: 1px solid var(--ink-200);
+      padding: 28px;
+      margin-top: 72px;
+      color: var(--ink-500);
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      justify-content: center;
+    }
+    .footer img { height: 28px; }
+
+    @media (max-width: 880px) {
+      .hero { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .nav-cards { grid-template-columns: 1fr; }
+      .sources { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="brand">
+    <img src="assets/nfp-logo.png" alt="Nashville Food Project" style="height:28px;width:auto;display:block;" />
+    <span>Food Insecurity Map</span>
+  </div>
+  <div class="links">
+    <a href="index.html" class="active">Home</a>
+    <a href="Map.html">Map</a>
+    <a href="About.html">About the Data</a>
+  </div>
+  <div class="spacer"></div>
+  <div class="meta">v2.0 · Updated Apr 2026</div>
+</nav>
+
+<main>
+  <div class="hero-wrap">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">A tool by the Nashville Food Project · Built with BDAIC</div>
+        <h1>Where Nashville's neighbors need food&nbsp;— and where we can meet them.</h1>
+        <p class="lede">
+          An interactive map of food insecurity indicators across the 14-county
+          Nashville MSA, overlaid with every NFP partner and 1,487 community
+          organizations. Built for the staff deciding where to grow our network next.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="Map.html">Open the map →</a>
+          <a class="btn" href="About.html">How the data works</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#d8e5da" stroke-width="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="400" height="300" fill="url(#grid)" />
+          <!-- stylized choropleth tracts -->
+          <g opacity="0.9">
+            <polygon points="40,60 110,50 130,110 80,140 30,120" fill="#a8c9ac" stroke="#fbfbf7" stroke-width="1.5"/>
+            <polygon points="110,50 200,55 210,100 130,110" fill="#2e7d32" stroke="#fbfbf7" stroke-width="1.5"/>
+            <polygon points="200,55 290,70 280,130 210,100" fill="#1b5e20" stroke="#fbfbf7" stroke-width="1.5"/>
+            <polygon points="290,70 370,90 360,160 280,130" fill="#5aa460" stroke="#fbfbf7" stroke-width="1.5"/>
+            <polygon points="30,120 80,140 90,200 40,220" fill="#c4dbc6" stroke="#fbfbf7" stroke-width="1.5"/>
+            <polygon points="80,140 130,110 210,100 220,170 150,200 90,200" fill="#3e8e41" stroke="#fbfbf7" stroke-width="1.5"/>
+            <polygon points="210,100 280,130 260,200 220,170" fill="#7ab37e" stroke="#fbfbf7" stroke-width="1.5"/>
+            <polygon points="280,130 360,160 350,230 260,200" fill="#2e7d32" stroke="#fbfbf7" stroke-width="1.5"/>
+            <polygon points="40,220 90,200 150,200 140,260 60,270" fill="#e3efe4" stroke="#fbfbf7" stroke-width="1.5"/>
+            <polygon points="150,200 220,170 260,200 250,260 140,260" fill="#a8c9ac" stroke="#fbfbf7" stroke-width="1.5"/>
+            <polygon points="260,200 350,230 330,280 250,260" fill="#3e8e41" stroke="#fbfbf7" stroke-width="1.5"/>
+          </g>
+          <!-- partner pins -->
+          <g>
+            <circle cx="150" cy="130" r="6" fill="#c96f17" stroke="white" stroke-width="2"/>
+            <circle cx="230" cy="90" r="6" fill="#a14b28" stroke="white" stroke-width="2"/>
+            <circle cx="310" cy="180" r="6" fill="#1b5e20" stroke="white" stroke-width="2"/>
+            <circle cx="90" cy="170" r="6" fill="#c96f17" stroke="white" stroke-width="2"/>
+            <circle cx="200" cy="220" r="6" fill="#a14b28" stroke="white" stroke-width="2"/>
+            <circle cx="270" cy="240" r="6" fill="#1b5e20" stroke="white" stroke-width="2"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="stats" id="home-stats">
+      <div class="stat"><div class="n" data-stat="counties">—</div><div class="l">MSA Counties</div></div>
+      <div class="stat"><div class="n" data-stat="tracts">—</div><div class="l">Census Tracts</div></div>
+      <div class="stat"><div class="n" data-stat="indicators">—</div><div class="l">Data Indicators</div></div>
+      <div class="stat"><div class="n" data-stat="partners">—</div><div class="l">NFP Partners</div></div>
+      <div class="stat"><div class="n" data-stat="giving_matters">—</div><div class="l">Community Orgs</div></div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="eyebrow">Navigate</div>
+    <h2>Two views, one dataset.</h2>
+    <p class="section-sub">
+      The map is where you explore. The methodology page is where you defend a decision
+      in front of a board or a funder.
+    </p>
+    <div class="nav-cards">
+      <a class="nav-card" href="Map.html">
+        <div class="num">01 · Interactive</div>
+        <h3>The Map</h3>
+        <p>
+          Toggle between census tracts and ZIP codes, layer in Census income,
+          CDC health, and USDA food-access data, and click any area for a full
+          demographic readout with nearby partners. Find, filter, export.
+        </p>
+        <div class="go">Open the map →</div>
+      </a>
+      <a class="nav-card" href="About.html">
+        <div class="num">02 · Reference</div>
+        <h3>About the Data</h3>
+        <p>
+          Source, vintage, and methodology for every layer — including the USDA
+          LILA 2010→2020 tract crosswalk and the LLM-classified Giving Matters
+          dataset. Read this before you cite a number.
+        </p>
+        <div class="go">View methodology →</div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">What's in the box</div>
+    <h2>Data sources</h2>
+    <p class="section-sub">Five public and partner datasets, harmonized to the 14-county Nashville MSA.</p>
+    <div class="sources">
+      <div class="source">
+        <div class="tag">Census</div>
+        <div class="name">ACS 5-Year</div>
+        <div class="meta">Income, poverty, population · 2020–2024</div>
+      </div>
+      <div class="source">
+        <div class="tag">CDC</div>
+        <div class="name">PLACES</div>
+        <div class="meta">Diabetes, hypertension, obesity · 2024</div>
+      </div>
+      <div class="source">
+        <div class="tag">USDA</div>
+        <div class="name">Food Access Atlas</div>
+        <div class="meta">LILA designation, low-access population · 2019</div>
+      </div>
+      <div class="source">
+        <div class="tag">CFMT</div>
+        <div class="name">Giving Matters</div>
+        <div class="meta">1,487 nonprofits · classified by LLM</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>Built by</span>
+    <img src="assets/bdaic-logo.png" alt="Belmont Data & AI Collaborative" style="height:24px; opacity: 0.85;" />
+    <span class="mono">·</span>
+    <span>for the Nashville Food Project</span>
+    <span class="mono">·</span>
+    <span>Data last refreshed <span id="freshness">—</span></span>
+  </footer>
+</main>
+
+<script>
+  // Dynamic landing-page stats — mirrors app.py::_gather_key_stats from the
+  // original Streamlit build. Pulls counts from the same data/ files the Map
+  // page consumes, so the landing bar stays in sync with every pipeline run.
+  (async () => {
+    const fmt = (n) => (n == null ? "—" : Number(n).toLocaleString());
+    const set = (key, val) => {
+      const el = document.querySelector(`[data-stat="${key}"]`);
+      if (el) el.textContent = val;
+    };
+
+    async function countFeatures(path) {
+      try {
+        const r = await fetch(path);
+        if (!r.ok) return null;
+        const gj = await r.json();
+        return (gj.features || []).length;
+      } catch { return null; }
+    }
+
+    const [cfg, tracts, partners, gm] = await Promise.all([
+      fetch("data/config.json").then(r => r.ok ? r.json() : null).catch(() => null),
+      countFeatures("data/tracts.geojson"),
+      countFeatures("data/partners.geojson"),
+      countFeatures("data/giving_matters.geojson"),
+    ]);
+
+    if (cfg) {
+      set("counties", fmt(cfg.geography && cfg.geography.msa_counties_count));
+      set("indicators", fmt((cfg.indicators || []).length));
+    }
+    set("tracts", fmt(tracts));
+    set("partners", fmt(partners));
+    set("giving_matters", fmt(gm));
+
+    // Data freshness = newest mtime among data/*.parquet, via HEAD last-modified.
+    // Falls back to today's date if the static server doesn't expose it.
+    try {
+      const head = await fetch("data/acs_tract.csv", { method: "HEAD" });
+      const lm = head.headers.get("last-modified");
+      if (lm) {
+        const d = new Date(lm);
+        const iso = d.toISOString().slice(0, 10);
+        document.getElementById("freshness").textContent = iso;
+      } else {
+        document.getElementById("freshness").textContent = "—";
+      }
+    } catch {
+      document.getElementById("freshness").textContent = "—";
+    }
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npm install @aws-sdk/client-s3 && node scripts/sync-data.mjs",
+  "installCommand": "",
+  "outputDirectory": "."
+}

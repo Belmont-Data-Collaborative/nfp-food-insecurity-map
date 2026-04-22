@@ -1,0 +1,296 @@
+{
+  "project": {
+    "name": "NFP Food Insecurity Map",
+    "slug": "nfp-food-insecurity-map",
+    "primary_org": "Nashville Food Project",
+    "secondary_org": "BDAIC"
+  },
+  "geography": {
+    "map_center": [
+      36.05,
+      -86.6
+    ],
+    "default_zoom": 9,
+    "msa_counties_count": 14,
+    "msa_name": "Nashville-Davidson-Murfreesboro-Franklin"
+  },
+  "map_display": {
+    "tiles": "cartodbpositron",
+    "tile_attribution": "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors &copy; <a href=\"https://carto.com/attributions\">CARTO</a>",
+    "min_zoom": 8,
+    "max_zoom": 16,
+    "granularities": [
+      {
+        "id": "tract",
+        "label": "Census Tracts",
+        "geo_file": "data/tracts.geojson"
+      },
+      {
+        "id": "zip",
+        "label": "ZIP Codes",
+        "geo_file": "data/zipcodes.geojson"
+      }
+    ]
+  },
+  "indicators": [
+    {
+      "id": "median_household_income",
+      "label": "Median Household Income",
+      "col": "DP03_0062E",
+      "src": "acs",
+      "granularities": [
+        "tract",
+        "zip"
+      ],
+      "palette": "greens",
+      "fmt": "${:,.0f}",
+      "caption": "ACS 2020\u20132024 5-year estimates.",
+      "unit_label": "Median Household Income ($)",
+      "default_visible": true
+    },
+    {
+      "id": "poverty_rate",
+      "label": "Poverty Rate",
+      "col": "DP03_0119PE",
+      "src": "acs",
+      "granularities": [
+        "tract",
+        "zip"
+      ],
+      "palette": "oranges",
+      "fmt": "{:.1f}%",
+      "caption": "Share of residents below federal poverty line.",
+      "unit_label": "Poverty Rate (%)",
+      "default_visible": false
+    },
+    {
+      "id": "total_population",
+      "label": "Total Population",
+      "col": "DP05_0001E",
+      "src": "acs",
+      "granularities": [
+        "tract",
+        "zip"
+      ],
+      "palette": "teals",
+      "fmt": "{:,.0f}",
+      "caption": "Total population (ACS).",
+      "unit_label": "Population",
+      "default_visible": false
+    },
+    {
+      "id": "diabetes",
+      "label": "Diabetes Prevalence",
+      "col": "DIABETES",
+      "src": "health",
+      "granularities": [
+        "tract",
+        "zip"
+      ],
+      "palette": "purples",
+      "fmt": "{:.1f}%",
+      "caption": "CDC PLACES modeled prevalence.",
+      "unit_label": "Diabetes Prevalence (%)",
+      "default_visible": false
+    },
+    {
+      "id": "hypertension",
+      "label": "Hypertension Prevalence",
+      "col": "BPHIGH",
+      "src": "health",
+      "granularities": [
+        "tract",
+        "zip"
+      ],
+      "palette": "reds",
+      "fmt": "{:.1f}%",
+      "caption": "CDC PLACES high blood pressure prevalence.",
+      "unit_label": "Hypertension Prevalence (%)",
+      "default_visible": false
+    },
+    {
+      "id": "obesity",
+      "label": "Obesity Prevalence",
+      "col": "OBESITY",
+      "src": "health",
+      "granularities": [
+        "tract",
+        "zip"
+      ],
+      "palette": "ambers",
+      "fmt": "{:.1f}%",
+      "caption": "CDC PLACES obesity prevalence (BMI \u2265 30).",
+      "unit_label": "Obesity Prevalence (%)",
+      "default_visible": false
+    },
+    {
+      "id": "lila_flag",
+      "label": "LILA Designation (1 & 10 mi)",
+      "col": "LILATracts_1And10",
+      "src": "lila",
+      "granularities": [
+        "tract"
+      ],
+      "palette": "categorical",
+      "fmt": "{}",
+      "caption": "USDA low-income + low-access census tracts (tract-only).",
+      "unit_label": "Low Income + Low Access",
+      "default_visible": false,
+      "categorical": true,
+      "categories": {
+        "0": "Not LILA",
+        "1": "LILA Tract"
+      }
+    },
+    {
+      "id": "lapop1",
+      "label": "Low Access Population (1 mi)",
+      "col": "lapop1",
+      "src": "lila",
+      "granularities": [
+        "tract"
+      ],
+      "palette": "teals",
+      "fmt": "{:,.0f}",
+      "caption": "Residents >1 mile from a supermarket (tract-only).",
+      "unit_label": "Population Beyond 1 mi from Supermarket",
+      "default_visible": false
+    },
+    {
+      "id": "lalowi1",
+      "label": "Low Income, Low Access Population (1 mi)",
+      "col": "lalowi1",
+      "src": "lila",
+      "granularities": [
+        "tract"
+      ],
+      "palette": "ambers",
+      "fmt": "{:,.0f}",
+      "caption": "Low-income residents >1 mile from a supermarket (tract-only).",
+      "unit_label": "Low Income Pop Beyond 1 mi",
+      "default_visible": false
+    }
+  ],
+  "partner_types": {
+    "school_summer": {
+      "label": "School & Summer Programs",
+      "color": "#E41A1C",
+      "icon": "graduation-cap"
+    },
+    "medical_health": {
+      "label": "Medical & Health Services",
+      "color": "#377EB8",
+      "icon": "heartbeat"
+    },
+    "transitional_housing": {
+      "label": "Transitional Housing",
+      "color": "#4DAF4A",
+      "icon": "home"
+    },
+    "senior_services": {
+      "label": "Senior Services",
+      "color": "#984EA3",
+      "icon": "user"
+    },
+    "community_development": {
+      "label": "Community Development",
+      "color": "#FF7F00",
+      "icon": "users"
+    },
+    "homeless_outreach": {
+      "label": "Homeless Outreach",
+      "color": "#A65628",
+      "icon": "hand-holding-heart"
+    },
+    "workforce_development": {
+      "label": "Workforce Development",
+      "color": "#F781BF",
+      "icon": "briefcase"
+    },
+    "after_school": {
+      "label": "After-School Programs",
+      "color": "#999999",
+      "icon": "child"
+    },
+    "community_meals": {
+      "label": "Community Meals",
+      "color": "#2E7D32",
+      "icon": "utensils"
+    },
+    "other": {
+      "label": "Other",
+      "color": "#607D8B",
+      "icon": "circle"
+    }
+  },
+  "palettes": {
+    "greens": [
+      "#e8f1e8",
+      "#c4dbc6",
+      "#7ab37e",
+      "#3e8e41",
+      "#1b5e20"
+    ],
+    "oranges": [
+      "#fff1dc",
+      "#fcd4a7",
+      "#f7a454",
+      "#d76f17",
+      "#8a3f08"
+    ],
+    "purples": [
+      "#f1e6f5",
+      "#d4b3de",
+      "#a87dbd",
+      "#744f93",
+      "#40255a"
+    ],
+    "teals": [
+      "#e0f0ee",
+      "#a6d4cd",
+      "#5fa89e",
+      "#2f776f",
+      "#0d4740"
+    ],
+    "ambers": [
+      "#fdf1d0",
+      "#f4d784",
+      "#dc9f2d",
+      "#a56d10",
+      "#5f3d03"
+    ],
+    "reds": [
+      "#fde4e0",
+      "#f5b1a4",
+      "#db6c58",
+      "#a8351e",
+      "#60180b"
+    ]
+  },
+  "palette_meta": [
+    {
+      "id": "greens",
+      "label": "NFP Green"
+    },
+    {
+      "id": "oranges",
+      "label": "Amber"
+    },
+    {
+      "id": "purples",
+      "label": "Violet"
+    },
+    {
+      "id": "teals",
+      "label": "Teal"
+    },
+    {
+      "id": "ambers",
+      "label": "Harvest"
+    },
+    {
+      "id": "reds",
+      "label": "Crimson"
+    }
+  ]
+}

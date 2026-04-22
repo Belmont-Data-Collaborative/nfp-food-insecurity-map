@@ -1,31 +1,31 @@
-organization_name,address,partner_type
-Antioch Initiative,,senior_services
-Germantown Initiative,,community_development
-Donelson Center,"7383 Harding Pike, Nashville, TN 37217",after_school
-North Nashville Hub,"1368 Woodland St, Nashville, TN 37209",senior_services
-Bordeaux Ministry,"4083 Lebanon Pike, Nashville, TN 37213",community_development
-Germantown Network,"2349 Elm Hill Pike, Nashville, TN 37203",community_development
-Rivergate Initiative,"1735 Harding Pike, Nashville, TN 37216",community_development
-East Nashville Center,"9708 Clarksville Pike, Nashville, TN 37218",workforce_development
-North Nashville Alliance,"5027 Broadway, Nashville, TN 37213",senior_services
-Bordeaux Collective,"6861 Shelby Ave, Nashville, TN 37228",homeless_outreach
-Germantown Foundation,"855 Church St, Nashville, TN 37218",transitional_housing
-Bordeaux Network,"1386 Dickerson Pike, Nashville, TN 37206",senior_services
-Madison Collective,"1690 Lebanon Pike, Nashville, TN 37215",senior_services
-North Nashville Center,"3192 Main St, Nashville, TN 37218",workforce_development
-Rivergate Network,"2471 Clarksville Pike, Nashville, TN 37215",medical_health
-Bordeaux Initiative,"2078 Harding Pike, Nashville, TN 37218",school_summer
-North Nashville Collective,"2843 Harding Pike, Nashville, TN 37213",homeless_outreach
-Germantown Hub,"5729 Nolensville Pike, Nashville, TN 37204",school_summer
-Germantown Collective,"8564 Rosa L Parks Blvd, Nashville, TN 37203",senior_services
-North Nashville Hub,"6383 West End Ave, Nashville, TN 37213",community_development
-North Nashville Foundation,"3539 Main St, Nashville, TN 37228",school_summer
-Donelson Foundation,"4144 Broadway, Nashville, TN 37206",workforce_development
-Rivergate Center,"9183 Murfreesboro Pike, Nashville, TN 37211",medical_health
-Napier Alliance,"5614 McGavock Pike, Nashville, TN 37215",homeless_outreach
-Germantown Network,"3279 Gallatin Pike, Nashville, TN 37209",workforce_development
-Antioch Center,"991 Clarksville Pike, Nashville, TN 37211",homeless_outreach
-North Nashville Alliance,"9385 Gallatin Pike, Nashville, TN 37212",community_development
-Napier Network,"4516 Nolensville Pike, Nashville, TN 37208",transitional_housing
-Napier Collective,"9599 West End Ave, Nashville, TN 37209",transitional_housing
-Bordeaux Foundation,"9621 Church St, Nashville, TN 37216",after_school
+partner_name,address,partner_type
+Antioch After School Program,"5589 Broadway, Nashville, TN 37201",after_school
+Bordeaux Family Shelter,"8889 West End Ave, Nashville, TN 37203",transitional_housing
+Donelson Development Corp,"731 Charlotte Ave, Nashville, TN 37204",community_development
+East Nashville Job Training Center,"8596 Gallatin Pike, Nashville, TN 37205",workforce_development
+Germantown Workforce Solutions,"8292 Nolensville Pike, Nashville, TN 37206",workforce_development
+Madison Street Outreach,,homeless_outreach
+Napier Elementary Summer Program,"6352 Dickerson Pike, Nashville, TN 37208",school_summer
+North Nashville Homeless Services,"1735 Shelby Ave, Nashville, TN 37209",homeless_outreach
+Rivergate Career Services,"7604 Main St, Nashville, TN 37210",workforce_development
+Sylvan Park Community Center,"7034 Church St, Nashville, TN 37211",community_development
+Antioch Elder Care Services,"3609 Commerce St, Nashville, TN 37212",senior_services
+Bordeaux Senior Nutrition Program,"772 Demonbreun St, Nashville, TN 37213",senior_services
+Donelson Community Center,"9708 Rosa L Parks Blvd, Nashville, TN 37214",community_development
+East Nashville Neighborhood Alliance,"4511 Jefferson St, Nashville, TN 37215",community_development
+Germantown Senior Nutrition Program,"8941 Buchanan St, Nashville, TN 37216",senior_services
+Madison Elementary Summer Program,"6810 Trinity Ln, Nashville, TN 37217",school_summer
+Napier Youth Summer Camp,"7805 Clarksville Pike, Nashville, TN 37218",school_summer
+North Nashville Housing Support,,transitional_housing
+Rivergate Transitional Housing,"2026 Ellington Pkwy, Nashville, TN 37220",transitional_housing
+Sylvan Park Homeless Services,"3702 Lebanon Pike, Nashville, TN 37221",homeless_outreach
+Antioch Medical Outreach,"4720 Broadway, Nashville, TN 37228",medical_health
+Bordeaux Community Center,"5027 West End Ave, Nashville, TN 37201",community_development
+Donelson Community Health Center,"533 Charlotte Ave, Nashville, TN 37203",medical_health
+East Nashville Kids Club,"5510 Gallatin Pike, Nashville, TN 37204",after_school
+Germantown Elementary Summer Program,"1627 Nolensville Pike, Nashville, TN 37205",school_summer
+Madison Youth Summer Camp,"7458 Murfreesboro Pike, Nashville, TN 37206",school_summer
+Napier Kids Club,"6861 Dickerson Pike, Nashville, TN 37207",after_school
+North Nashville Elementary Summer Program,"9232 Shelby Ave, Nashville, TN 37208",school_summer
+Rivergate Community Health Center,"7472 Main St, Nashville, TN 37209",medical_health
+Sylvan Park Development Corp,"3729 Church St, Nashville, TN 37210",community_development

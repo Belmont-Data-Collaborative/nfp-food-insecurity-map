@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>NFP Food Insecurity Map — About the Data</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 48px 28px 80px; }
+    .page-head { margin-bottom: 40px; }
+    .page-head h1 { font-size: 2.6rem; line-height: 1.05; margin-bottom: 14px; max-width: 20ch; }
+    .page-head p { color: var(--ink-700); max-width: 58ch; line-height: 1.65; font-size: 1.02rem; }
+
+    .layout { display: grid; grid-template-columns: 240px 1fr; gap: 56px; align-items: start; }
+    .toc { position: sticky; top: 80px; font-size: 0.86rem; }
+    .toc .toc-title { font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-500); margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--ink-200); }
+    .toc a { display: block; padding: 5px 0; color: var(--ink-700); border-left: 2px solid transparent; padding-left: 10px; margin-left: -10px; }
+    .toc a:hover { color: var(--nfp-green-900); text-decoration: none; }
+
+    .body section { margin-bottom: 56px; }
+    .body h2 { font-size: 1.5rem; margin-bottom: 12px; scroll-margin-top: 80px; }
+    .body h3 { font-size: 1.05rem; margin: 24px 0 8px; color: var(--nfp-green-900); }
+    .body p { color: var(--ink-700); line-height: 1.65; margin: 0 0 12px; max-width: 64ch; }
+    .body ul { color: var(--ink-700); line-height: 1.65; padding-left: 20px; max-width: 64ch; }
+    .body ul li { margin-bottom: 4px; }
+
+    .source-card {
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 16px;
+      background: white;
+    }
+    .source-card .src-head {
+      display: flex; align-items: baseline; gap: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--ink-100);
+      margin-bottom: 14px;
+    }
+    .source-card .tag {
+      font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--nfp-green-700);
+      background: var(--nfp-green-100); padding: 3px 8px; border-radius: 4px;
+    }
+    .source-card h3 { margin: 0; font-size: 1.2rem; font-family: var(--font-serif); flex: 1; }
+    .source-card .vintage { font-family: var(--font-mono); font-size: 0.78rem; color: var(--ink-500); }
+    .source-card dl {
+      display: grid; grid-template-columns: 130px 1fr;
+      gap: 8px 16px; font-size: 0.9rem; margin: 0;
+    }
+    .source-card dt { color: var(--ink-500); font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; padding-top: 2px; }
+    .source-card dd { margin: 0; color: var(--ink-800); line-height: 1.55; }
+    .source-card dd code { font-family: var(--font-mono); font-size: 0.82rem; background: var(--ink-100); padding: 1px 5px; border-radius: 3px; color: var(--nfp-green-900); }
+
+    .callout {
+      background: var(--nfp-green-50);
+      border-left: 3px solid var(--nfp-green-700);
+      padding: 14px 18px;
+      margin: 18px 0;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 0.92rem;
+      color: var(--ink-800);
+      line-height: 1.6;
+    }
+    .callout.warn {
+      background: #fff6ea;
+      border-color: var(--accent-amber);
+    }
+    .callout strong { color: var(--nfp-green-900); }
+    .callout.warn strong { color: var(--accent-rust); }
+
+    table.glossary {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    table.glossary th, table.glossary td {
+      text-align: left; padding: 10px 12px;
+      border-bottom: 1px solid var(--ink-100);
+    }
+    table.glossary th {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--ink-500); font-weight: 500;
+      border-bottom: 1px solid var(--ink-200);
+    }
+    table.glossary td.term { font-family: var(--font-mono); color: var(--nfp-green-800); white-space: nowrap; }
+    table.glossary tr:last-child td { border-bottom: 0; }
+
+    .pipeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0 24px; }
+    .pipeline .step {
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      background: white;
+      position: relative;
+    }
+    .pipeline .step .n { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-500); text-transform: uppercase; letter-spacing: 0.1em; }
+    .pipeline .step .t { font-family: var(--font-serif); font-weight: 600; color: var(--nfp-green-900); margin: 4px 0 6px; }
+    .pipeline .step .d { font-size: 0.82rem; color: var(--ink-600); line-height: 1.5; }
+
+    @media (max-width: 880px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc { position: static; }
+      .pipeline { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="brand">
+    <img src="assets/nfp-logo.png" alt="Nashville Food Project" style="height:28px;width:auto;display:block;" />
+    <span>Food Insecurity Map</span>
+  </div>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="Map.html">Map</a>
+    <a href="About.html" class="active">About the Data</a>
+  </div>
+  <div class="spacer"></div>
+  <div class="meta">v2.0 · Updated Apr 2026</div>
+</nav>
+
+<main class="wrap">
+  <div class="page-head">
+    <div class="eyebrow">Methodology · v2.0 · April 2026</div>
+    <h1>About the data behind this map.</h1>
+    <p>
+      Every layer in this tool is sourced from public data or NFP operational records.
+      This page documents each source, its vintage, known caveats, and the transformations we
+      applied to get it onto the map. Read this before citing a number in a grant proposal
+      or a board meeting.
+    </p>
+  </div>
+
+  <div class="layout">
+    <aside class="toc">
+      <div class="toc-title">On this page</div>
+      <a href="#sources">Data sources</a>
+      <a href="#pipeline">Processing pipeline</a>
+      <a href="#lila-crosswalk">LILA crosswalk</a>
+      <a href="#partner-classification">Partner classification</a>
+      <a href="#glossary">Glossary</a>
+      <a href="#caveats">Known caveats</a>
+      <a href="#credits">Credits</a>
+    </aside>
+
+    <div class="body">
+
+      <section id="sources">
+        <h2>Data sources</h2>
+        <p>The map harmonizes five datasets at two geographic grains — 2020 Census tracts (434 tracts) and 2020 ZCTAs — clipped to the 14-county Nashville MSA.</p>
+
+        <div class="source-card">
+          <div class="src-head">
+            <span class="tag">Census</span>
+            <h3>American Community Survey · 5-Year Estimates</h3>
+            <span class="vintage">ACS 2020–2024</span>
+          </div>
+          <dl>
+            <dt>Variables</dt><dd>Median household income (<code>B19013</code>), poverty rate (<code>B17001</code>), total population (<code>B01003</code>), race/ethnicity (<code>B03002</code>)</dd>
+            <dt>Geography</dt><dd>Census tract, 2020 vintage boundaries</dd>
+            <dt>Retrieval</dt><dd>Census Bureau API, pulled quarterly via the ACS ETL notebook</dd>
+            <dt>Margins</dt><dd>5-year estimates have smaller margins than 1-year, but tract-level income can still have ±$8k–$15k error at 90% confidence</dd>
+          </dl>
+        </div>
+
+        <div class="source-card">
+          <div class="src-head">
+            <span class="tag">CDC</span>
+            <h3>PLACES: Local Data for Better Health</h3>
+            <span class="vintage">CDC PLACES 2024 release</span>
+          </div>
+          <dl>
+            <dt>Variables</dt><dd>Diabetes prevalence (crude, adults 18+)</dd>
+            <dt>Geography</dt><dd>Census tract — model-based small-area estimates</dd>
+            <dt>Method</dt><dd>CDC uses BRFSS responses + ACS covariates to produce tract-level prevalence. These are <em>modeled</em>, not measured.</dd>
+            <dt>Caveat</dt><dd>PLACES estimates are a smoothed surface. Do not interpret tract-level differences below ~1 pct point as meaningful.</dd>
+          </dl>
+        </div>
+
+        <div class="source-card">
+          <div class="src-head">
+            <span class="tag">USDA</span>
+            <h3>Food Access Research Atlas</h3>
+            <span class="vintage">FARA 2019 · 2010 tract boundaries</span>
+          </div>
+          <dl>
+            <dt>Variables</dt><dd><code>LILATracts_1And10</code>, <code>lapop1</code>, <code>lalowi1</code>, vehicle-availability flags</dd>
+            <dt>LILA definition</dt><dd>Low-income tract where a significant share of residents are &gt;1 mile (urban) or &gt;10 miles (rural) from the nearest supermarket</dd>
+            <dt>Boundary issue</dt><dd>FARA uses 2010 tract boundaries. We crosswalk to 2020 tracts — see below.</dd>
+            <dt>Next refresh</dt><dd>USDA has not published a revised FARA since 2019. We flag this on the map.</dd>
+          </dl>
+        </div>
+
+        <div class="source-card">
+          <div class="src-head">
+            <span class="tag">CFMT</span>
+            <h3>Giving Matters · Nonprofit Registry</h3>
+            <span class="vintage">Scraped Feb 2026</span>
+          </div>
+          <dl>
+            <dt>Records</dt><dd>1,487 middle-TN nonprofits with addresses and mission statements</dd>
+            <dt>Geocoding</dt><dd>Census Geocoder → fallback to Nominatim; 94.2% geocoded successfully</dd>
+            <dt>Classification</dt><dd>Mission statements run through Claude Haiku with a 10-category rubric (see below). Human-spot-checked at n=150.</dd>
+            <dt>License</dt><dd>Public registry data · Community Foundation of Middle TN</dd>
+          </dl>
+        </div>
+
+        <div class="source-card">
+          <div class="src-head">
+            <span class="tag">NFP</span>
+            <h3>Partner Network · Internal Records</h3>
+            <span class="vintage">Apr 2026 snapshot</span>
+          </div>
+          <dl>
+            <dt>Records</dt><dd>23 active partner sites with meal-distribution programs</dd>
+            <dt>Source</dt><dd>NFP Operations CRM export, geocoded against Census</dd>
+            <dt>Fields</dt><dd>Partner name, address, partner type, program type</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section id="pipeline">
+        <h2>Processing pipeline</h2>
+        <p>Raw sources land in <code>/data/raw</code>. They pass through a four-step pipeline before the map sees them.</p>
+        <div class="pipeline">
+          <div class="step"><div class="n">Step 01</div><div class="t">Ingest</div><div class="d">Fetch from APIs or scraped registry; normalize column names; tag with vintage.</div></div>
+          <div class="step"><div class="n">Step 02</div><div class="t">Harmonize</div><div class="d">Crosswalk geographies to 2020 tracts; uppercase GEOIDs to 11 digits.</div></div>
+          <div class="step"><div class="n">Step 03</div><div class="t">Classify</div><div class="d">LLM categorizes nonprofit mission statements into 10 service categories.</div></div>
+          <div class="step"><div class="n">Step 04</div><div class="t">Publish</div><div class="d">Write slim GeoJSON + indicator CSVs to <code>/public/data</code>.</div></div>
+        </div>
+      </section>
+
+      <section id="lila-crosswalk">
+        <h2>USDA LILA 2010 → 2020 crosswalk</h2>
+        <p>
+          USDA's Food Access Research Atlas is still reported on 2010 census tracts, while every other dataset in this
+          tool is on 2020 tracts. A direct join loses ~18% of tract-level LILA flags.
+        </p>
+        <h3>Our approach</h3>
+        <ul>
+          <li>Start with the Census 2010→2020 tract relationship file (TIGER).</li>
+          <li>Where a 2010 tract maps 1:1 to a 2020 tract, copy flags directly.</li>
+          <li>Where a 2010 tract splits into multiple 2020 tracts, propagate the LILA flag to all children.</li>
+          <li>Where multiple 2010 tracts merge into one 2020 tract, apply the flag if <em>any</em> parent was LILA (conservative — favors identifying need).</li>
+          <li>Population variables (<code>lapop1</code>, <code>lalowi1</code>) are apportioned by area-weighted overlap.</li>
+        </ul>
+        <div class="callout warn">
+          <strong>Caveat.</strong> This crosswalk introduces 3–6% error at the tract level. For county-level aggregates the error is negligible. For tract-level planning, <em>treat LILA flags as indicative, not definitive</em>.
+        </div>
+      </section>
+
+      <section id="partner-classification">
+        <h2>Partner classification rubric</h2>
+        <p>The 10 categories used for Giving Matters nonprofit classification:</p>
+        <table class="glossary">
+          <thead><tr><th>Category</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td class="term">school_summer</td><td>Programs serving K–12 students during school year or summer break</td></tr>
+            <tr><td class="term">medical_health</td><td>Clinics, pharmacies, health screenings, mental-health services</td></tr>
+            <tr><td class="term">transitional_housing</td><td>Short-term housing for people transitioning out of crisis</td></tr>
+            <tr><td class="term">senior_services</td><td>Programs targeting adults 55+</td></tr>
+            <tr><td class="term">community_development</td><td>Neighborhood revitalization, economic development, community-building</td></tr>
+            <tr><td class="term">homeless_outreach</td><td>Direct services for people experiencing homelessness</td></tr>
+            <tr><td class="term">workforce_development</td><td>Job training, career counseling, skills education</td></tr>
+            <tr><td class="term">after_school</td><td>Out-of-school-time programs for children</td></tr>
+            <tr><td class="term">community_meals</td><td>Meal programs, food pantries, community kitchens</td></tr>
+            <tr><td class="term">other</td><td>Orgs that don't fit the above or ambiguous mission text</td></tr>
+          </tbody>
+        </table>
+        <div class="callout">
+          <strong>Evaluation.</strong> 150 randomly-sampled classifications were human-reviewed in March 2026.
+          Agreement with ground truth: <strong>91.3%</strong>. The most confused pair is <code>community_meals</code> ↔ <code>homeless_outreach</code>,
+          which often overlap in practice.
+        </div>
+      </section>
+
+      <section id="glossary">
+        <h2>Glossary</h2>
+        <table class="glossary">
+          <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td class="term">MSA</td><td>Metropolitan Statistical Area — the 14-county region centered on Nashville (OMB-defined).</td></tr>
+            <tr><td class="term">GEOID</td><td>Unique identifier for a census geography. Tracts are 11 digits: STATE(2) + COUNTY(3) + TRACT(6).</td></tr>
+            <tr><td class="term">LILA</td><td>Low-Income Low-Access — USDA designation for tracts that are both low-income and have low supermarket access.</td></tr>
+            <tr><td class="term">ZCTA</td><td>ZIP Code Tabulation Area — the Census Bureau's spatial approximation of USPS ZIP codes.</td></tr>
+            <tr><td class="term">ACS</td><td>American Community Survey — Census Bureau's ongoing demographic survey.</td></tr>
+            <tr><td class="term">PLACES</td><td>CDC program producing model-based small-area health estimates.</td></tr>
+            <tr><td class="term">Choropleth</td><td>A map where geographic areas are shaded by the value of a variable.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="caveats">
+        <h2>Known caveats</h2>
+        <ul>
+          <li><strong>Vintage mismatch.</strong> USDA LILA is from 2019. ACS is 2020–24. CDC PLACES is 2024. We show the most recent available but readers should know they don't all describe the same year.</li>
+          <li><strong>Modeled vs measured.</strong> PLACES diabetes rates are modeled, not observed. Treat as a directional signal, not a count of cases.</li>
+          <li><strong>Suppressed tracts.</strong> ACS suppresses estimates for tracts with very small populations. These appear as "—" on the map.</li>
+          <li><strong>LILA boundary error.</strong> 3–6% tract-level error from the 2010→2020 crosswalk. See above.</li>
+          <li><strong>Partner registry is a snapshot.</strong> Giving Matters changes weekly; we refresh quarterly. Some listed orgs may have closed or merged.</li>
+          <li><strong>Not a census of food assistance.</strong> Not every food-providing org is in Giving Matters. Informal, church-based, and mutual-aid networks are under-represented.</li>
+        </ul>
+      </section>
+
+      <section id="credits">
+        <h2>Credits</h2>
+        <p>
+          Built by the <strong>Belmont Data &amp; AI Collaborative</strong> in partnership with the <strong>Nashville Food Project</strong>.
+          Geographies by the U.S. Census Bureau. Basemap by CARTO and OpenStreetMap contributors.
+        </p>
+        <p>
+          Questions, corrections, or data requests: <a href="mailto:bdaic@belmont.edu">bdaic@belmont.edu</a>.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

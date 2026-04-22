@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>NFP Food Insecurity Map — Map</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    html, body { height: 100%; overflow: hidden; }
+    body { display: flex; flex-direction: column; }
+
+    /* Layout — grid with fixed sidebar width; collapse via width not grid template */
+    .shell {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+      position: relative;
+    }
+    .sidebar {
+      width: 340px;
+      flex-shrink: 0;
+      background: var(--paper);
+      border-right: 1px solid var(--ink-200);
+      overflow-y: auto;
+      padding: 18px 18px 60px;
+      font-size: 0.9rem;
+      transition: width 0.3s ease, padding 0.3s ease, border-width 0.3s ease;
+    }
+    .sidebar.collapsed {
+      width: 0;
+      padding: 0;
+      border-right-width: 0;
+      overflow: hidden;
+    }
+    .map-wrap {
+      flex: 1;
+      position: relative;
+      min-height: 0;
+      min-width: 0;
+    }
+
+    /* --- Sidebar inner --- */
+    .sidebar .sb-section { margin-top: 18px; }
+    .sidebar .sb-section:first-child { margin-top: 4px; }
+    .sb-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ink-500);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--ink-200);
+      margin-bottom: 10px;
+    }
+    .sb-title .count { font-family: var(--font-mono); color: var(--ink-400); font-size: 0.68rem; }
+
+    .sb-title-row {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .sb-title-row .toggle-eye {
+      background: transparent; border: 0; cursor: pointer;
+      padding: 2px 4px; border-radius: 4px; color: var(--ink-400);
+      display: inline-flex; align-items: center;
+    }
+    .sb-title-row .toggle-eye:hover { background: var(--ink-100); color: var(--ink-700); }
+    .sb-title-row .toggle-eye.on { color: var(--nfp-green-700); }
+
+    /* Segmented */
+    .segmented {
+      display: flex; background: var(--ink-100); padding: 3px; border-radius: 7px; gap: 2px;
+    }
+    .segmented button {
+      flex: 1; padding: 6px 10px; border: 0; background: transparent;
+      font: 500 0.85rem var(--font-sans); color: var(--ink-600); border-radius: 5px; cursor: pointer;
+    }
+    .segmented button.on {
+      background: white; color: var(--nfp-green-900); box-shadow: var(--shadow-sm);
+    }
+
+    /* Indicator list */
+    .indicator-list { display: flex; flex-direction: column; gap: 2px; }
+    .indicator-list .row {
+      display: flex; align-items: center; gap: 8px; padding: 7px 8px;
+      border-radius: 6px; cursor: pointer; height: var(--density-row);
+    }
+    .indicator-list .row:hover { background: var(--ink-100); }
+    .indicator-list .row.on { background: var(--nfp-green-100); color: var(--nfp-green-900); font-weight: 500; }
+    .indicator-list .row .ico { width: 18px; height: 18px; display: grid; place-items: center; color: var(--ink-500); flex-shrink: 0; }
+    .indicator-list .row.on .ico { color: var(--nfp-green-700); }
+    .indicator-list .row .lbl { flex: 1; font-size: 0.88rem; }
+    .indicator-list .row .unit { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-400); }
+
+    /* Partner / GM list */
+    .partner-list, .gm-list { display: flex; flex-direction: column; gap: 2px; }
+    .partner-list .row, .gm-list .row {
+      display: flex; align-items: center; gap: 10px; padding: 5px 6px;
+      border-radius: 6px; cursor: pointer; height: var(--density-row);
+    }
+    .partner-list .row:hover, .gm-list .row:hover { background: var(--ink-100); }
+    .partner-list input, .gm-list input { accent-color: var(--nfp-green-700); margin: 0; }
+    .partner-list .dot, .gm-list .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      border: 1.5px solid white; box-shadow: 0 0 0 1px rgba(0,0,0,0.2); flex-shrink: 0;
+    }
+    .partner-list .lbl, .gm-list .lbl { flex: 1; font-size: 0.86rem; }
+    .partner-list .n, .gm-list .n { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-400); }
+
+    /* Search */
+    .search { position: relative; }
+    .search input {
+      width: 100%; padding: 9px 10px 9px 32px; border: 1px solid var(--ink-200);
+      border-radius: 6px; background: white; font: 400 0.88rem var(--font-sans);
+    }
+    .search input:focus {
+      outline: none; border-color: var(--nfp-green-600);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12);
+    }
+    .search .ico { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--ink-400); width: 16px; height: 16px; }
+    .search-results {
+      margin-top: 6px; max-height: 220px; overflow-y: auto; background: white;
+      border: 1px solid var(--ink-200); border-radius: 6px; display: none;
+    }
+    .search-results.open { display: block; }
+    .search-results .item {
+      padding: 8px 10px; cursor: pointer; border-bottom: 1px solid var(--ink-100); font-size: 0.85rem;
+    }
+    .search-results .item:last-child { border: 0; }
+    .search-results .item:hover { background: var(--nfp-green-50); }
+    .search-results .item .t { font-weight: 500; }
+    .search-results .item .s { color: var(--ink-500); font-size: 0.78rem; margin-top: 2px; }
+    .search-results .item .kind {
+      display: inline-block; font-family: var(--font-mono); font-size: 0.66rem;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--nfp-green-700); margin-right: 8px;
+    }
+
+    .export-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    .export-grid .btn { justify-content: center; padding: 8px 6px; font-size: 0.82rem; }
+
+    /* Map */
+    #map { width: 100%; height: 100%; background: var(--ink-100); }
+    .leaflet-container { font-family: var(--font-sans) !important; background: var(--ink-100) !important; }
+    .leaflet-control-zoom { border: 1px solid var(--ink-200) !important; box-shadow: var(--shadow-sm) !important; }
+    .leaflet-control-zoom a { background: white !important; color: var(--ink-800) !important; border-color: var(--ink-200) !important; }
+    .leaflet-control-zoom a:hover { background: var(--ink-50) !important; }
+    .leaflet-popup-content-wrapper { border-radius: 8px !important; box-shadow: var(--shadow) !important; }
+    .leaflet-popup-content { margin: 12px 14px !important; font-size: 0.85rem !important; }
+    .leaflet-popup-content .tt-title { font-family: var(--font-serif); font-weight: 600; font-size: 1rem; color: var(--nfp-green-900); margin-bottom: 4px; }
+    .leaflet-popup-content .tt-row { display: flex; justify-content: space-between; gap: 14px; padding: 2px 0; font-size: 0.82rem; }
+    .leaflet-popup-content .tt-row .k { color: var(--ink-500); }
+    .leaflet-popup-content .tt-row .v { font-weight: 500; font-variant-numeric: tabular-nums; }
+
+    /* Kill default marker cluster styles — we use div-icon */
+    .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large { background: transparent !important; }
+    .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div { background: transparent !important; }
+    .cluster-icon { background: transparent; border: 0; }
+
+    /* Floating controls */
+    .floating { position: absolute; z-index: 400; }
+    .panel-toggle, .tweaks-toggle {
+      top: 14px;
+      background: white;
+      border: 1px solid var(--ink-200);
+      border-radius: 6px; padding: 6px 10px; cursor: pointer;
+      font: 500 0.8rem var(--font-sans); color: var(--ink-700);
+      display: inline-flex; align-items: center; gap: 6px;
+      box-shadow: var(--shadow-sm);
+    }
+    .panel-toggle { left: 14px; }
+    .tweaks-toggle { right: 14px; }
+    .panel-toggle:hover, .tweaks-toggle:hover { background: var(--ink-50); }
+
+    /* Legend */
+    .legend {
+      position: absolute;
+      bottom: 24px; left: 14px;
+      background: white; border: 1px solid var(--ink-200);
+      border-radius: 8px; padding: 12px 14px; min-width: 240px;
+      box-shadow: var(--shadow); z-index: 400;
+    }
+    .legend .title {
+      font-family: var(--font-mono); font-size: 0.68rem;
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-500); margin-bottom: 4px;
+    }
+    .legend .name {
+      font-family: var(--font-serif); font-weight: 600;
+      color: var(--nfp-green-900); font-size: 0.95rem; margin-bottom: 8px;
+    }
+    .legend .scale { height: 10px; border-radius: 3px; margin: 6px 0 4px; }
+    .legend .ticks {
+      display: flex; justify-content: space-between;
+      font: 400 0.72rem var(--font-mono); color: var(--ink-500); font-variant-numeric: tabular-nums;
+    }
+    .legend .caption { margin-top: 8px; font-size: 0.75rem; color: var(--ink-500); line-height: 1.4; }
+    .legend .swatches { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+    .legend .swatches .sw { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; }
+    .legend .swatches .sw .b { width: 14px; height: 14px; border-radius: 3px; }
+
+    /* Detail panel */
+    .detail {
+      position: absolute; top: 14px; right: 14px; width: 340px;
+      max-height: calc(100% - 28px); background: white;
+      border: 1px solid var(--ink-200); border-radius: 10px;
+      box-shadow: var(--shadow-lg); z-index: 410; overflow-y: auto; display: none;
+    }
+    .detail.open { display: block; }
+    .detail .hd {
+      padding: 16px 18px 12px; border-bottom: 1px solid var(--ink-200);
+      position: sticky; top: 0; background: white; z-index: 2;
+    }
+    .detail .hd .eyebrow { margin-bottom: 4px; }
+    .detail .hd h3 { font-size: 1.25rem; margin: 0; }
+    .detail .hd .close {
+      position: absolute; top: 12px; right: 12px; width: 26px; height: 26px;
+      display: grid; place-items: center; border: 0; background: transparent;
+      border-radius: 6px; cursor: pointer; color: var(--ink-500);
+    }
+    .detail .hd .close:hover { background: var(--ink-100); color: var(--ink-800); }
+    .detail .bd { padding: 14px 18px 18px; }
+    .detail h4 {
+      font-family: var(--font-mono); font-size: 0.68rem;
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-500);
+      margin: 16px 0 8px; font-weight: 500;
+    }
+    .detail h4:first-child { margin-top: 0; }
+
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat-box { border: 1px solid var(--ink-200); border-radius: 7px; padding: 10px 12px; }
+    .stat-box .k { font-family: var(--font-mono); font-size: 0.66rem; color: var(--ink-500); text-transform: uppercase; letter-spacing: 0.08em; }
+    .stat-box .v { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 600; color: var(--nfp-green-900); margin-top: 2px; font-variant-numeric: tabular-nums; }
+    .stat-box .sub { font-size: 0.75rem; color: var(--ink-500); margin-top: 1px; }
+
+    .bar { display: grid; grid-template-columns: 80px 1fr 56px; align-items: center; gap: 8px; font-size: 0.82rem; padding: 4px 0; }
+    .bar .k { color: var(--ink-600); }
+    .bar .v { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--ink-800); text-align: right; font-size: 0.78rem; }
+    .bar .track { height: 6px; border-radius: 3px; background: var(--ink-100); overflow: hidden; }
+    .bar .fill { height: 100%; background: var(--nfp-green-600); border-radius: 3px; }
+
+    .partners-near { display: flex; flex-direction: column; gap: 6px; }
+    .partners-near .p {
+      display: flex; align-items: center; gap: 10px;
+      padding: 6px 8px; border-radius: 6px; cursor: pointer;
+    }
+    .partners-near .p:hover { background: var(--nfp-green-50); }
+    .partners-near .p .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .partners-near .p .n { flex: 1; font-size: 0.84rem; font-weight: 500; }
+    .partners-near .p .d { font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-500); }
+
+    /* Tweaks panel */
+    .tweaks-panel {
+      position: absolute; top: 58px; right: 14px; width: 260px;
+      background: white; border: 1px solid var(--ink-200);
+      border-radius: 10px; box-shadow: var(--shadow-lg);
+      z-index: 500; padding: 14px 16px; display: none;
+    }
+    .tweaks-panel.open { display: block; }
+    .tweaks-panel h4 {
+      font-family: var(--font-mono); font-size: 0.66rem;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--ink-500); margin: 12px 0 6px; font-weight: 500;
+    }
+    .tweaks-panel h4:first-child { margin-top: 0; }
+    .swatch-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .swatch {
+      height: 28px; width: 48px; border-radius: 5px; cursor: pointer;
+      border: 2px solid transparent; padding: 2px; background: white;
+    }
+    .swatch.on { border-color: var(--nfp-green-800); }
+    .swatch-bar { width: 100%; height: 100%; border-radius: 3px; }
+
+    .statusbar {
+      position: absolute; bottom: 14px; right: 14px;
+      background: rgba(255,255,255,0.92); border: 1px solid var(--ink-200);
+      border-radius: 999px; padding: 5px 12px;
+      font: 400 0.72rem var(--font-mono); color: var(--ink-600);
+      z-index: 399; backdrop-filter: blur(8px);
+    }
+    .statusbar .sep { color: var(--ink-300); margin: 0 6px; }
+
+    #loading {
+      position: absolute; inset: 0; background: var(--paper);
+      display: grid; place-items: center; z-index: 1000;
+      font-family: var(--font-mono); color: var(--ink-500);
+      font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;
+    }
+
+    [data-density="compact"] .sidebar { font-size: 0.84rem; }
+    [data-density="compact"] .sb-section { margin-top: 12px; }
+
+    /* Top nav logos */
+    .topnav .brand img { height: 28px; width: auto; display: block; }
+    .topnav .partner-lockup {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .topnav .partner-lockup .x {
+      color: var(--ink-300); font-family: var(--font-mono); font-size: 0.7rem;
+    }
+    .topnav .partner-lockup .co-logo { height: 22px; opacity: 0.85; }
+    .topnav .partner-lockup .by {
+      font-family: var(--font-mono); font-size: 0.66rem;
+      color: var(--ink-500); text-transform: uppercase; letter-spacing: 0.1em; margin-right: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="brand">
+    <img src="assets/nfp-logo.png" alt="Nashville Food Project" style="width: 110px; height: 50px;" />
+    <span>Food Insecurity Map</span>
+  </div>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="Map.html" class="active">Map</a>
+    <a href="About.html">About the Data</a>
+  </div>
+  <div class="spacer"></div>
+  <div class="partner-lockup">
+    <span class="by">Built with</span>
+    <img class="co-logo" src="assets/bdaic-logo.png" alt="Belmont Data & AI Collaborative" />
+  </div>
+  <div class="meta" id="breadcrumb" style="margin-left: 16px;">Nashville MSA · Census Tracts · Median Household Income</div>
+</nav>
+
+<div class="shell" id="shell">
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sb-section">
+      <div class="sb-title">Search</div>
+      <div class="search">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="search-input" placeholder="Find a tract, ZIP, partner, or org…" autocomplete="off"/>
+        <div class="search-results" id="search-results"></div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Geography</div>
+      <div class="segmented" id="geo-toggle" role="tablist">
+        <button data-geo="tract" class="on">Census Tracts</button>
+        <button data-geo="zip">ZIP Codes</button>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Data Layer <span class="count" id="layer-count"></span></div>
+      <div class="indicator-list" id="indicator-list"></div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">
+        <span>Organizations</span>
+        <span class="count"><span id="nfp-count"></span> &middot; <span id="gm-count"></span></span>
+      </div>
+      <div style="display:flex; gap:6px; margin-bottom:10px;">
+        <label class="src-chip on" data-src-toggle="nfp" style="flex:1; display:flex; align-items:center; gap:6px; padding:6px 8px; border:1px solid var(--ink-200); border-radius:6px; cursor:pointer; font-size:0.78rem;">
+          <span style="width:10px;height:10px;border-radius:50%;background:#1b5e20;border:2px solid white;box-shadow:0 0 0 1px #1b5e20;flex-shrink:0;"></span>
+          <span style="flex:1;">NFP Partners</span>
+          <input type="checkbox" checked style="margin:0;accent-color:var(--nfp-green-700);"/>
+        </label>
+        <label class="src-chip on" data-src-toggle="gm" style="flex:1; display:flex; align-items:center; gap:6px; padding:6px 8px; border:1px solid var(--ink-200); border-radius:6px; cursor:pointer; font-size:0.78rem;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#a14b28;border:1.5px solid white;box-shadow:0 0 0 1px #a14b28;flex-shrink:0;"></span>
+          <span style="flex:1;">Giving Matters</span>
+          <input type="checkbox" checked style="margin:0;accent-color:var(--nfp-green-700);"/>
+        </label>
+      </div>
+      <div class="partner-list" id="org-list"></div>
+      <div style="font-size:0.72rem;color:var(--ink-500);margin-top:8px;line-height:1.5;">
+        Counts show total orgs per category &middot; <span style="color:var(--nfp-green-700);font-weight:600">&middot;N</span> marks NFP partners.
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Export</div>
+      <div class="export-grid">
+        <button class="btn" data-export="png">PNG</button>
+        <button class="btn" data-export="pdf">PDF</button>
+        <button class="btn" data-export="csv">CSV</button>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Data Freshness</div>
+      <div style="font-size: 0.78rem; color: var(--ink-500); line-height: 1.6;">
+        <div>Census ACS · <span class="mono" style="color:var(--ink-700)">2020–2024</span></div>
+        <div>CDC PLACES · <span class="mono" style="color:var(--ink-700)">2024</span></div>
+        <div>USDA LILA · <span class="mono" style="color:var(--ink-700)">2019</span></div>
+        <div>Partners · <span class="mono" style="color:var(--ink-700)">Apr 2026</span></div>
+      </div>
+    </div>
+
+  </aside>
+
+  <main class="map-wrap">
+    <div id="map"></div>
+    <div id="loading">Loading map…</div>
+
+    <button class="floating panel-toggle" id="panel-toggle" title="Hide sidebar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <span id="panel-toggle-label">Hide panel</span>
+    </button>
+
+    <button class="floating tweaks-toggle" id="tweaks-toggle" title="Open tweaks">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/></svg>
+      Tweaks
+    </button>
+
+    <div class="tweaks-panel" id="tweaks-panel">
+      <h4>Density</h4>
+      <div class="segmented" id="density-toggle">
+        <button data-density="comfortable">Comfortable</button>
+        <button data-density="compact" class="on">Compact</button>
+      </div>
+
+      <h4>Choropleth color scale</h4>
+      <div class="swatch-row" id="palette-swatches"></div>
+
+      <h4>Panels</h4>
+      <div class="segmented" id="panels-toggle">
+        <button data-panels="show" class="on">Show</button>
+        <button data-panels="hide">Hide</button>
+      </div>
+    </div>
+
+    <div class="legend" id="legend" style="display:none;">
+      <div class="title" id="legend-eyebrow">Indicator</div>
+      <div class="name" id="legend-name">—</div>
+      <div id="legend-scale-wrap"></div>
+      <div class="caption" id="legend-caption"></div>
+    </div>
+
+    <div class="detail" id="detail">
+      <div class="hd">
+        <div class="eyebrow" id="detail-eyebrow">Census Tract</div>
+        <h3 id="detail-title">—</h3>
+        <button class="close" id="detail-close" aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6l-12 12"/></svg>
+        </button>
+      </div>
+      <div class="bd" id="detail-body"></div>
+    </div>
+
+    <div class="statusbar" id="statusbar">
+      <span id="sb-geo">tracts</span>
+      <span class="sep">·</span>
+      <span id="sb-visible">— visible</span>
+      <span class="sep">·</span>
+      <span id="sb-zoom">z9</span>
+    </div>
+  </main>
+</div>
+
+<script>
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "palette": "greens",
+    "density": "compact",
+    "panels": "show"
+  }/*EDITMODE-END*/;
+</script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="map.js"></script>
+
+</body>
+</html>

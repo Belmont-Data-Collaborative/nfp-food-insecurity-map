@@ -1,130 +1,63 @@
-# Nashville Food Project — Food Insecurity Map
+# NFP Food Insecurity Map
 
-An interactive web map of Davidson County, Tennessee, overlaying Nashville Food Project (NFP) partner locations with census-tract-level poverty, income, and diabetes data. Built for NFP staff and city policymakers to explore food insecurity geography across Nashville.
+Interactive Leaflet map of food-insecurity indicators across the 14-county Nashville MSA, built for the **Nashville Food Project** and **Belmont's Data & AI Collaborative**. A Python data pipeline ingests Census ACS, CDC PLACES, USDA LILA, NFP partners, and CFMT *Giving Matters* nonprofits and emits flat GeoJSON/CSV/JSON files; a pure-static HTML/JS frontend reads them in the browser.
 
-**Live app:** [Launch on Streamlit Cloud](https://belmont-data-collaborative-nfp-food-insecurity-map-app.streamlit.app)
-
----
-
-## Features
-
-- **Interactive Folium map** centered on Davidson County with census tract boundaries
-- **NFP partner markers** — 30 locations color-coded by partner type (8 categories)
-- **Choropleth overlays** — Poverty Rate, Median Household Income, Diabetes Prevalence
-- **Click popups** — tract-level data values and partner details on click
-- **Category filter legend** — colored swatches with plain-English labels
-- **HTML map export** — download the full map as a self-contained HTML file
-- **Mock data mode** — runs fully without AWS credentials for demos and development
-
----
-
-## Quickstart (local)
+## Quick start
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/Belmont-Data-Collaborative/nfp-food-insecurity-map.git
-cd nfp-food-insecurity-map
-
-# 2. Create and activate a virtual environment
-python3 -m venv .venv
-source .venv/bin/activate
-
-# 3. Install dependencies
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env                 # keep USE_MOCK_DATA=true for local dev
 
-# 4. Copy the env file and enable mock data mode
-cp .env.example .env
-# .env already has USE_MOCK_DATA=true — no changes needed for local dev
+# Seed mock inputs
+python scripts/generate_mock_data.py
+python scripts/generate_mock_parquet.py
 
-# 5. Run the app
-streamlit run app.py
+# Run the full pipeline (writes to data/)
+python -m pipeline
+
+# Preview the static site
+python -m http.server 8000
+# Open http://localhost:8000
 ```
 
-The app opens at `http://localhost:8501`.
+## What the pipeline produces
 
----
+Every successful `python -m pipeline` run populates `data/` with:
 
-## Data Modes
+| File | Purpose |
+|---|---|
+| `config.json` | Frontend-consumable derivative of `project.yml` (indicators, palettes, partner types) |
+| `tracts.geojson` / `zipcodes.geojson` | Census 2020 boundaries at tract / ZCTA granularity |
+| `counties.geojson` / `msa.geojson` | 14 MSA counties and the dissolved MSA boundary |
+| `partners.geojson` | NFP partner locations (geocoded via Nominatim) |
+| `giving_matters.geojson` | ~1,487 CFMT nonprofits, categorized into NFP partner types by LLM |
+| `acs_{tract,zip}.csv` + `.parquet` | ACS median income, poverty rate, population |
+| `health_{tract,zip}.csv` + `.parquet` | CDC PLACES diabetes, hypertension, obesity |
+| `usda_lila_tract.csv` + `.parquet` | USDA LILA flag, low-access pop, low-income/low-access pop (2010→2020 crosswalked) |
 
-| Mode | Config | Data Source |
-|------|--------|-------------|
-| **Mock (default)** | `USE_MOCK_DATA=true` | `data/mock/` — synthetic data, no credentials needed |
-| **Production** | `USE_MOCK_DATA=false` | AWS S3 bucket (`BDAIC_BUCKET`) |
+Each source also has a `--step` flag: `python -m pipeline --step census_acs` etc. See `python -m pipeline --help`.
 
-For production mode, set `BDAIC_BUCKET` to the S3 bucket name and ensure AWS credentials are available via environment variables or IAM role.
+## Adding a new data layer
 
----
+1. Add a new entry under `data_sources:` in [project.yml](project.yml) (S3 paths, column names) and its display metadata (palette, format string, caption).
+2. Run `python -m pipeline --step <new_source>` to produce the Parquet.
+3. Run `python -m pipeline --step export` to refresh `data/config.json` and the CSV mirror.
+4. Reload the browser — the indicator appears in the sidebar automatically. **Do not edit `map.js`.**
 
-## Streamlit Cloud Deployment
+## Deployment
 
-1. Fork or connect this repo at [share.streamlit.io](https://share.streamlit.io)
-2. Set **Main file**: `app.py`
-3. Under **Advanced settings → Secrets**, add:
+Static hosting only. Deploy `data/` alongside the HTML/JS. Run the pipeline on a schedule (cron / GitHub Action) and publish the resulting `data/` to the same origin.
 
-```toml
-USE_MOCK_DATA = "true"
-```
+## See also
 
-4. Click **Deploy** — no other configuration needed for mock/demo mode.
+- [CLAUDE.md](CLAUDE.md) — developer reference: architecture, invariants, gotchas
+- [ASSUMPTIONS.md](ASSUMPTIONS.md) — architectural decisions (LILA crosswalk math, geocoding failure semantics, etc.)
+- [project.yml](project.yml) — single source of truth for all config
 
----
+## Next steps
 
-## Project Structure
-
-```
-app.py                    # Streamlit entry point
-src/
-  config.py               # Constants, colors, layer definitions
-  data_loader.py          # S3 / mock CSV loading with caching
-  geocoder.py             # Nominatim geocoding with rate limiting
-  layer_manager.py        # Folium layer builders (markers, choropleth)
-  map_builder.py          # Assembles the full Folium map
-data/
-  shapefiles/             # Davidson County census tract GeoJSON
-  mock/                   # Synthetic CSV data for development
-scripts/
-  import_shapefiles.py    # Download and process TIGER/Line shapefiles
-  generate_mock_data.py   # Generate reproducible synthetic mock data
-tests/                    # Unit and integration tests (pytest)
-```
-
----
-
-## Running Utility Scripts
-
-These scripts are for data preparation and are **not** required to run the app (mock data is pre-generated).
-
-```bash
-# Install additional script dependencies
-pip install geopandas pyogrio faker numpy
-
-# Download and process Davidson County shapefiles
-python scripts/import_shapefiles.py
-
-# Regenerate mock data (deterministic with --seed)
-python scripts/generate_mock_data.py --seed 42
-```
-
----
-
-## Running Tests
-
-```bash
-pip install pytest pytest-cov geopandas pyogrio faker numpy
-USE_MOCK_DATA=true pytest tests/ -v
-```
-
----
-
-## Built With
-
-- [Streamlit](https://streamlit.io) — web app framework
-- [Folium](https://python-visualization.github.io/folium/) — interactive maps
-- [streamlit-folium](https://folium.streamlit.app) — Folium ↔ Streamlit bridge
-- [geopy](https://geopy.readthedocs.io) — Nominatim geocoding
-- [branca](https://python-visualization.github.io/branca/) — map legend colormaps
-- [pandas](https://pandas.pydata.org) — data loading and manipulation
-
----
-
-*Built by [BDAIC — Belmont Data Analytics & Intelligence Center](https://www.belmont.edu) for the Nashville Food Project.*
+- **Decouple the pipeline from the application.** The data pipeline and the static frontend should live and deploy independently. The pipeline is a batch ETL job; the frontend is a static site. Keeping them in the same repo and deploy unit couples their release cycles unnecessarily.
+- **Pipeline writes directly to S3.** Once decoupled, the pipeline should write all output files (`*.geojson`, `*.csv`, `*.parquet`, `config.json`) to the appropriate S3 location. The frontend fetches from S3 (via CloudFront or a public bucket URL) rather than from a co-deployed `data/` folder.
+- **Upgrade ACS data to the 2024 release.** The pipeline currently pulls from the 2023 ACS release. Update `project.yml` and the relevant pipeline step to target the 2024 release.
+- **Confirm and upgrade CDC PLACES to the 2025 release.** Verify whether the 2025 PLACES dataset is available in the `public-transform` S3 bucket. If so, update the pipeline to pull the 2025 release instead of 2024.
