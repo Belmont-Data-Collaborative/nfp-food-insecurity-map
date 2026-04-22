@@ -47,7 +47,40 @@ Each source also has a `--step` flag: `python -m pipeline --step census_acs` etc
 
 ## Deployment
 
-Static hosting only. Deploy `data/` alongside the HTML/JS. Run the pipeline on a schedule (cron / GitHub Action) and publish the resulting `data/` to the same origin.
+Deployed on **Vercel** (team `databelmonts-projects`, project `nfp-food-insecurity-map`). Production alias: https://nfp-food-insecurity-map-ecru.vercel.app.
+
+### How it works
+
+The site is pure static HTML/JS. Vercel's build step runs `scripts/sync-data.mjs`, which mirrors the pre-built `data/` folder from S3 into the deploy:
+
+```
+Vercel build:
+  npm install @aws-sdk/client-s3
+  node scripts/sync-data.mjs      # pulls s3://bdc-projects/nfp-food-insecurity-map/data/
+  serve .
+```
+
+The Python pipeline **does not** run during the Vercel build — `sync-data.mjs` only mirrors pre-built files. The pipeline runs separately (locally or as a scheduled job) and uploads its output to `s3://bdc-projects/nfp-food-insecurity-map/data/`.
+
+### S3 buckets (two, on purpose)
+
+| Bucket | Role | Who reads/writes it |
+|---|---|---|
+| `bdaic-public-transform` | Raw SOURCE inputs (Census ACS, CDC PLACES, USDA LILA, partner CSVs) | Pipeline reads. See `s3_bucket:` entries in [project.yml](project.yml). |
+| `bdc-projects` | Built OUTPUT served to the website (`nfp-food-insecurity-map/data/*`) | Pipeline writes; Vercel build reads. |
+
+### Redeploying
+
+- **Data changed only:** upload new files to `s3://bdc-projects/nfp-food-insecurity-map/data/`, then trigger a Vercel redeploy (dashboard button or `vercel --prod --scope databelmonts-projects`).
+- **Code changed:** `vercel --prod --scope databelmonts-projects` from the repo root. GitHub auto-deploy is not wired yet — enable via Vercel dashboard → Project → Settings → Git if desired.
+
+### Required Vercel env vars (Production)
+
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_DEFAULT_REGION`
+
+These grant read access to `s3://bdc-projects/nfp-food-insecurity-map/data/` only; they are not the pipeline's credentials. Set once per environment with `vercel env add <NAME> production --scope databelmonts-projects`.
 
 ## See also
 
@@ -57,7 +90,7 @@ Static hosting only. Deploy `data/` alongside the HTML/JS. Run the pipeline on a
 
 ## Next steps
 
-- **Decouple the pipeline from the application.** The data pipeline and the static frontend should live and deploy independently. The pipeline is a batch ETL job; the frontend is a static site. Keeping them in the same repo and deploy unit couples their release cycles unnecessarily.
-- **Pipeline writes directly to S3.** Once decoupled, the pipeline should write all output files (`*.geojson`, `*.csv`, `*.parquet`, `config.json`) to the appropriate S3 location. The frontend fetches from S3 (via CloudFront or a public bucket URL) rather than from a co-deployed `data/` folder.
+- **Automate the pipeline run.** Today the pipeline is invoked manually and its output uploaded to `bdc-projects` out of band. A scheduled GitHub Action (weekly/monthly) that runs `python -m pipeline` and `aws s3 sync data/ s3://bdc-projects/nfp-food-insecurity-map/data/` would close the loop.
+- **Wire GitHub auto-deploy on Vercel.** Each push to `main` should trigger a production deploy. One-time setup in the Vercel dashboard.
 - **Upgrade ACS data to the 2024 release.** The pipeline currently pulls from the 2023 ACS release. Update `project.yml` and the relevant pipeline step to target the 2024 release.
-- **Confirm and upgrade CDC PLACES to the 2025 release.** Verify whether the 2025 PLACES dataset is available in the `public-transform` S3 bucket. If so, update the pipeline to pull the 2025 release instead of 2024.
+- **Confirm and upgrade CDC PLACES to the 2025 release.** Verify whether the 2025 PLACES dataset is available in `bdaic-public-transform`. If so, update the pipeline to pull the 2025 release instead of 2024.
