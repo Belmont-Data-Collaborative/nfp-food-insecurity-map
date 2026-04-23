@@ -74,7 +74,7 @@ The `current/` prefix namespaces the live deploy. Peer prefixes (e.g. `archive/<
 ### Redeploying
 
 - **Data changed only:** upload new files to `s3://nfp-food-insecurity-map-data/current/`, then trigger a Vercel redeploy (dashboard button or `vercel --prod --scope databelmonts-projects`).
-- **Code changed:** `vercel --prod --scope databelmonts-projects` from the repo root. GitHub auto-deploy is not wired yet — enable via Vercel dashboard → Project → Settings → Git if desired.
+- **Code changed:** push to `main`. Vercel is connected to `Belmont-Data-Collaborative/nfp-food-insecurity-map` and auto-deploys production on push. Non-main branches create preview deploys. Manual deploy (`vercel --prod --scope databelmonts-projects`) is still available for out-of-tree or hot-fix cases.
 
 ### Required Vercel env vars (Production)
 
@@ -93,6 +93,5 @@ These grant read access to `s3://nfp-food-insecurity-map-data/current/` only; th
 ## Next steps
 
 - **Automate the pipeline run.** Today the pipeline is invoked manually and its output uploaded to `nfp-food-insecurity-map-data` out of band. A scheduled GitHub Action (weekly/monthly) that runs `python -m pipeline` and `aws s3 sync data/ s3://nfp-food-insecurity-map-data/current/` would close the loop.
-- **Wire GitHub auto-deploy on Vercel.** Each push to `main` should trigger a production deploy. One-time setup in the Vercel dashboard.
 - **Upgrade ACS data to the 2024 release.** The pipeline currently pulls from the 2023 ACS release. Update `project.yml` and the relevant pipeline step to target the 2024 release.
 - **Confirm and upgrade CDC PLACES to the 2025 release.** Verify whether the 2025 PLACES dataset is available in `bdaic-public-transform`. If so, update the pipeline to pull the 2025 release instead of 2024.

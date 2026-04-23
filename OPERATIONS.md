@@ -150,13 +150,26 @@ vercel env ls production --scope databelmonts-projects
 
 ### 3.3 Deploying
 
-- **Code change (what you just edited):**
+- **Code change (normal path):**
+  ```bash
+  git push origin main
+  ```
+  Vercel is connected to the GitHub repo (`Belmont-Data-Collaborative/nfp-food-insecurity-map`) and deploys production on every push to `main`. Pushes to other branches create preview deploys at their own URLs.
+
+- **Hot-fix / out-of-tree deploy:**
   ```bash
   vercel --prod --scope databelmonts-projects
   ```
-  This uploads the current working tree — **it does not read from GitHub**. Commit first so git and prod match; GitHub auto-deploy is not wired yet.
+  Uploads the current working tree directly — useful when you need to deploy uncommitted changes. Prefer `git push` for normal work so prod always matches a commit on `main`.
 
-- **Data change only (pipeline rerun):** upload the new data to `s3://nfp-food-insecurity-map-data/current/`, then redeploy. Vercel won't detect new S3 files on its own.
+- **Data change only (pipeline rerun):** upload new data to `s3://nfp-food-insecurity-map-data/current/`, then trigger a redeploy. Vercel won't detect new S3 files on its own — either push an empty commit (`git commit --allow-empty -m "data refresh" && git push`) or run `vercel --prod`.
+
+- **Preview deploys and env vars:** preview branches currently have no AWS creds, so `sync-data.mjs` will fail on them — that's intentional to avoid paying S3 egress on every branch. If you want previews to load real data, add `AWS_*` env vars to the Preview environment:
+  ```bash
+  vercel env add AWS_ACCESS_KEY_ID preview --scope databelmonts-projects
+  vercel env add AWS_SECRET_ACCESS_KEY preview --scope databelmonts-projects
+  vercel env add AWS_DEFAULT_REGION preview --scope databelmonts-projects
+  ```
 
 - **CLI gotcha:** `vercel link --yes` can fail in non-interactive mode with "missing_scope" even when `--scope` is passed. Workaround: write `.vercel/project.json` manually using `projectId` from `GET https://api.vercel.com/v9/projects/<name>?teamId=<id>`.
 
@@ -221,7 +234,17 @@ Follow the "Adding a new data layer" section in [README.md](README.md). Do **not
 
 ### 5.5 "I accidentally deleted files from the S3 output bucket"
 
-They are reproducible — rerun the pipeline and re-upload. If versioning is enabled on the bucket (check with `aws s3api get-bucket-versioning --bucket nfp-food-insecurity-map-data`), restore from a prior version. If not enabled, enabling it is cheap insurance.
+Versioning is enabled on `nfp-food-insecurity-map-data` (as of 2026-04-23), so deleted objects leave a delete marker behind the previous version. To restore:
+
+```bash
+# List versions for a specific key
+aws s3api list-object-versions --bucket nfp-food-insecurity-map-data --prefix current/config.json
+
+# Remove the delete marker (bringing the prior version back as current)
+aws s3api delete-object --bucket nfp-food-insecurity-map-data --key current/config.json --version-id <DELETE_MARKER_VERSION_ID>
+```
+
+For broader restores, the simplest path is re-running the pipeline and re-uploading — the data is fully reproducible.
 
 ---
 
@@ -239,9 +262,10 @@ None of these block production, but they are the load-bearing items the next ope
 
 5. **Pipeline is manual.** Out-of-band operator runs. A scheduled GitHub Action (weekly?) that does `python -m pipeline && aws s3 sync ...` would close the loop. README "Next steps" lists this already.
 
-6. **S3 bucket versioning status unknown.** Worth enabling on `nfp-food-insecurity-map-data` for cheap accidental-delete recovery.
-
-**Resolved** (2026-04-23): Vercel build now uses a dedicated least-privilege IAM user (`nfp-map-vercel-reader`) instead of the operator's admin keys — see §2.2.
+**Resolved** (2026-04-23):
+- Vercel build now uses a dedicated least-privilege IAM user (`nfp-map-vercel-reader`) instead of the operator's admin keys — see §2.2.
+- S3 versioning is enabled on `nfp-food-insecurity-map-data` — accidental `rm` is now recoverable via delete-marker cleanup (see §5.5).
+- GitHub auto-deploy on Vercel is wired — pushes to `main` deploy to production automatically.
 
 ---
 
