@@ -46,14 +46,14 @@ data_sources:
     source_type: s3
     s3_bucket: bdaic-public-transform
     s3_prefix:
-      tract: "census_acs5_profile/geo_tract/"
-      zip: "census_acs5_profile/geo_zipcode/"
+      tract: "census_acs5/geo_tract/"
+      zip: "census_acs5/geo_zipcode/"
     output_prefix: acs
-    geoid_column: GEO_ID
+    geoid_column: geoid
     frontend_src: acs
     variables:
       - id: median_household_income
-        column: DP03_0062E
+        column: "Median Household Income"
         display_name: "Median Household Income"
         colormap: YlGnBu
         palette: greens
@@ -63,7 +63,7 @@ data_sources:
         default_visible: true
         caption: "ACS 2020–2024 5-year estimates."
       - id: poverty_rate
-        column: DP03_0119PE
+        column: "Percent of Population Below Poverty Level"
         display_name: "Poverty Rate"
         colormap: YlOrRd
         palette: oranges
@@ -71,9 +71,10 @@ data_sources:
         format_str: "{:.1f}%"
         tooltip_alias: "Poverty"
         default_visible: false
-        caption: "Share of residents below federal poverty line."
+        multiplier: 100
+        caption: "Share of population below federal poverty line."
       - id: total_population
-        column: DP05_0001E
+        column: "Total Population"
         display_name: "Total Population"
         colormap: Blues
         palette: teals
@@ -82,6 +83,17 @@ data_sources:
         tooltip_alias: "Population"
         default_visible: false
         caption: "Total population (ACS)."
+      - id: snap_benefits
+        column: "Percent of Households that received SNAP benefits"
+        display_name: "Households receiving SNAP benefits"
+        colormap: BuPu
+        palette: purples
+        legend_name: "HHD SNAP Benefits (%)"
+        format_str: "{:.1f}%"
+        tooltip_alias: "SNAP"
+        default_visible: false
+        multiplier: 100
+        caption: "HHD SNAP Benefits (ACS)."
 
   health_lila:
     source_type: s3

@@ -36,7 +36,7 @@
     {
       "id": "median_household_income",
       "label": "Median Household Income",
-      "col": "DP03_0062E",
+      "col": "Median Household Income",
       "src": "acs",
       "granularities": [
         "tract",
@@ -51,7 +51,7 @@
     {
       "id": "poverty_rate",
       "label": "Poverty Rate",
-      "col": "DP03_0119PE",
+      "col": "Percent of Population Below Poverty Level",
       "src": "acs",
       "granularities": [
         "tract",
@@ -59,14 +59,14 @@
       ],
       "palette": "oranges",
       "fmt": "{:.1f}%",
-      "caption": "Share of residents below federal poverty line.",
+      "caption": "Share of population below federal poverty line.",
       "unit_label": "Poverty Rate (%)",
       "default_visible": false
     },
     {
       "id": "total_population",
       "label": "Total Population",
-      "col": "DP05_0001E",
+      "col": "Total Population",
       "src": "acs",
       "granularities": [
         "tract",
@@ -76,6 +76,21 @@
       "fmt": "{:,.0f}",
       "caption": "Total population (ACS).",
       "unit_label": "Population",
+      "default_visible": false
+    },
+    {
+      "id": "snap_benefits",
+      "label": "Households receiving SNAP benefits",
+      "col": "Percent of Households that received SNAP benefits",
+      "src": "acs",
+      "granularities": [
+        "tract",
+        "zip"
+      ],
+      "palette": "purples",
+      "fmt": "{:.1f}%",
+      "caption": "HHD SNAP Benefits (ACS).",
+      "unit_label": "HHD SNAP Benefits (%)",
       "default_visible": false
     },
     {

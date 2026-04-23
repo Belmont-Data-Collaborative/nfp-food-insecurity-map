@@ -369,6 +369,13 @@ def process_data_source(
     keep_cols = ["GEOID"] + [c for c in var_columns if c in df.columns]
     df = df[keep_cols].copy()
 
+    for var in source_config.get("variables", []):
+        col = var["column"]
+        mult = var.get("multiplier")
+        if mult and col in df.columns:
+            df[col] = df[col] * mult
+            logger.info("Applied multiplier %s to column %s", mult, col)
+
     output_path = f"data/{output_prefix}_{granularity}.parquet"
     save_parquet(df, output_path)
 

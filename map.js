@@ -364,6 +364,7 @@ function openFeatureDetail(f, layer) {
 
   const income = valueFor(geoid, "median_household_income");
   const poverty = valueFor(geoid, "poverty_rate");
+  const snap = valueFor(geoid, "snap_benefits");
   const pop = valueFor(geoid, "total_population");
   const diabetes = valueFor(geoid, "diabetes");
   const hypertension = valueFor(geoid, "hypertension");
@@ -379,6 +380,11 @@ function openFeatureDetail(f, layer) {
       ${state.geo === "tract" ? `<div class="stat-box"><div class="k">LILA</div><div class="v" style="color:${lila == 1 ? 'var(--accent-rust)' : 'var(--nfp-green-700)'}">${lila == 1 ? "Yes" : lila == 0 ? "No" : "—"}</div><div class="sub">USDA flag</div></div>` : `<div class="stat-box"><div class="k">Low-Access</div><div class="v">—</div><div class="sub">Tract-level only</div></div>`}
     </div>
   `;
+
+  const economicSection = (snap != null) ? `
+    <h4>Economic indicators</h4>
+    <div class="bar"><span class="k">SNAP Benefits</span><div class="track"><div class="fill" style="width:${Math.min(100, snap)}%; background: var(--accent-purple, #744f93);"></div></div><span class="v">${snap.toFixed(1)}%</span></div>
+  ` : "";
 
   const healthSection = (diabetes != null || hypertension != null || obesity != null) ? `
     <h4>Health indicators</h4>
@@ -408,7 +414,7 @@ function openFeatureDetail(f, layer) {
     </div>
   ` : `<h4>Nearby NFP partners</h4><div style="font-size:0.82rem;color:var(--ink-500);">No NFP partners within 15 miles — candidate underserved area.</div>`;
 
-  body.innerHTML = statGrid + healthSection + accessSection + partnersSection +
+  body.innerHTML = statGrid + economicSection + healthSection + accessSection + partnersSection +
     `<h4>Identifier</h4><div class="mono" style="color:var(--ink-600);">${geoid}</div>`;
 
   body.querySelectorAll(".partners-near .p").forEach(el => {
