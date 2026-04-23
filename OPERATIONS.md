@@ -150,28 +150,26 @@ vercel env ls production --scope databelmonts-projects
 
 ### 3.3 Deploying
 
-- **Code change (normal path):**
-  ```bash
-  git push origin main
-  ```
-  Vercel is connected to the GitHub repo (`Belmont-Data-Collaborative/nfp-food-insecurity-map`) and deploys production on every push to `main`. Pushes to other branches create preview deploys at their own URLs.
+Deploys are **intentionally manual** — GitHub auto-deploy is deliberately not wired. The operator controls exactly what and when goes to prod. Always commit and push to `main` before deploying so git and prod stay aligned.
 
-- **Hot-fix / out-of-tree deploy:**
+- **Normal deploy:**
   ```bash
+  git push origin main                              # get main in sync
+  vercel --prod --scope databelmonts-projects       # deploy the working tree
+  ```
+  `vercel --prod` uploads the working tree (not GitHub), so if you've made local changes that aren't committed, they will deploy. Push first unless you're consciously hot-fixing uncommitted work.
+
+- **Data change only (pipeline rerun):**
+  ```bash
+  python -m pipeline
+  aws s3 sync data/ s3://nfp-food-insecurity-map-data/current/ --exclude "mock/*"
   vercel --prod --scope databelmonts-projects
   ```
-  Uploads the current working tree directly — useful when you need to deploy uncommitted changes. Prefer `git push` for normal work so prod always matches a commit on `main`.
-
-- **Data change only (pipeline rerun):** upload new data to `s3://nfp-food-insecurity-map-data/current/`, then trigger a redeploy. Vercel won't detect new S3 files on its own — either push an empty commit (`git commit --allow-empty -m "data refresh" && git push`) or run `vercel --prod`.
-
-- **Preview deploys and env vars:** preview branches currently have no AWS creds, so `sync-data.mjs` will fail on them — that's intentional to avoid paying S3 egress on every branch. If you want previews to load real data, add `AWS_*` env vars to the Preview environment:
-  ```bash
-  vercel env add AWS_ACCESS_KEY_ID preview --scope databelmonts-projects
-  vercel env add AWS_SECRET_ACCESS_KEY preview --scope databelmonts-projects
-  vercel env add AWS_DEFAULT_REGION preview --scope databelmonts-projects
-  ```
+  Vercel won't detect new S3 files on its own — the redeploy is what triggers `sync-data.mjs` to pull the new objects.
 
 - **CLI gotcha:** `vercel link --yes` can fail in non-interactive mode with "missing_scope" even when `--scope` is passed. Workaround: write `.vercel/project.json` manually using `projectId` from `GET https://api.vercel.com/v9/projects/<name>?teamId=<id>`.
+
+- **If you ever want to reconsider auto-deploy:** it's a dashboard-only flow (Vercel → Project → Settings → Git → Connect). The Vercel GitHub App would need installing on the `Belmont-Data-Collaborative` org with access to this repo. Tradeoff: every push to `main` deploys, which is convenient but means small doc commits also build. We've opted against it for now.
 
 ---
 
@@ -265,7 +263,6 @@ None of these block production, but they are the load-bearing items the next ope
 **Resolved** (2026-04-23):
 - Vercel build now uses a dedicated least-privilege IAM user (`nfp-map-vercel-reader`) instead of the operator's admin keys — see §2.2.
 - S3 versioning is enabled on `nfp-food-insecurity-map-data` — accidental `rm` is now recoverable via delete-marker cleanup (see §5.5).
-- GitHub auto-deploy on Vercel is wired — pushes to `main` deploy to production automatically.
 
 ---
 

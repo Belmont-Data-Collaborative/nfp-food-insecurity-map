@@ -134,16 +134,17 @@ Deployed on **Vercel** (project `nfp-food-insecurity-map`, team `databelmonts-pr
 
 **Deploy commands:**
 ```bash
-# Code change — push to main; Vercel auto-deploys on push (GitHub integration wired)
+# Code change — commit and push to main first, then deploy
 git push origin main
+vercel --prod --scope databelmonts-projects
 
-# Data change (pipeline re-run) — S3 objects don't trigger Vercel, so redeploy explicitly
+# Data change (pipeline re-run)
 python -m pipeline
 aws s3 sync data/ s3://nfp-food-insecurity-map-data/current/ --exclude "mock/*"
-vercel --prod --scope databelmonts-projects     # or push an empty commit to main
+vercel --prod --scope databelmonts-projects
 ```
 
-`vercel --prod` remains available for hot-fix / out-of-tree deploys. It uploads the working tree directly (not from GitHub) — use `git push` for the normal path so prod always matches a commit.
+Deploys are **intentionally manual** — GitHub auto-deploy is not wired by choice (avoids surprising prod updates from small commits). `vercel --prod` uploads the working tree directly, so always push to main first so git and prod stay aligned.
 
 For IAM, env-var rotation, runbook entries, and the onboarding checklist, see [OPERATIONS.md](OPERATIONS.md).
 

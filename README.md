@@ -74,7 +74,7 @@ The `current/` prefix namespaces the live deploy. Peer prefixes (e.g. `archive/<
 ### Redeploying
 
 - **Data changed only:** upload new files to `s3://nfp-food-insecurity-map-data/current/`, then trigger a Vercel redeploy (dashboard button or `vercel --prod --scope databelmonts-projects`).
-- **Code changed:** push to `main`. Vercel is connected to `Belmont-Data-Collaborative/nfp-food-insecurity-map` and auto-deploys production on push. Non-main branches create preview deploys. Manual deploy (`vercel --prod --scope databelmonts-projects`) is still available for out-of-tree or hot-fix cases.
+- **Code changed:** `vercel --prod --scope databelmonts-projects` from the repo root. Deploys are **intentionally manual** — GitHub auto-deploy is not wired. Push to `main` first so git matches prod, then run the deploy.
 
 ### Required Vercel env vars (Production)
 
