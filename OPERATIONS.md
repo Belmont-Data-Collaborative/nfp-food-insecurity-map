@@ -48,19 +48,23 @@ Used when a human (or scheduled job) runs `python -m pipeline` and then uploads 
 Today these are the operator's own IAM user keys in `~/.aws/credentials`. If a scheduled job takes over, create a dedicated IAM user for it.
 
 **b) Vercel build credentials**
-Used only by `scripts/sync-data.mjs` during the Vercel build. Needs **read-only** access to `nfp-food-insecurity-map-data/current/`. Minimum policy:
+Used only by `scripts/sync-data.mjs` during the Vercel build. Read-only on `nfp-food-insecurity-map-data/current/`.
+
+**Current state:** Dedicated IAM user `nfp-map-vercel-reader` (account `324727022201`), created 2026-04-23. No console access, no group membership. Single inline policy `NfpMapVercelS3Read`:
 
 ```json
 {
   "Version": "2012-10-17",
   "Statement": [
     {
+      "Sid": "ListBucketCurrentPrefix",
       "Effect": "Allow",
       "Action": ["s3:ListBucket"],
       "Resource": "arn:aws:s3:::nfp-food-insecurity-map-data",
       "Condition": {"StringLike": {"s3:prefix": ["current/*", "current/"]}}
     },
     {
+      "Sid": "GetObjectsInCurrentPrefix",
       "Effect": "Allow",
       "Action": ["s3:GetObject"],
       "Resource": "arn:aws:s3:::nfp-food-insecurity-map-data/current/*"
@@ -69,37 +73,46 @@ Used only by `scripts/sync-data.mjs` during the Vercel build. Needs **read-only*
 }
 ```
 
-Current state (as of 2026-04-23): Vercel build reads successfully — the credentials stored in Vercel env vars clearly have sufficient access, but the exact IAM user and policy have not been audited. **Action for next operator:** identify which IAM user owns the keys in Vercel env vars (log into AWS console → IAM → Users → find the one with an access key matching `AWS_ACCESS_KEY_ID` on Vercel) and scope its policy to the minimum above.
+**History:** Before 2026-04-23 the Vercel build was using the operator's personal admin keys (`pranish.bhagat`, member of the `Administrators` group). That gave the build full S3 + admin-wide access for a read-only job. The dedicated user replaced it.
 
-### 2.3 Creating a new IAM user for Vercel (recommended)
-
-If you need to rotate or replace the Vercel credentials:
-
+**Verify the user's current state:**
 ```bash
-# 1. Create a dedicated user with no console access
-aws iam create-user --user-name nfp-map-vercel-reader
-
-# 2. Attach the read-only policy above (save it as vercel-s3-read.json first)
-aws iam put-user-policy \
-  --user-name nfp-map-vercel-reader \
-  --policy-name NfpMapVercelS3Read \
-  --policy-document file://vercel-s3-read.json
-
-# 3. Create an access key (save the output — you only see the secret once)
-aws iam create-access-key --user-name nfp-map-vercel-reader
-
-# 4. Update Vercel env vars
-vercel env rm AWS_ACCESS_KEY_ID production --scope databelmonts-projects
-vercel env add AWS_ACCESS_KEY_ID production --scope databelmonts-projects
-vercel env rm AWS_SECRET_ACCESS_KEY production --scope databelmonts-projects
-vercel env add AWS_SECRET_ACCESS_KEY production --scope databelmonts-projects
-# AWS_DEFAULT_REGION = us-east-1 (already set, no change)
-
-# 5. Redeploy to validate
-vercel --prod --scope databelmonts-projects
+aws iam get-user --user-name nfp-map-vercel-reader
+aws iam get-user-policy --user-name nfp-map-vercel-reader --policy-name NfpMapVercelS3Read
+aws iam list-access-keys --user-name nfp-map-vercel-reader
 ```
 
-Rotate keys at least annually. After rotation, delete the old access key via `aws iam delete-access-key`.
+### 2.3 Rotating the Vercel credentials
+
+Rotate at least annually, or immediately on suspected compromise. AWS allows two active access keys per user, so you can stage the new key before removing the old one.
+
+```bash
+# 1. Create a second access key on the same user (JSON output — capture it!)
+aws iam create-access-key --user-name nfp-map-vercel-reader > new-key.json
+
+# 2. Update Vercel env vars. IMPORTANT: pipe values via file to avoid a
+#    trailing newline corrupting the stored secret. Do NOT use `echo` without -n.
+vercel env rm AWS_ACCESS_KEY_ID production --scope databelmonts-projects --yes
+vercel env rm AWS_SECRET_ACCESS_KEY production --scope databelmonts-projects --yes
+
+printf '%s' "$(jq -r .AccessKey.AccessKeyId new-key.json)" \
+  | vercel env add AWS_ACCESS_KEY_ID production --scope databelmonts-projects
+printf '%s' "$(jq -r .AccessKey.SecretAccessKey new-key.json)" \
+  | vercel env add AWS_SECRET_ACCESS_KEY production --scope databelmonts-projects
+
+# 3. Redeploy and confirm the build succeeds
+vercel --prod --scope databelmonts-projects
+
+# 4. After the new key is confirmed working, disable and then delete the old one
+aws iam update-access-key --user-name nfp-map-vercel-reader --access-key-id <OLD_AKIA> --status Inactive
+# wait a day or two to make sure nothing else breaks, then:
+aws iam delete-access-key --user-name nfp-map-vercel-reader --access-key-id <OLD_AKIA>
+
+# 5. Shred the temp file
+shred -u new-key.json    # or rm on macOS
+```
+
+**Gotcha we hit once:** Piping a secret to `vercel env add` via `echo "$v"` or Python `input=val+"\n"` embeds the trailing newline into the stored value, which the AWS SDK then passes to the Authorization header — the build fails with `ERR_INVALID_CHAR: Invalid character in header content ["authorization"]`. Use `printf '%s'` (no `-n` needed — `%s` doesn't append newline) or pipe from a file written with no trailing newline.
 
 ---
 
@@ -224,11 +237,11 @@ None of these block production, but they are the load-bearing items the next ope
 
 4. **`sync-data.mjs` streams directly to the target path.** If a download fails mid-stream, the partial file sits where the frontend would `fetch()` it. Low-probability (Vercel retries builds that exit non-zero), but writing to a temp file and renaming on success is a one-line fix.
 
-5. **IAM user + policy for Vercel creds not yet documented.** See §2.2 — the current credentials work but the exact user/policy has not been audited. New operator should document which IAM user is in use and confirm the policy is minimal.
+5. **Pipeline is manual.** Out-of-band operator runs. A scheduled GitHub Action (weekly?) that does `python -m pipeline && aws s3 sync ...` would close the loop. README "Next steps" lists this already.
 
-6. **Pipeline is manual.** Out-of-band operator runs. A scheduled GitHub Action (weekly?) that does `python -m pipeline && aws s3 sync ...` would close the loop. README "Next steps" lists this already.
+6. **S3 bucket versioning status unknown.** Worth enabling on `nfp-food-insecurity-map-data` for cheap accidental-delete recovery.
 
-7. **S3 bucket versioning status unknown.** Worth enabling on `nfp-food-insecurity-map-data` for cheap accidental-delete recovery.
+**Resolved** (2026-04-23): Vercel build now uses a dedicated least-privilege IAM user (`nfp-map-vercel-reader`) instead of the operator's admin keys — see §2.2.
 
 ---
 
