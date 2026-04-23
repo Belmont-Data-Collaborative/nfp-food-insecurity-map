@@ -126,7 +126,26 @@ Both point GeoJSONs use the same property keys (`partner_name`, `partner_type`) 
 
 ## Deployment
 
-Since the frontend is a static site, any static host works: S3 + CloudFront, GitHub Pages, Netlify, Cloudflare Pages, or a plain nginx. The pipeline runs as a cron job / GitHub Action / local script that writes into the `data/` folder that's served. There is no runtime backend.
+Deployed on **Vercel** (project `nfp-food-insecurity-map`, team `databelmonts-projects`). The Vercel build runs `scripts/sync-data.mjs`, which downloads `s3://nfp-food-insecurity-map-data/current/` into local `data/` before serving the static HTML/JS. The Python pipeline is **not** run during the Vercel build — it runs out of band (locally or on a scheduled job) and the operator uploads its output to the output bucket with `aws s3 sync`.
+
+**Two buckets, two roles — do not conflate:**
+- `bdaic-public-transform` — SOURCE inputs. Referenced by `s3_bucket:` in [project.yml](project.yml) and `AWS_BUCKET_NAME` in `.env.example`. Pipeline reads only.
+- `nfp-food-insecurity-map-data` — OUTPUT, served to the website, under the `current/` prefix. Pipeline writes; Vercel reads. The `current/` prefix leaves room for peer prefixes (`archive/`, `staging/`) added later. Hardcoded in `scripts/sync-data.mjs:10-11`.
+
+**Deploy commands:**
+```bash
+# Code change
+vercel --prod --scope databelmonts-projects
+
+# Data change (pipeline re-run)
+python -m pipeline
+aws s3 sync data/ s3://nfp-food-insecurity-map-data/current/ --exclude "mock/*"
+vercel --prod --scope databelmonts-projects     # Vercel does not auto-detect new S3 objects
+```
+
+GitHub auto-deploy is NOT wired — `vercel --prod` uploads the working tree directly. Commit first so git and prod match.
+
+For IAM, env-var rotation, runbook entries, and the onboarding checklist, see [OPERATIONS.md](OPERATIONS.md).
 
 ## Gotchas
 
@@ -135,3 +154,5 @@ Since the frontend is a static site, any static host works: S3 + CloudFront, Git
 - **`index.html` computes its stats dynamically** from `data/config.json`, `data/tracts.geojson`, `data/partners.geojson`, `data/giving_matters.geojson`. If a file is missing, the counter shows `—`; don't hardcode numbers back in.
 - **Serving via `file://` will break `fetch()`** for CORS reasons. Use `python -m http.server` (or any static server) to preview locally.
 - **`src/geocoder.py` was deleted.** The pipeline's geocoding logic lives inline in `pipeline/process_partners.py` and `pipeline/process_giving_matters.py`. Don't resurrect `src/geocoder.py` — there's no Streamlit to cache into anymore.
+- **A source-load failure does not abort the pipeline.** `pipeline/load_source.py::process_data_source` returns `None` on `FileNotFoundError`, and `pipeline/__main__.py::run_data_step` does not check the return value. A failing source will log an error and the run will still exit 0, potentially leaving a stale parquet on disk that gets re-uploaded. After any pipeline run against real S3, scan stderr for `No data found for ...` before running `aws s3 sync`. See [OPERATIONS.md §6](OPERATIONS.md) for the broader list of known gaps.
+- **`python -m pipeline` is not a deploy.** It writes to local `data/`. To ship the result, you also need `aws s3 sync data/ s3://nfp-food-insecurity-map-data/current/` and then `vercel --prod`. Vercel does not re-pull from S3 on its own when new objects arrive.
