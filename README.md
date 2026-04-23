@@ -56,22 +56,24 @@ The site is pure static HTML/JS. Vercel's build step runs `scripts/sync-data.mjs
 ```
 Vercel build:
   npm install @aws-sdk/client-s3
-  node scripts/sync-data.mjs      # pulls s3://bdc-projects/nfp-food-insecurity-map/data/
+  node scripts/sync-data.mjs      # pulls s3://nfp-food-insecurity-map-data/current/
   serve .
 ```
 
-The Python pipeline **does not** run during the Vercel build — `sync-data.mjs` only mirrors pre-built files. The pipeline runs separately (locally or as a scheduled job) and uploads its output to `s3://bdc-projects/nfp-food-insecurity-map/data/`.
+The Python pipeline **does not** run during the Vercel build — `sync-data.mjs` only mirrors pre-built files. The pipeline runs separately (locally or as a scheduled job) and uploads its output to `s3://nfp-food-insecurity-map-data/current/`.
 
 ### S3 buckets (two, on purpose)
 
 | Bucket | Role | Who reads/writes it |
 |---|---|---|
 | `bdaic-public-transform` | Raw SOURCE inputs (Census ACS, CDC PLACES, USDA LILA, partner CSVs) | Pipeline reads. See `s3_bucket:` entries in [project.yml](project.yml). |
-| `bdc-projects` | Built OUTPUT served to the website (`nfp-food-insecurity-map/data/*`) | Pipeline writes; Vercel build reads. |
+| `nfp-food-insecurity-map-data` | Built OUTPUT served to the website (under `current/` prefix) | Pipeline writes; Vercel build reads. |
+
+The `current/` prefix namespaces the live deploy. Peer prefixes (e.g. `archive/<date>/`, `staging/`) can be added later without disrupting the served files.
 
 ### Redeploying
 
-- **Data changed only:** upload new files to `s3://bdc-projects/nfp-food-insecurity-map/data/`, then trigger a Vercel redeploy (dashboard button or `vercel --prod --scope databelmonts-projects`).
+- **Data changed only:** upload new files to `s3://nfp-food-insecurity-map-data/current/`, then trigger a Vercel redeploy (dashboard button or `vercel --prod --scope databelmonts-projects`).
 - **Code changed:** `vercel --prod --scope databelmonts-projects` from the repo root. GitHub auto-deploy is not wired yet — enable via Vercel dashboard → Project → Settings → Git if desired.
 
 ### Required Vercel env vars (Production)
@@ -80,7 +82,7 @@ The Python pipeline **does not** run during the Vercel build — `sync-data.mjs`
 - `AWS_SECRET_ACCESS_KEY`
 - `AWS_DEFAULT_REGION`
 
-These grant read access to `s3://bdc-projects/nfp-food-insecurity-map/data/` only; they are not the pipeline's credentials. Set once per environment with `vercel env add <NAME> production --scope databelmonts-projects`.
+These grant read access to `s3://nfp-food-insecurity-map-data/current/` only; they are not the pipeline's credentials. Set once per environment with `vercel env add <NAME> production --scope databelmonts-projects`.
 
 ## See also
 
@@ -90,7 +92,7 @@ These grant read access to `s3://bdc-projects/nfp-food-insecurity-map/data/` onl
 
 ## Next steps
 
-- **Automate the pipeline run.** Today the pipeline is invoked manually and its output uploaded to `bdc-projects` out of band. A scheduled GitHub Action (weekly/monthly) that runs `python -m pipeline` and `aws s3 sync data/ s3://bdc-projects/nfp-food-insecurity-map/data/` would close the loop.
+- **Automate the pipeline run.** Today the pipeline is invoked manually and its output uploaded to `nfp-food-insecurity-map-data` out of band. A scheduled GitHub Action (weekly/monthly) that runs `python -m pipeline` and `aws s3 sync data/ s3://nfp-food-insecurity-map-data/current/` would close the loop.
 - **Wire GitHub auto-deploy on Vercel.** Each push to `main` should trigger a production deploy. One-time setup in the Vercel dashboard.
 - **Upgrade ACS data to the 2024 release.** The pipeline currently pulls from the 2023 ACS release. Update `project.yml` and the relevant pipeline step to target the 2024 release.
 - **Confirm and upgrade CDC PLACES to the 2025 release.** Verify whether the 2025 PLACES dataset is available in `bdaic-public-transform`. If so, update the pipeline to pull the 2025 release instead of 2024.

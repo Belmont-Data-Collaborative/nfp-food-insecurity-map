@@ -7,8 +7,8 @@ import { S3Client, ListObjectsV2Command, GetObjectCommand } from "@aws-sdk/clien
 import { createWriteStream, mkdirSync } from "fs";
 import { pipeline } from "stream/promises";
 
-const BUCKET = "bdc-projects";
-const PREFIX = "nfp-food-insecurity-map/data/";
+const BUCKET = "nfp-food-insecurity-map-data";
+const PREFIX = "current/";
 const OUTPUT_DIR = "data";
 
 const client = new S3Client({ region: process.env.AWS_DEFAULT_REGION || "us-east-1" });
@@ -19,7 +19,7 @@ const list = await client.send(new ListObjectsV2Command({ Bucket: BUCKET, Prefix
 const objects = (list.Contents || []).filter(o => !o.Key.endsWith("/"));
 
 if (objects.length === 0) {
-  console.error("No files found under", PREFIX);
+  console.error(`No files found in s3://${BUCKET}/${PREFIX}`);
   process.exit(1);
 }
 
