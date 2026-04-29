@@ -94,6 +94,28 @@ data_sources:
         default_visible: false
         multiplier: 100
         caption: "HHD SNAP Benefits (ACS)."
+      - id: disconnected_youth
+        column: "Percent of 16 to 19 Population - Disconnected Youth"
+        display_name: "Disconnected Youth"
+        colormap: OrRd
+        palette: oranges
+        legend_name: "Disconnected Youth (%)"
+        format_str: "{:.1f}%"
+        tooltip_alias: "Disconnected Youth"
+        default_visible: false
+        multiplier: 100
+        caption: "Share of 16–19 year olds not enrolled in school and not working."
+      - id: hs_graduation
+        column: "Percent of Over 25 Population - High School Graduate"
+        display_name: "High School Graduation"
+        colormap: YlGn
+        palette: greens
+        legend_name: "High School Graduation (%)"
+        format_str: "{:.1f}%"
+        tooltip_alias: "HS Graduation"
+        default_visible: false
+        multiplier: 100
+        caption: "Share of adults 25+ who have graduated high school."
 
   health_lila:
     source_type: s3

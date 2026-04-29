@@ -102,6 +102,30 @@
     .indicator-list .row .lbl { flex: 1; font-size: 0.88rem; }
     .indicator-list .row .unit { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-400); }
 
+    /* Indicator categories (collapsible) */
+    .indicator-cat { display: flex; flex-direction: column; }
+    .indicator-cat-header {
+      display: flex; align-items: center; gap: 8px;
+      width: 100%; padding: 6px 8px;
+      background: transparent; border: 0; border-radius: 6px;
+      cursor: pointer; text-align: left;
+      font: 500 0.82rem var(--font-sans); color: var(--ink-700);
+    }
+    .indicator-cat-header:hover { background: var(--ink-100); }
+    .indicator-cat-header .caret {
+      flex-shrink: 0; color: var(--ink-400);
+      transition: transform 0.18s ease;
+    }
+    .indicator-cat.open .indicator-cat-header .caret { transform: rotate(90deg); }
+    .indicator-cat-header .lbl { flex: 1; }
+    .indicator-cat-header .count {
+      font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-400);
+    }
+    .indicator-cat-body {
+      display: none; flex-direction: column; gap: 2px; padding-left: 14px;
+    }
+    .indicator-cat.open > .indicator-cat-body { display: flex; }
+
     /* Partner / GM list */
     .partner-list, .gm-list { display: flex; flex-direction: column; gap: 2px; }
     .partner-list .row, .gm-list .row {

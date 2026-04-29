@@ -69,6 +69,9 @@ function applyConfig(cfg) {
 const state = {
   geo: "tract",
   indicator: "median_household_income",
+  // Lazy-init to a Set on first renderIndicatorList() so the category holding
+  // the active indicator opens by default.
+  expandedCategories: null,
   // Populated from PARTNER_TYPES in applyConfig(); empty until config loads.
   orgFilters: new Set(),
   showPartners: true,
@@ -365,6 +368,8 @@ function openFeatureDetail(f, layer) {
   const income = valueFor(geoid, "median_household_income");
   const poverty = valueFor(geoid, "poverty_rate");
   const snap = valueFor(geoid, "snap_benefits");
+  const disconnYouth = valueFor(geoid, "disconnected_youth");
+  const hsGrad = valueFor(geoid, "hs_graduation");
   const pop = valueFor(geoid, "total_population");
   const diabetes = valueFor(geoid, "diabetes");
   const hypertension = valueFor(geoid, "hypertension");
@@ -381,9 +386,11 @@ function openFeatureDetail(f, layer) {
     </div>
   `;
 
-  const economicSection = (snap != null) ? `
-    <h4>Economic indicators</h4>
-    <div class="bar"><span class="k">SNAP Benefits</span><div class="track"><div class="fill" style="width:${Math.min(100, snap)}%; background: var(--accent-purple, #744f93);"></div></div><span class="v">${snap.toFixed(1)}%</span></div>
+  const economicSection = (snap != null || hsGrad != null || disconnYouth != null) ? `
+    <h4>Economic &amp; demographic indicators</h4>
+    ${snap != null ? `<div class="bar"><span class="k">SNAP Benefits</span><div class="track"><div class="fill" style="width:${Math.min(100, snap)}%; background: var(--accent-purple, #744f93);"></div></div><span class="v">${snap.toFixed(1)}%</span></div>` : ""}
+    ${hsGrad != null ? `<div class="bar"><span class="k">HS Graduation</span><div class="track"><div class="fill" style="width:${Math.min(100, hsGrad)}%; background: var(--nfp-green-600);"></div></div><span class="v">${hsGrad.toFixed(1)}%</span></div>` : ""}
+    ${disconnYouth != null ? `<div class="bar"><span class="k">Disconnected Youth</span><div class="track"><div class="fill" style="width:${Math.min(100, disconnYouth)}%; background: #d76f17;"></div></div><span class="v">${disconnYouth.toFixed(1)}%</span></div>` : ""}
   ` : "";
 
   const healthSection = (diabetes != null || hypertension != null || obesity != null) ? `
@@ -476,34 +483,87 @@ function nearestPartners(centroid, n) {
 }
 
 // ---------- Sidebar ----------
+const INDICATOR_CATEGORIES = [
+  { id: "economic",    label: "Economic & Demographics" },
+  { id: "health",      label: "Health Outcomes" },
+  { id: "food_access", label: "Food Access" },
+];
+
+const SRC_TO_CATEGORY = {
+  acs: "economic",
+  health: "health",
+  lila: "food_access",
+};
+
+// SNAP is published from the ACS source but presented as a food-access
+// signal, so override its grouping into Food Access.
+function categoryForIndicator(ind) {
+  if (ind.id === "snap_benefits") return "food_access";
+  return SRC_TO_CATEGORY[ind.src] || "economic";
+}
+
 function renderIndicatorList() {
   const el = document.getElementById("indicator-list");
   const available = INDICATORS.filter(i => i.granularities.includes(state.geo));
   const unavailable = INDICATORS.filter(i => !i.granularities.includes(state.geo));
   document.getElementById("layer-count").textContent = `${available.length} available`;
 
+  if (state.expandedCategories === null) {
+    state.expandedCategories = new Set();
+    const ind = INDICATORS.find(i => i.id === state.indicator);
+    if (ind) state.expandedCategories.add(categoryForIndicator(ind));
+  }
+
   const noneRow = `<div class="row ${state.indicator == null ? 'on' : ''}" data-id="__none__">
     <div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m5 5 14 14"/></svg></div>
     <div class="lbl">No layer (basemap only)</div>
   </div>`;
 
-  el.innerHTML = noneRow + available.map(ind => `
+  const indicatorRow = (ind) => `
     <div class="row ${state.indicator === ind.id ? 'on' : ''}" data-id="${ind.id}">
       <div class="ico">${indicatorIcon(ind.id)}</div>
       <div class="lbl">${ind.label}</div>
       <div class="unit">${ind.unit}</div>
     </div>
-  `).join("") + (unavailable.length ? `
+  `;
+
+  const groupsHtml = INDICATOR_CATEGORIES.map(cat => {
+    const inds = available.filter(ind => categoryForIndicator(ind) === cat.id);
+    if (!inds.length) return "";
+    const open = state.expandedCategories.has(cat.id);
+    return `
+      <div class="indicator-cat ${open ? 'open' : ''}" data-cat-id="${cat.id}">
+        <button type="button" class="indicator-cat-header" aria-expanded="${open}">
+          <svg class="caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg>
+          <span class="lbl">${cat.label}</span>
+          <span class="count">${inds.length}</span>
+        </button>
+        <div class="indicator-cat-body">${inds.map(indicatorRow).join("")}</div>
+      </div>
+    `;
+  }).join("");
+
+  el.innerHTML = noneRow + groupsHtml + (unavailable.length ? `
     <div style="font-size:0.76rem;color:var(--ink-500);margin-top:8px;padding:0 8px;line-height:1.5;">
       Tract-only: ${unavailable.map(u => u.label).join(", ")}
     </div>
   ` : "");
+
+  el.querySelectorAll(".indicator-cat-header").forEach(h => {
+    h.addEventListener("click", () => {
+      const catId = h.parentElement.dataset.catId;
+      if (state.expandedCategories.has(catId)) state.expandedCategories.delete(catId);
+      else state.expandedCategories.add(catId);
+      renderIndicatorList();
+    });
+  });
 
   el.querySelectorAll(".row").forEach(r => {
     r.addEventListener("click", () => {
       const id = r.dataset.id;
       state.indicator = id === "__none__" ? null : id;
       const ind = INDICATORS.find(i => i.id === state.indicator);
+      if (ind) state.expandedCategories.add(categoryForIndicator(ind));
       if (ind && !ind.categorical) state.palette = ind.palette;
       renderIndicatorList();
       drawChoropleth();
@@ -520,6 +580,8 @@ function indicatorIcon(id) {
     median_household_income: base(`<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>`),
     poverty_rate:            base(`<path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/>`),
     total_population:        base(`<circle cx="9" cy="10" r="3"/><circle cx="17" cy="10" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><path d="M15 20c0-2 2-4 5-4s4 2 4 4"/>`),
+    disconnected_youth:      base(`<circle cx="9" cy="8" r="3"/><path d="M3 21c0-4 3-7 6-7"/><path d="M15 13l7 7M22 13l-7 7"/>`),
+    hs_graduation:           base(`<path d="M2 9l10-4 10 4-10 4-10-4z"/><path d="M6 11v4c0 1 3 2.5 6 2.5s6-1.5 6-2.5v-4"/><path d="M22 9v5"/>`),
     diabetes:                base(`<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>`),
     hypertension:            base(`<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>`),
     obesity:                 base(`<circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/>`),

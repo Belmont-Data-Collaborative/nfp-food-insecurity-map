@@ -64,7 +64,7 @@ class TestConfigLoader:
 
     def test_get_all_layer_configs_returns_9_layers(self):
         layers = config_loader.get_all_layer_configs()
-        assert len(layers) == 9  # 3 census + 3 health + 3 USDA LILA
+        assert len(layers) == 12  # 6 census + 3 health + 3 USDA LILA
         columns = [layer["column"] for layer in layers]
         assert "DP03_0062E" in columns
         assert "DP03_0119PE" in columns
