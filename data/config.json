@@ -94,6 +94,36 @@
       "default_visible": false
     },
     {
+      "id": "disconnected_youth",
+      "label": "Disconnected Youth",
+      "col": "Percent of 16 to 19 Population - Disconnected Youth",
+      "src": "acs",
+      "granularities": [
+        "tract",
+        "zip"
+      ],
+      "palette": "oranges",
+      "fmt": "{:.1f}%",
+      "caption": "Share of 16\u201319 year olds not enrolled in school and not working.",
+      "unit_label": "Disconnected Youth (%)",
+      "default_visible": false
+    },
+    {
+      "id": "hs_graduation",
+      "label": "High School Graduation",
+      "col": "Percent of Over 25 Population - High School Graduate",
+      "src": "acs",
+      "granularities": [
+        "tract",
+        "zip"
+      ],
+      "palette": "greens",
+      "fmt": "{:.1f}%",
+      "caption": "Share of adults 25+ who have graduated high school.",
+      "unit_label": "High School Graduation (%)",
+      "default_visible": false
+    },
+    {
       "id": "diabetes",
       "label": "Diabetes Prevalence",
       "col": "DIABETES",
