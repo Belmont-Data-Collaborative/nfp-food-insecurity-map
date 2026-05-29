@@ -68,7 +68,7 @@ function applyConfig(cfg) {
 // ---------- State ----------
 const state = {
   geo: "tract",
-  indicator: "median_household_income",
+  indicator: "lila_flag",
   // Populated from PARTNER_TYPES in applyConfig(); empty until config loads.
   orgFilters: new Set(),
   showPartners: true,
@@ -184,6 +184,7 @@ function indicatorRange(indicatorId) {
 
 // ---------- Map ----------
 let map, choroplethLayer, countyLayer, highlightLayer;
+let hoveredLayer = null;
 let nfpClusterLayer, gmClusterLayer;
 
 function initMap() {
@@ -230,16 +231,20 @@ function styleFeature(f) {
 
 function drawChoropleth() {
   if (choroplethLayer) { map.removeLayer(choroplethLayer); choroplethLayer = null; }
+  hoveredLayer = null;
   const src = state.geo === "tract" ? state.data.tracts : state.data.zipcodes;
   if (!src) return;
   choroplethLayer = L.geoJSON(src, {
     style: styleFeature,
     onEachFeature: (f, layer) => {
       layer.on("mouseover", () => {
+        if (hoveredLayer && hoveredLayer !== highlightLayer) choroplethLayer.resetStyle(hoveredLayer);
+        hoveredLayer = layer;
         layer.setStyle({ weight: 2, color: "#14391a" });
         layer.bringToFront();
       });
       layer.on("mouseout", () => {
+        hoveredLayer = null;
         if (layer !== highlightLayer) choroplethLayer.resetStyle(layer);
       });
       layer.on("click", () => openFeatureDetail(f, layer));
@@ -271,7 +276,9 @@ function makeClusterGroup(theme) {
   const bg = theme === "nfp" ? "#e3efe4" : "#fde4e0";
   return L.markerClusterGroup({
     showCoverageOnHover: false,
-    maxClusterRadius: 50,
+    maxClusterRadius: 40,
+    disableClusteringAtZoom: 13,
+    spiderfyDistanceMultiplier: 1.4,
     spiderfyOnMaxZoom: true,
     iconCreateFunction: (cluster) => {
       const count = cluster.getChildCount();
@@ -310,7 +317,7 @@ function pointToMarker(f, theme) {
     })
   });
   const name = p.partner_name || p.name || "Organization";
-  const affiliation = theme === "nfp" ? "NFP Partner" : "Giving Matters";
+  const affiliation = theme === "nfp" ? "TNFP Partner" : "Giving Matters";
   marker.bindPopup(`
     <div class="tt-title">${name}</div>
     <div style="font-size:0.78rem;color:var(--ink-500);margin-bottom:6px;">${p.address || ""}</div>
@@ -401,7 +408,7 @@ function openFeatureDetail(f, layer) {
   const centroid = featureCentroid(f);
   const nearby = nearestPartners(centroid, 5);
   const partnersSection = nearby.length ? `
-    <h4>Nearby NFP partners</h4>
+    <h4>Nearby TNFP partners</h4>
     <div class="partners-near">
       ${nearby.map(n => {
         const meta = PARTNER_TYPES[n.type] || PARTNER_TYPES.other;
@@ -412,7 +419,7 @@ function openFeatureDetail(f, layer) {
         </div>`;
       }).join("")}
     </div>
-  ` : `<h4>Nearby NFP partners</h4><div style="font-size:0.82rem;color:var(--ink-500);">No NFP partners within 15 miles — candidate underserved area.</div>`;
+  ` : `<h4>Nearby TNFP partners</h4><div style="font-size:0.82rem;color:var(--ink-500);">No TNFP partners within 15 miles — candidate underserved area.</div>`;
 
   body.innerHTML = statGrid + economicSection + healthSection + accessSection + partnersSection +
     `<h4>Identifier</h4><div class="mono" style="color:var(--ink-600);">${geoid}</div>`;
@@ -490,8 +497,9 @@ function renderIndicatorList() {
   el.innerHTML = noneRow + available.map(ind => `
     <div class="row ${state.indicator === ind.id ? 'on' : ''}" data-id="${ind.id}">
       <div class="ico">${indicatorIcon(ind.id)}</div>
-      <div class="lbl">${ind.label}</div>
+      <div class="lbl">${ind.label}${ind.src === "lila" ? `<span title="${ind.caption}" style="font-size:0.7rem;color:var(--ink-400);cursor:help;margin-left:2px;">ⓘ</span>` : ""}</div>
       <div class="unit">${ind.unit}</div>
+      <div class="year">${ind.data_year || ""}</div>
     </div>
   `).join("") + (unavailable.length ? `
     <div style="font-size:0.76rem;color:var(--ink-500);margin-top:8px;padding:0 8px;line-height:1.5;">
@@ -554,7 +562,7 @@ function renderOrgList() {
         <input type="checkbox" data-id="${id}" ${state.orgFilters.has(id) ? "checked" : ""}/>
         <span class="dot" style="background:${meta.color}"></span>
         <span class="lbl">${meta.label}</span>
-        <span class="n" title="${n} NFP · ${g} Giving Matters">${(n + g).toLocaleString()}${n ? ` <span style="color:var(--nfp-green-700);font-weight:600">·${n}</span>` : ""}</span>
+        <span class="n" title="${n} TNFP · ${g} Giving Matters">${(n + g).toLocaleString()}${n ? ` <span style="color:var(--nfp-green-700);font-weight:600">·${n}</span>` : ""}</span>
       </label>
     `;
   }).join("");
@@ -576,7 +584,7 @@ function updatePartnerCount() {
     ? state.data.partners.features.filter(f => state.orgFilters.has(f.properties.partner_type)).length
     : 0;
   const el = document.getElementById("nfp-count");
-  if (el) el.textContent = `${visible}/${total} NFP`;
+  if (el) el.textContent = `${visible}/${total} TNFP`;
 }
 
 function updateGmCount() {
@@ -635,7 +643,7 @@ function setupSearch() {
       for (const f of state.data.partners.features) {
         const p = f.properties;
         if ((p.partner_name || "").toLowerCase().includes(q) || (p.address || "").toLowerCase().includes(q)) {
-          results.push({ kind: "NFP", title: p.partner_name, sub: p.address, type: "partner", coords: f.geometry.coordinates });
+          results.push({ kind: "TNFP", title: p.partner_name, sub: p.address, type: "partner", coords: f.geometry.coordinates });
           if (results.length >= 6) break;
         }
       }
@@ -936,7 +944,10 @@ async function init() {
       state.geo = b.dataset.geo;
       document.querySelectorAll("#geo-toggle button").forEach(x => x.classList.toggle("on", x === b));
       const ind = INDICATORS.find(i => i.id === state.indicator);
-      if (ind && !ind.granularities.includes(state.geo)) state.indicator = null;
+      if (ind && !ind.granularities.includes(state.geo)) {
+        console.warn(`Indicator "${state.indicator}" unavailable for geo "${state.geo}"; switching to median_household_income`);
+        state.indicator = "median_household_income";
+      }
       drawChoropleth();
       renderIndicatorList();
       updateLegend();

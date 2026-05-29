@@ -68,6 +68,7 @@ def _build_indicators() -> list[dict]:
                 "caption": var.get("caption", ""),
                 "unit_label": var.get("legend_name", ""),
                 "default_visible": bool(var.get("default_visible", False)),
+                "data_year": var.get("data_year", ""),
             }
             if var.get("layer_type") == "categorical":
                 indicator["categorical"] = True

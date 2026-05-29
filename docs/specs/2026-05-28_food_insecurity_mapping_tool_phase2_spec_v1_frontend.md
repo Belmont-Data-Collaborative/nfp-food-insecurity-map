@@ -4,7 +4,7 @@
 | Field | Value |
 |---|---|
 | **Spec ID** | phase2-frontend-p1 |
-| **Status** | draft |
+| **Status** | approved |
 | **Date** | 2026-05-28 |
 | **Author** | BDAIC / Belmont Data Collaborative |
 | **Awaiting approval from** | Tommy |
@@ -49,7 +49,7 @@ Do **not** change:
 - `project.yml` `primary_org: "Nashville Food Project"` — this is correct
 - `project.yml` `name: "NFP Food Insecurity Map"` — this is the tool's name, not the org abbreviation
 - Any CSS class names, variable names, or element IDs
-- The `Map.html` page `<title>` ("NFP Food Insecurity Map — Map") — this is the product name, not the org label
+- ~~The `Map.html` page `<title>` ("NFP Food Insecurity Map — Map") — this is the product name, not the org label~~ *(amended: all three page titles updated to "TNFP Food Insecurity Map" per post-approval feedback)*
 
 ---
 

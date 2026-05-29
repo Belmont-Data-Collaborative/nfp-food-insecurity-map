@@ -46,7 +46,8 @@
       "fmt": "${:,.0f}",
       "caption": "ACS 2020\u20132024 5-year estimates.",
       "unit_label": "Median Household Income ($)",
-      "default_visible": true
+      "default_visible": true,
+      "data_year": "2020\u20132024"
     },
     {
       "id": "poverty_rate",
@@ -61,7 +62,8 @@
       "fmt": "{:.1f}%",
       "caption": "Share of population below federal poverty line.",
       "unit_label": "Poverty Rate (%)",
-      "default_visible": false
+      "default_visible": false,
+      "data_year": "2020\u20132024"
     },
     {
       "id": "total_population",
@@ -76,7 +78,8 @@
       "fmt": "{:,.0f}",
       "caption": "Total population (ACS).",
       "unit_label": "Population",
-      "default_visible": false
+      "default_visible": false,
+      "data_year": "2020\u20132024"
     },
     {
       "id": "snap_benefits",
@@ -91,7 +94,8 @@
       "fmt": "{:.1f}%",
       "caption": "HHD SNAP Benefits (ACS).",
       "unit_label": "HHD SNAP Benefits (%)",
-      "default_visible": false
+      "default_visible": false,
+      "data_year": "2020\u20132024"
     },
     {
       "id": "diabetes",
@@ -106,7 +110,8 @@
       "fmt": "{:.1f}%",
       "caption": "CDC PLACES modeled prevalence.",
       "unit_label": "Diabetes Prevalence (%)",
-      "default_visible": false
+      "default_visible": false,
+      "data_year": "2024"
     },
     {
       "id": "hypertension",
@@ -121,7 +126,8 @@
       "fmt": "{:.1f}%",
       "caption": "CDC PLACES high blood pressure prevalence.",
       "unit_label": "Hypertension Prevalence (%)",
-      "default_visible": false
+      "default_visible": false,
+      "data_year": "2024"
     },
     {
       "id": "obesity",
@@ -136,7 +142,8 @@
       "fmt": "{:.1f}%",
       "caption": "CDC PLACES obesity prevalence (BMI \u2265 30).",
       "unit_label": "Obesity Prevalence (%)",
-      "default_visible": false
+      "default_visible": false,
+      "data_year": "2024"
     },
     {
       "id": "lila_flag",
@@ -148,9 +155,10 @@
       ],
       "palette": "categorical",
       "fmt": "{}",
-      "caption": "USDA low-income + low-access census tracts (tract-only).",
+      "caption": "USDA designation: tract where \u2265500 residents (or \u226533% of population) live >1 mile from a supermarket AND tract median income \u226480% of area median. Urban thresholds; rural uses 10-mile cutoff. Source: USDA ERS Food Access Research Atlas, 2019.\n",
       "unit_label": "Low Income + Low Access",
       "default_visible": false,
+      "data_year": "2019",
       "categorical": true,
       "categories": {
         "0": "Not LILA",
@@ -167,9 +175,10 @@
       ],
       "palette": "teals",
       "fmt": "{:,.0f}",
-      "caption": "Residents >1 mile from a supermarket (tract-only).",
+      "caption": "Number of residents living more than 1 mile (urban) or 10 miles (rural) from the nearest supermarket, regardless of income level. Source: USDA ERS Food Access Research Atlas, 2019.\n",
       "unit_label": "Population Beyond 1 mi from Supermarket",
-      "default_visible": false
+      "default_visible": false,
+      "data_year": "2019"
     },
     {
       "id": "lalowi1",
@@ -181,9 +190,10 @@
       ],
       "palette": "ambers",
       "fmt": "{:,.0f}",
-      "caption": "Low-income residents >1 mile from a supermarket (tract-only).",
+      "caption": "Low-income residents (HH income \u226480% of area median) who also live more than 1 mile (urban) or 10 miles (rural) from the nearest supermarket. Source: USDA ERS Food Access Research Atlas, 2019.\n",
       "unit_label": "Low Income Pop Beyond 1 mi",
-      "default_visible": false
+      "default_visible": false,
+      "data_year": "2019"
     }
   ],
   "partner_types": {

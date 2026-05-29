@@ -61,6 +61,7 @@ data_sources:
         format_str: "${:,.0f}"
         tooltip_alias: "Income"
         default_visible: true
+        data_year: "2020–2024"
         caption: "ACS 2020–2024 5-year estimates."
       - id: poverty_rate
         column: "Percent of Population Below Poverty Level"
@@ -72,6 +73,7 @@ data_sources:
         tooltip_alias: "Poverty"
         default_visible: false
         multiplier: 100
+        data_year: "2020–2024"
         caption: "Share of population below federal poverty line."
       - id: total_population
         column: "Total Population"
@@ -82,6 +84,7 @@ data_sources:
         format_str: "{:,.0f}"
         tooltip_alias: "Population"
         default_visible: false
+        data_year: "2020–2024"
         caption: "Total population (ACS)."
       - id: snap_benefits
         column: "Percent of Households that received SNAP benefits"
@@ -93,6 +96,7 @@ data_sources:
         tooltip_alias: "SNAP"
         default_visible: false
         multiplier: 100
+        data_year: "2020–2024"
         caption: "HHD SNAP Benefits (ACS)."
 
   health_lila:
@@ -117,6 +121,7 @@ data_sources:
         format_str: "{:.1f}%"
         tooltip_alias: "Diabetes"
         default_visible: false
+        data_year: "2024"
         caption: "CDC PLACES modeled prevalence."
       - id: hypertension
         column: BPHIGH
@@ -127,6 +132,7 @@ data_sources:
         format_str: "{:.1f}%"
         tooltip_alias: "Hypertension"
         default_visible: false
+        data_year: "2024"
         caption: "CDC PLACES high blood pressure prevalence."
       - id: obesity
         column: OBESITY
@@ -137,6 +143,7 @@ data_sources:
         format_str: "{:.1f}%"
         tooltip_alias: "Obesity"
         default_visible: false
+        data_year: "2024"
         caption: "CDC PLACES obesity prevalence (BMI ≥ 30)."
 
   usda_lila:
@@ -164,7 +171,12 @@ data_sources:
         tooltip_alias: "LILA"
         default_visible: false
         layer_type: categorical
-        caption: "USDA low-income + low-access census tracts (tract-only)."
+        data_year: "2019"
+        caption: >
+          USDA designation: tract where ≥500 residents (or ≥33% of population)
+          live >1 mile from a supermarket AND tract median income ≤80% of
+          area median. Urban thresholds; rural uses 10-mile cutoff.
+          Source: USDA ERS Food Access Research Atlas, 2019.
         categories:
           0: "Not LILA"
           1: "LILA Tract"
@@ -177,7 +189,11 @@ data_sources:
         format_str: "{:,.0f}"
         tooltip_alias: "Low Access Pop"
         default_visible: false
-        caption: "Residents >1 mile from a supermarket (tract-only)."
+        data_year: "2019"
+        caption: >
+          Number of residents living more than 1 mile (urban) or 10 miles
+          (rural) from the nearest supermarket, regardless of income level.
+          Source: USDA ERS Food Access Research Atlas, 2019.
       - id: lalowi1
         column: lalowi1
         display_name: "Low Income, Low Access Population (1 mi)"
@@ -187,7 +203,11 @@ data_sources:
         format_str: "{:,.0f}"
         tooltip_alias: "LI Low Access Pop"
         default_visible: false
-        caption: "Low-income residents >1 mile from a supermarket (tract-only)."
+        data_year: "2019"
+        caption: >
+          Low-income residents (HH income ≤80% of area median) who also live
+          more than 1 mile (urban) or 10 miles (rural) from the nearest
+          supermarket. Source: USDA ERS Food Access Research Atlas, 2019.
 
   giving_matters:
     source_type: s3

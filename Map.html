@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>NFP Food Insecurity Map — Map</title>
+  <title>TNFP Food Insecurity Map — Map</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -101,6 +101,7 @@
     .indicator-list .row.on .ico { color: var(--nfp-green-700); }
     .indicator-list .row .lbl { flex: 1; font-size: 0.88rem; }
     .indicator-list .row .unit { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-400); }
+    .indicator-list .row .year { font-size: 0.68rem; font-family: var(--font-mono); color: var(--ink-400); margin-left: auto; flex-shrink: 0; }
 
     /* Partner / GM list */
     .partner-list, .gm-list { display: flex; flex-direction: column; gap: 2px; }
@@ -373,7 +374,7 @@
       <div style="display:flex; gap:6px; margin-bottom:10px;">
         <label class="src-chip on" data-src-toggle="nfp" style="flex:1; display:flex; align-items:center; gap:6px; padding:6px 8px; border:1px solid var(--ink-200); border-radius:6px; cursor:pointer; font-size:0.78rem;">
           <span style="width:10px;height:10px;border-radius:50%;background:#1b5e20;border:2px solid white;box-shadow:0 0 0 1px #1b5e20;flex-shrink:0;"></span>
-          <span style="flex:1;">NFP Partners</span>
+          <span style="flex:1;">TNFP Partners</span>
           <input type="checkbox" checked style="margin:0;accent-color:var(--nfp-green-700);"/>
         </label>
         <label class="src-chip on" data-src-toggle="gm" style="flex:1; display:flex; align-items:center; gap:6px; padding:6px 8px; border:1px solid var(--ink-200); border-radius:6px; cursor:pointer; font-size:0.78rem;">
@@ -384,7 +385,7 @@
       </div>
       <div class="partner-list" id="org-list"></div>
       <div style="font-size:0.72rem;color:var(--ink-500);margin-top:8px;line-height:1.5;">
-        Counts show total orgs per category &middot; <span style="color:var(--nfp-green-700);font-weight:600">&middot;N</span> marks NFP partners.
+        Counts show total orgs per category &middot; <span style="color:var(--nfp-green-700);font-weight:600">&middot;N</span> marks TNFP partners.
       </div>
     </div>
 
