@@ -193,7 +193,10 @@ function initMap() {
     zoom: 9,
     minZoom: 7,
     maxZoom: 16,
-    zoomControl: true
+    zoomControl: true,
+    zoomSnap: 0.5,
+    zoomDelta: 0.5,
+    wheelPxPerZoomLevel: 120,
   });
 
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
@@ -972,6 +975,12 @@ async function init() {
   // Panel hide (floating)
   document.getElementById("panel-toggle").addEventListener("click", () => {
     applyPanels(state.panels === "hide" ? "show" : "hide");
+  });
+
+  document.getElementById("legend-toggle").addEventListener("click", () => {
+    const legend = document.getElementById("legend");
+    const expanded = legend.classList.toggle("expanded");
+    document.getElementById("legend-toggle").title = expanded ? "Collapse legend" : "Expand legend";
   });
 
   document.getElementById("detail-close").addEventListener("click", () => {

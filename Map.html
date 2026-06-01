@@ -187,9 +187,13 @@
       position: absolute;
       bottom: 24px; left: 14px;
       background: white; border: 1px solid var(--ink-200);
-      border-radius: 8px; padding: 12px 14px; min-width: 240px;
+      border-radius: 8px; padding: 12px 14px; min-width: 220px;
       box-shadow: var(--shadow); z-index: 400;
     }
+    .legend-hd {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;
+    }
+    .legend-hd-text { flex: 1; min-width: 0; }
     .legend .title {
       font-family: var(--font-mono); font-size: 0.68rem;
       text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-500); margin-bottom: 4px;
@@ -198,6 +202,16 @@
       font-family: var(--font-serif); font-weight: 600;
       color: var(--nfp-green-900); font-size: 0.95rem; margin-bottom: 8px;
     }
+    .legend-toggle {
+      flex-shrink: 0; background: none; border: none; cursor: pointer;
+      color: var(--ink-400); padding: 2px; line-height: 1;
+      transition: color 0.15s;
+    }
+    .legend-toggle:hover { color: var(--ink-700); }
+    .legend-toggle svg { display: block; transition: transform 0.2s; }
+    .legend.expanded .legend-toggle svg { transform: rotate(180deg); }
+    .legend-body { overflow: hidden; }
+    .legend:not(.expanded) .legend-body { display: none; }
     .legend .scale { height: 10px; border-radius: 3px; margin: 6px 0 4px; }
     .legend .ticks {
       display: flex; justify-content: space-between;
@@ -441,11 +455,20 @@
       </div>
     </div>
 
-    <div class="legend" id="legend" style="display:none;">
-      <div class="title" id="legend-eyebrow">Indicator</div>
-      <div class="name" id="legend-name">—</div>
+    <div class="legend expanded" id="legend" style="display:none;">
+      <div class="legend-hd">
+        <div class="legend-hd-text">
+          <div class="title" id="legend-eyebrow">Indicator</div>
+          <div class="name" id="legend-name">—</div>
+        </div>
+        <button class="legend-toggle" id="legend-toggle" title="Expand legend">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+      </div>
       <div id="legend-scale-wrap"></div>
-      <div class="caption" id="legend-caption"></div>
+      <div class="legend-body" id="legend-body">
+        <div class="caption" id="legend-caption"></div>
+      </div>
     </div>
 
     <div class="detail" id="detail">
