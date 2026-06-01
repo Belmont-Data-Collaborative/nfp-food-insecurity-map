@@ -58,10 +58,10 @@ class TestBug2S3Prefixes:
         prefix = project_config["data_sources"]["census_acs"]["s3_prefix"]["tract"]
         assert not prefix.startswith("nfp-mapping/"), (
             f"Census ACS tract prefix '{prefix}' uses nonexistent nfp-mapping/ path. "
-            "Actual data is at census_acs5_profile/geo_tract/"
+            "Actual data is at census_acs5/geo_tract/"
         )
-        assert "census_acs5_profile" in prefix, (
-            f"Census ACS tract prefix should reference census_acs5_profile, got: {prefix}"
+        assert "census_acs5" in prefix, (
+            f"Census ACS tract prefix should reference census_acs5, got: {prefix}"
         )
 
     def test_health_lila_tract_prefix_is_real_s3_path(self, project_config):
