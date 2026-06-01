@@ -20,6 +20,7 @@ import io
 import json
 import logging
 import os
+import re
 import time
 from pathlib import Path
 from typing import Any
@@ -48,6 +49,17 @@ DEFAULT_LOCAL_CACHE = "giving_matters_geocode_cache.csv"
 CENSUS_BATCH_URL = "https://geocoding.geo.census.gov/geocoder/locations/addressbatch"
 CENSUS_BATCH_SIZE = 1000  # API limit per request
 CACHE_SAVE_INTERVAL = 50  # Save cache after every N new Nominatim results
+
+
+def _is_po_box(address: str) -> bool:
+    """Return True if address is a PO Box and should not be geocoded."""
+    if not address:
+        return False
+    return bool(re.search(
+        r'\b(p\.?\s*o\.?\s*box|po\s+box|post\s+office\s+box)\b',
+        address,
+        re.IGNORECASE,
+    ))
 
 
 def _validate_msa_coords(lat: float, lon: float) -> bool:
@@ -158,17 +170,15 @@ def _build_query(row: pd.Series) -> str | None:
     """Build a Nominatim query string from a row.
 
     Uses the full ``address`` column when available, appending city/state
-    when the address lacks them. Falls back to ``city, county, TN`` for
-    P.O. Box entries with no street address.
+    when the address lacks them. Returns None for rows with no address
+    (PO Box rows are filtered before this function is called).
     """
     address = str(row.get("address") or "").strip()
     city = str(row.get("city") or "").strip()
     county = str(row.get("county") or "").strip()
     state = str(row.get("state") or "Tennessee").strip() or "Tennessee"
 
-    is_po_box = address.upper().startswith(("P.O.", "PO BOX", "P O BOX"))
-
-    if address and not is_po_box:
+    if address:
         # Some addresses include city/state ("333 Welshwood Dr, Nashville, TN");
         # others are bare ("306 Jackson St"). Append any context tokens that
         # aren't already present so Nominatim can resolve bare street names.
@@ -184,7 +194,7 @@ def _build_query(row: pd.Series) -> str | None:
             return f"{address}, " + ", ".join(suffix_parts)
         return address
 
-    # P.O. Box or missing address — fall back to city-level geocoding.
+    # Missing address — fall back to city-level geocoding.
     parts = [p for p in (city, f"{county} County" if county else "", state, "USA") if p]
     return ", ".join(parts) if parts else None
 
@@ -277,10 +287,23 @@ def _geocode_rows(
         if addr and pd.notna(lat) and pd.notna(lon):
             cache_lookup[addr] = (float(lat), float(lon))
 
-    # Build (row_index, query, row) for every row; None query → immediate miss
-    all_rows: list[tuple[int, str | None, pd.Series]] = [
-        (i, _build_query(row), row) for i, (_, row) in enumerate(df.iterrows())
-    ]
+    # Build (row_index, query, row) for every row.
+    # PO Box addresses are skipped before geocoding — query set to None.
+    po_box_count = 0
+    all_rows: list[tuple[int, str | None, pd.Series]] = []
+    for i, (_, row) in enumerate(df.iterrows()):
+        address = str(row.get("address") or "").strip()
+        if _is_po_box(address):
+            name = str(row.get("partner_name") or "").strip()
+            logger.warning(
+                "Skipping PO Box address (will not appear on map): %s — %s",
+                name, address,
+            )
+            po_box_count += 1
+            all_rows.append((i, None, row))
+        else:
+            all_rows.append((i, _build_query(row), row))
+
     uncached = [(i, q, row) for i, q, row in all_rows if q and q not in cache_lookup]
 
     new_cache: list[dict] = []
@@ -381,8 +404,8 @@ def _geocode_rows(
     df["geocode_status"] = statuses
 
     logger.info(
-        "Giving Matters: %d/%d geocoded successfully (%d failed)",
-        success, success + failed, failed,
+        "Giving Matters geocoded: %d, failed: %d, skipped (PO Box): %d",
+        success, failed, po_box_count,
     )
     return df
 

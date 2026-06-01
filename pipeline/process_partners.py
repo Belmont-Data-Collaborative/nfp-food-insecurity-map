@@ -9,6 +9,7 @@ import io
 import json
 import logging
 import os
+import re
 import time
 from pathlib import Path
 from typing import Any
@@ -27,6 +28,17 @@ DAVIDSON_BBOX = {
     "min_lon": -87.05,
     "max_lon": -86.52,
 }
+
+
+def _is_po_box(address: str) -> bool:
+    """Return True if address is a PO Box and should not be geocoded."""
+    if not address:
+        return False
+    return bool(re.search(
+        r'\b(p\.?\s*o\.?\s*box|po\s+box|post\s+office\s+box)\b',
+        address,
+        re.IGNORECASE,
+    ))
 
 
 class GeocodingError(Exception):
@@ -141,6 +153,7 @@ def geocode_partners(
     new_cache_entries: list[dict] = []
     success_count = 0
     fail_count = 0
+    po_box_count = 0
 
     for _, partner in partners_df.iterrows():
         name = partner.get("partner_name", "")
@@ -160,6 +173,22 @@ def geocode_partners(
             continue
 
         address_str = str(address).strip()
+
+        if _is_po_box(address_str):
+            logger.warning(
+                "Skipping PO Box address (will not appear on map): %s — %s",
+                name, address_str,
+            )
+            results.append({
+                "partner_name": name,
+                "address": address_str,
+                "partner_type": ptype,
+                "latitude": float("nan"),
+                "longitude": float("nan"),
+                "geocode_status": "po_box",
+            })
+            po_box_count += 1
+            continue
 
         # Check cache
         if address_str in cache_lookup:
@@ -242,7 +271,10 @@ def geocode_partners(
         save_geocode_cache(updated_cache, partner_config, use_mock)
 
     total = success_count + fail_count
-    logger.info("Geocoded %d/%d partners (%d failed)", success_count, total, fail_count)
+    logger.info(
+        "Partners geocoded: %d, failed: %d, skipped (PO Box): %d",
+        success_count, fail_count, po_box_count,
+    )
 
     return pd.DataFrame(results)
 
