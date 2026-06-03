@@ -6,14 +6,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7544387,
-          36.0658554
+          -86.77449,
+          36.111744
         ]
       },
       "properties": {
-        "partner_name": "Begin Anew - Crievewood",
-        "address": "480 Hogan Rd, Nashville, TN 37220",
-        "partner_type": "community_meals",
+        "partner_name": "Antioch After School Program",
+        "address": "5589 Broadway, Nashville, TN 37201",
+        "partner_type": "after_school",
         "geocode_status": "success"
       }
     },
@@ -22,14 +22,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7304931,
-          36.1170452
+          -86.763529,
+          36.195771
         ]
       },
       "properties": {
-        "partner_name": "Begin Anew - Woodbine",
-        "address": "29 Whitsett Rd, Nashville, TN 37210",
-        "partner_type": "community_meals",
+        "partner_name": "Bordeaux Family Shelter",
+        "address": "8889 West End Ave, Nashville, TN 37203",
+        "partner_type": "transitional_housing",
         "geocode_status": "success"
       }
     },
@@ -38,14 +38,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.8007617,
-          36.1660821
+          -86.698942,
+          36.097597
         ]
       },
       "properties": {
-        "partner_name": "Boys and Girls Club - Andrew Jackson",
-        "address": "916 16th Ave N, Nashville, TN 37208",
-        "partner_type": "community_meals",
+        "partner_name": "Donelson Development Corp",
+        "address": "731 Charlotte Ave, Nashville, TN 37204",
+        "partner_type": "community_development",
         "geocode_status": "success"
       }
     },
@@ -54,14 +54,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.8007617,
-          36.1660821
+          -86.718045,
+          36.110696
         ]
       },
       "properties": {
-        "partner_name": "Boys and Girls Club - Teen Center",
-        "address": "916 16th Ave N, Nashville, TN 37208",
-        "partner_type": "community_meals",
+        "partner_name": "East Nashville Job Training Center",
+        "address": "8596 Gallatin Pike, Nashville, TN 37205",
+        "partner_type": "workforce_development",
         "geocode_status": "success"
       }
     },
@@ -70,14 +70,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -87.1183246,
-          35.982895
+          -86.713737,
+          36.14039
         ]
       },
       "properties": {
-        "partner_name": "Boys and Girls Club - Fairview",
-        "address": "1814 Fairview Blvd, Fairview, TN 37062",
-        "partner_type": "community_meals",
+        "partner_name": "Germantown Workforce Solutions",
+        "address": "8292 Nolensville Pike, Nashville, TN 37206",
+        "partner_type": "workforce_development",
         "geocode_status": "success"
       }
     },
@@ -86,14 +86,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.8306408,
-          36.1591209
+          -86.856801,
+          36.115704
         ]
       },
       "properties": {
-        "partner_name": "Boys and Girls Club - Preston Taylor",
-        "address": "915 38th Ave N, Nashville, TN 37209",
-        "partner_type": "community_meals",
+        "partner_name": "Napier Elementary Summer Program",
+        "address": "6352 Dickerson Pike, Nashville, TN 37208",
+        "partner_type": "school_summer",
         "geocode_status": "success"
       }
     },
@@ -102,14 +102,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7556838,
-          36.1692215
+          -86.893695,
+          36.162224
         ]
       },
       "properties": {
-        "partner_name": "Community Care Fellowship",
-        "address": "511 S 8th St, Nashville, TN 37206",
-        "partner_type": "community_meals",
+        "partner_name": "North Nashville Homeless Services",
+        "address": "1735 Shelby Ave, Nashville, TN 37209",
+        "partner_type": "homeless_outreach",
         "geocode_status": "success"
       }
     },
@@ -118,14 +118,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7499482,
-          36.1445707
+          -86.727837,
+          36.118748
         ]
       },
       "properties": {
-        "partner_name": "CrossBridge",
-        "address": "335 Murfreesboro Pike, Nashville, TN 37210",
-        "partner_type": "community_meals",
+        "partner_name": "Rivergate Career Services",
+        "address": "7604 Main St, Nashville, TN 37210",
+        "partner_type": "workforce_development",
         "geocode_status": "success"
       }
     },
@@ -134,14 +134,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.792169,
-          36.1753721
+          -86.882212,
+          36.216681
         ]
       },
       "properties": {
-        "partner_name": "Crossroads",
-        "address": "707 Monroe St, Nashville, TN 37208",
-        "partner_type": "community_meals",
+        "partner_name": "Sylvan Park Community Center",
+        "address": "7034 Church St, Nashville, TN 37211",
+        "partner_type": "community_development",
         "geocode_status": "success"
       }
     },
@@ -150,14 +150,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.8107872,
-          36.1556307
+          -86.710196,
+          36.223832
         ]
       },
       "properties": {
-        "partner_name": "Dismas House",
-        "address": "2424 Charlotte Ave, Nashville, TN 37203",
-        "partner_type": "community_meals",
+        "partner_name": "Antioch Elder Care Services",
+        "address": "3609 Commerce St, Nashville, TN 37212",
+        "partner_type": "senior_services",
         "geocode_status": "success"
       }
     },
@@ -166,14 +166,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.8717531,
-          36.1573955
+          -86.733977,
+          36.221849
         ]
       },
       "properties": {
-        "partner_name": "Ebenezer United Methodist Church",
-        "address": "6200 Robertson Ave, Nashville, TN 37209",
-        "partner_type": "community_meals",
+        "partner_name": "Bordeaux Senior Nutrition Program",
+        "address": "772 Demonbreun St, Nashville, TN 37213",
+        "partner_type": "senior_services",
         "geocode_status": "success"
       }
     },
@@ -182,14 +182,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7901148,
-          36.1431074
+          -86.775578,
+          36.190564
         ]
       },
       "properties": {
-        "partner_name": "Edgehill Brighter Days",
-        "address": "1416 Edgehill Ave, Nashville, TN 37212",
-        "partner_type": "community_meals",
+        "partner_name": "Donelson Community Center",
+        "address": "9708 Rosa L Parks Blvd, Nashville, TN 37214",
+        "partner_type": "community_development",
         "geocode_status": "success"
       }
     },
@@ -198,14 +198,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7618056,
-          36.1485258
+          -86.681014,
+          36.187146
         ]
       },
       "properties": {
-        "partner_name": "ENP Freestore",
-        "address": "109 Lafayette St, Nashville, TN 37217",
-        "partner_type": "community_meals",
+        "partner_name": "East Nashville Neighborhood Alliance",
+        "address": "4511 Jefferson St, Nashville, TN 37215",
+        "partner_type": "community_development",
         "geocode_status": "success"
       }
     },
@@ -214,14 +214,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7640229,
-          36.1332614
+          -86.825817,
+          36.098784
         ]
       },
       "properties": {
-        "partner_name": "Fifty Forward",
-        "address": "174 Rains Ave, Nashville, TN 37203",
-        "partner_type": "community_meals",
+        "partner_name": "Germantown Senior Nutrition Program",
+        "address": "8941 Buchanan St, Nashville, TN 37216",
+        "partner_type": "senior_services",
         "geocode_status": "success"
       }
     },
@@ -230,14 +230,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7632012,
-          36.107007
+          -86.674847,
+          36.094293
         ]
       },
       "properties": {
-        "partner_name": "Firefly",
-        "address": "719 Thompson Ln, Nashville, TN 37204",
-        "partner_type": "community_meals",
+        "partner_name": "Madison Elementary Summer Program",
+        "address": "6810 Trinity Ln, Nashville, TN 37217",
+        "partner_type": "school_summer",
         "geocode_status": "success"
       }
     },
@@ -246,14 +246,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.8191799,
-          36.1031055
+          -86.739517,
+          36.153942
         ]
       },
       "properties": {
-        "partner_name": "Green Hills YMCA",
-        "address": "4041 Hillsboro Cir, Nashville, TN 37215",
-        "partner_type": "community_meals",
+        "partner_name": "Napier Youth Summer Camp",
+        "address": "7805 Clarksville Pike, Nashville, TN 37218",
+        "partner_type": "school_summer",
         "geocode_status": "success"
       }
     },
@@ -262,14 +262,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7529374,
-          36.1526114
+          -86.66376,
+          36.217279
         ]
       },
       "properties": {
-        "partner_name": "Green Street",
-        "address": "146 Green St, Nashville, TN 37210",
-        "partner_type": "community_meals",
+        "partner_name": "Rivergate Transitional Housing",
+        "address": "2026 Ellington Pkwy, Nashville, TN 37220",
+        "partner_type": "transitional_housing",
         "geocode_status": "success"
       }
     },
@@ -278,14 +278,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7472841,
-          36.0775181
+          -86.709717,
+          36.108585
         ]
       },
       "properties": {
-        "partner_name": "Harvest Hands - Harding Place",
-        "address": "4732 W Longdale Dr, Nashville, TN 37211",
-        "partner_type": "community_meals",
+        "partner_name": "Sylvan Park Homeless Services",
+        "address": "3702 Lebanon Pike, Nashville, TN 37221",
+        "partner_type": "homeless_outreach",
         "geocode_status": "success"
       }
     },
@@ -294,14 +294,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7606822,
-          36.1540807
+          -86.88987,
+          36.224688
         ]
       },
       "properties": {
-        "partner_name": "Harvest Hands - Napier",
-        "address": "155 Old Hermitage Ave, Nashville, TN 37210",
-        "partner_type": "community_meals",
+        "partner_name": "Antioch Medical Outreach",
+        "address": "4720 Broadway, Nashville, TN 37228",
+        "partner_type": "medical_health",
         "geocode_status": "success"
       }
     },
@@ -310,14 +310,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7606822,
-          36.1540807
+          -86.816466,
+          36.203354
         ]
       },
       "properties": {
-        "partner_name": "Harvest Hands - Teen Program",
-        "address": "155 Old Hermitage Ave, Nashville, TN 37210",
-        "partner_type": "community_meals",
+        "partner_name": "Bordeaux Community Center",
+        "address": "5027 West End Ave, Nashville, TN 37201",
+        "partner_type": "community_development",
         "geocode_status": "success"
       }
     },
@@ -326,14 +326,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7358015,
-          36.0693314
+          -86.778228,
+          36.186475
         ]
       },
       "properties": {
-        "partner_name": "Harvest Hands - South End",
-        "address": "5042 Edmondson Pike, Nashville, TN 37211",
-        "partner_type": "community_meals",
+        "partner_name": "Donelson Community Health Center",
+        "address": "533 Charlotte Ave, Nashville, TN 37203",
+        "partner_type": "medical_health",
         "geocode_status": "success"
       }
     },
@@ -342,14 +342,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.67701,
-          36.0523662
+          -86.869147,
+          36.124259
         ]
       },
       "properties": {
-        "partner_name": "JCALA",
-        "address": "41 Tusculum Rd, Antioch, TN 37013",
-        "partner_type": "community_meals",
+        "partner_name": "East Nashville Kids Club",
+        "address": "5510 Gallatin Pike, Nashville, TN 37204",
+        "partner_type": "after_school",
         "geocode_status": "success"
       }
     },
@@ -358,14 +358,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.8175797,
-          36.1834556
+          -86.876803,
+          36.101412
         ]
       },
       "properties": {
-        "partner_name": "Judge Dinkins Educational Center",
-        "address": "2013 25th Ave N, Nashville, TN 37208",
-        "partner_type": "community_meals",
+        "partner_name": "Germantown Elementary Summer Program",
+        "address": "1627 Nolensville Pike, Nashville, TN 37205",
+        "partner_type": "school_summer",
         "geocode_status": "success"
       }
     },
@@ -374,14 +374,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7138252,
-          36.0604188
+          -86.817261,
+          36.184746
         ]
       },
       "properties": {
-        "partner_name": "King's Academy",
-        "address": "394 Strasser Dr, Nashville, TN 37211",
-        "partner_type": "community_meals",
+        "partner_name": "Madison Youth Summer Camp",
+        "address": "7458 Murfreesboro Pike, Nashville, TN 37206",
+        "partner_type": "school_summer",
         "geocode_status": "success"
       }
     },
@@ -390,14 +390,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.6598322,
-          36.1674517
+          -86.735548,
+          36.117361
         ]
       },
       "properties": {
-        "partner_name": "Launchpad",
-        "address": "2846 Lebanon Pike, Nashville, TN 37214",
-        "partner_type": "community_meals",
+        "partner_name": "Napier Kids Club",
+        "address": "6861 Dickerson Pike, Nashville, TN 37207",
+        "partner_type": "after_school",
         "geocode_status": "success"
       }
     },
@@ -406,14 +406,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.758453,
-          36.147394
+          -86.7722,
+          36.192596
         ]
       },
       "properties": {
-        "partner_name": "Napier Kitchen Table",
-        "address": "155 Lafayette St, Nashville, TN 37210",
-        "partner_type": "community_meals",
+        "partner_name": "North Nashville Elementary Summer Program",
+        "address": "9232 Shelby Ave, Nashville, TN 37208",
+        "partner_type": "school_summer",
         "geocode_status": "success"
       }
     },
@@ -422,14 +422,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.713609,
-          36.0581157
+          -86.809101,
+          36.232293
         ]
       },
       "properties": {
-        "partner_name": "Nations - Hillcrest",
-        "address": "5112 Raywood Lane, Nashville, TN 37211",
-        "partner_type": "community_meals",
+        "partner_name": "Rivergate Community Health Center",
+        "address": "7472 Main St, Nashville, TN 37209",
+        "partner_type": "medical_health",
         "geocode_status": "success"
       }
     },
@@ -438,254 +438,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7530662,
-          36.1423299
+          -86.883567,
+          36.216438
         ]
       },
       "properties": {
-        "partner_name": "NeighborStand",
-        "address": "60 Lester Ave, Nashville, TN 37210",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.717879,
-          36.121074
-        ]
-      },
-      "properties": {
-        "partner_name": "Nueva Vida",
-        "address": "416 E Thompson Ln, Nashville, TN 37211",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7866517,
-          36.1443746
-        ]
-      },
-      "properties": {
-        "partner_name": "Operation Stand Down",
-        "address": "1125 12th Ave South, Nashville, TN 37203",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7618056,
-          36.1485258
-        ]
-      },
-      "properties": {
-        "partner_name": "Project Return",
-        "address": "109 Lafayette Street, Nashville, TN 37210",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7779385,
-          36.1527175
-        ]
-      },
-      "properties": {
-        "partner_name": "Room in the Inn",
-        "address": "705 Drexel St, Nashville, TN 37203",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.765047,
-          36.1690337
-        ]
-      },
-      "properties": {
-        "partner_name": "Samaritan Recovery",
-        "address": "319 S 4th St, Nashville, TN 37206",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -87.0097741,
-          36.0940228
-        ]
-      },
-      "properties": {
-        "partner_name": "The ARK",
-        "address": "710 US-70, Pegram, TN 37143",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.766297,
-          36.2052869
-        ]
-      },
-      "properties": {
-        "partner_name": "Trinity Community Commons",
-        "address": "204 East Trinity Lane, Nashville, TN 37207",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.8572912,
-          36.1398186
-        ]
-      },
-      "properties": {
-        "partner_name": "UpRise Nashville",
-        "address": "235 White Bridge Pike, Nashville, TN 37209",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7019066,
-          36.0699176
-        ]
-      },
-      "properties": {
-        "partner_name": "UrbanPromise Nashville",
-        "address": "255 Haywood Lane, Nashville, TN 37211",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.8190131,
-          36.1853365
-        ]
-      },
-      "properties": {
-        "partner_name": "Urban Housing Solutions",
-        "address": "2131 26th Ave N, Nashville, TN 37208",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7793346,
-          36.1466527
-        ]
-      },
-      "properties": {
-        "partner_name": "Water Walkers",
-        "address": "1300 South Street, Nashville, TN 37212",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7460785,
-          36.1152953
-        ]
-      },
-      "properties": {
-        "partner_name": "Worker's Dignity",
-        "address": "335 Whitsett Rd, Nashville, TN 37210",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.700904,
-          36.090468
-        ]
-      },
-      "properties": {
-        "partner_name": "Aventura Community School",
-        "address": "490 Metroplex Dr STE 100, Nashville, TN 37211",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -87.0310994,
-          36.3120404
-        ]
-      },
-      "properties": {
-        "partner_name": "Colby's Army",
-        "address": "1394 George Boyd Rd, Ashland City, TN 37015",
-        "partner_type": "community_meals",
-        "geocode_status": "success"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7120578,
-          36.2626455
-        ]
-      },
-      "properties": {
-        "partner_name": "Madison Church of Christ - Benevolence Center",
-        "address": "106 Gallatin Pike N, Madison, TN 37115",
-        "partner_type": "community_meals",
+        "partner_name": "Sylvan Park Development Corp",
+        "address": "3729 Church St, Nashville, TN 37210",
+        "partner_type": "community_development",
         "geocode_status": "success"
       }
     }
