@@ -6,6 +6,7 @@ Usage:
     python -m pipeline --step census_acs    # Process Census ACS only
     python -m pipeline --step health_lila   # Process CDC PLACES only
     python -m pipeline --step usda_lila     # Process USDA LILA data
+    python -m pipeline --step food_insecurity_index # Compute TN tract food-insecurity index
     python -m pipeline --step giving_matters # Process Giving Matters (graceful skip if disabled/missing)
     python -m pipeline --step partners      # Process partner data only
     python -m pipeline --step export        # Export Parquet→CSV + project.yml→config.json (frontend refresh)
@@ -37,6 +38,7 @@ from src import config
 from pipeline.load_source import process_data_source
 from pipeline.process_partners import run as run_partners
 from pipeline.process_usda_lila import process_usda_lila
+from pipeline.process_food_insecurity import process_food_insecurity
 from pipeline.process_giving_matters import process_giving_matters
 from pipeline.export_csv import export_all_csv
 from pipeline.export_config import export_config
@@ -106,6 +108,16 @@ def run_usda_lila_step() -> None:
     process_usda_lila(sources["usda_lila"], geography)
 
 
+def run_food_insecurity_step() -> None:
+    """Run the food-insecurity index step (computed in-process, then MSA-filtered)."""
+    sources = get_data_sources()
+    geography = get_geography()
+    if "food_insecurity_index" not in sources:
+        logger.info("food_insecurity_index not configured in project.yml — skipping")
+        return
+    process_food_insecurity(sources["food_insecurity_index"], geography)
+
+
 def run_giving_matters_step() -> None:
     """Run the Giving Matters pipeline step (graceful skip when disabled)."""
     sources = get_data_sources()
@@ -173,7 +185,7 @@ def main() -> None:
         "--step",
         choices=[
             "geo", "census_acs", "health_lila", "usda_lila",
-            "giving_matters", "partners", "export",
+            "food_insecurity_index", "giving_matters", "partners", "export",
         ],
         help="Run a specific pipeline step",
     )
@@ -197,6 +209,8 @@ def main() -> None:
             run_partners_step()
         elif args.step == "usda_lila":
             run_usda_lila_step()
+        elif args.step == "food_insecurity_index":
+            run_food_insecurity_step()
         elif args.step == "giving_matters":
             run_giving_matters_step()
         elif args.step == "export":
@@ -211,13 +225,16 @@ def main() -> None:
 
     sources = get_data_sources()
     for source_key in sources:
-        if source_key in ("usda_lila", "giving_matters"):
+        if source_key in ("usda_lila", "food_insecurity_index", "giving_matters"):
             # These have their own dedicated pipeline steps below.
             continue
         run_data_step(source_key)
 
     # USDA LILA (separate crosswalk-based pipeline)
     run_usda_lila_step()
+
+    # Food Insecurity Index (computed in-process from ACS + Feeding America)
+    run_food_insecurity_step()
 
     # Giving Matters (graceful skip when disabled / S3 key absent)
     run_giving_matters_step()

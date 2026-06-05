@@ -81,7 +81,8 @@ const state = {
     partners: null, givingMatters: null,
     acsTract: null, acsZip: null,
     healthTract: null, healthZip: null,
-    lila: null
+    lila: null,
+    fsiTract: null
   }
 };
 
@@ -99,7 +100,10 @@ function parseCsv(text) {
     // Tract GEOIDs are 11 chars starting with state FIPS (e.g. "47037..."). ZIP CSVs have
     // GEOIDs padded with leading zeros like "00000037010" — strip to last 5 chars for ZIPs.
     if (gid.length > 5 && gid.startsWith("000000")) gid = gid.slice(-5);
-    else if (gid.length > 5 && gid.length < 11) gid = gid.slice(-5);
+    else if (gid.length > 5 && gid.length < 11) {
+      // TN tract GEOIDs start with state FIPS 47; ZIP rows get trimmed to 5 chars.
+      gid = gid.startsWith("47") ? gid.padStart(11, "0") : gid.slice(-5);
+    }
     rec.GEOID = gid;
     rows[gid] = rec;
   }
@@ -149,6 +153,12 @@ function geoidOf(f, kind) {
   return null;
 }
 
+function rowForGeoid(src, geoid) {
+  if (!src) return null;
+  const g = String(geoid);
+  return src[g] || src[g.padStart(11, "0")] || null;
+}
+
 function valueFor(geoid, indicatorId) {
   const ind = INDICATORS.find(i => i.id === indicatorId);
   if (!ind) return null;
@@ -156,8 +166,9 @@ function valueFor(geoid, indicatorId) {
   if (ind.src === "acs")    src = state.geo === "tract" ? state.data.acsTract : state.data.acsZip;
   if (ind.src === "health") src = state.geo === "tract" ? state.data.healthTract : state.data.healthZip;
   if (ind.src === "lila")   src = state.data.lila;
+  if (ind.src === "fsi")    src = state.data.fsiTract;
   if (!src) return null;
-  const row = src[String(geoid)];
+  const row = rowForGeoid(src, geoid);
   if (!row) return null;
   const raw = row[ind.col];
   if (raw === "" || raw == null) return null;
@@ -172,6 +183,7 @@ function indicatorRange(indicatorId) {
   if (ind.src === "acs")    src = state.geo === "tract" ? state.data.acsTract : state.data.acsZip;
   if (ind.src === "health") src = state.geo === "tract" ? state.data.healthTract : state.data.healthZip;
   if (ind.src === "lila")   src = state.data.lila;
+  if (ind.src === "fsi")    src = state.data.fsiTract;
   if (!src) return [0, 1];
   let mn = Infinity, mx = -Infinity;
   for (const k in src) {
@@ -381,12 +393,14 @@ function openFeatureDetail(f, layer) {
   const obesity = valueFor(geoid, "obesity");
   const lila = state.geo === "tract" ? valueFor(geoid, "lila_flag") : null;
   const lapop = state.geo === "tract" ? valueFor(geoid, "lapop1") : null;
+  const fiRate = state.geo === "tract" ? valueFor(geoid, "food_insecurity_rate") : null;
 
   const statGrid = `
     <div class="stat-grid">
       <div class="stat-box"><div class="k">Population</div><div class="v">${pop != null ? Math.round(pop).toLocaleString() : "—"}</div><div class="sub">ACS 2020–24</div></div>
       <div class="stat-box"><div class="k">Median Income</div><div class="v">${income != null ? "$" + Math.round(income).toLocaleString() : "—"}</div><div class="sub">Household</div></div>
       <div class="stat-box"><div class="k">Poverty Rate</div><div class="v">${poverty != null ? poverty.toFixed(1) + "%" : "—"}</div><div class="sub">ACS</div></div>
+      ${state.geo === "tract" ? `<div class="stat-box"><div class="k">Food Insecurity</div><div class="v">${fiRate != null ? fiRate.toFixed(1) + "%" : "—"}</div><div class="sub">Modeled · 2023</div></div>` : ""}
       ${state.geo === "tract" ? `<div class="stat-box"><div class="k">LILA</div><div class="v" style="color:${lila == 1 ? 'var(--accent-rust)' : 'var(--nfp-green-700)'}">${lila == 1 ? "Yes" : lila == 0 ? "No" : "—"}</div><div class="sub">USDA flag</div></div>` : `<div class="stat-box"><div class="k">Low-Access</div><div class="v">—</div><div class="sub">Tract-level only</div></div>`}
     </div>
   `;
@@ -403,9 +417,11 @@ function openFeatureDetail(f, layer) {
     <div class="bar"><span class="k">Obesity</span><div class="track"><div class="fill" style="width:${obesity != null ? Math.min(100, obesity*1.5) : 0}%; background: var(--accent-amber);"></div></div><span class="v">${obesity != null ? obesity.toFixed(1) + "%" : "—"}</span></div>
   ` : "";
 
-  const accessSection = (lapop != null) ? `
-    <h4>Food access</h4>
-    <div class="bar"><span class="k">Low access</span><div class="track"><div class="fill" style="width:${Math.min(100, (lapop / indicatorRange('lapop1')[1])*100)}%; background: var(--nfp-green-700);"></div></div><span class="v">${Math.round(lapop).toLocaleString()}</span></div>
+  const accessSection = (state.geo === "tract") ? `
+    <h4>Food access & insecurity</h4>
+    <div class="bar"><span class="k">Insecurity</span><div class="track"><div class="fill" style="width:${fiRate != null ? Math.min(100, fiRate) : 0}%; background: var(--accent-amber);"></div></div><span class="v">${fiRate != null ? fiRate.toFixed(1) + "%" : "—"}</span></div>
+    ${lapop != null ? `<div class="bar"><span class="k">Low access</span><div class="track"><div class="fill" style="width:${Math.min(100, (lapop / indicatorRange('lapop1')[1])*100)}%; background: var(--nfp-green-700);"></div></div><span class="v">${Math.round(lapop).toLocaleString()}</span></div>` : ""}
+    <div class="bar"><span class="k">LILA</span><div class="track"><div class="fill" style="width:${lila == 1 ? 100 : 0}%; background: ${lila == 1 ? 'var(--accent-rust)' : 'var(--nfp-green-700)'};"></div></div><span class="v">${lila == 1 ? "Yes" : lila == 0 ? "No" : "—"}</span></div>
   ` : "";
 
   const centroid = featureCentroid(f);
@@ -500,7 +516,7 @@ function renderIndicatorList() {
   el.innerHTML = noneRow + available.map(ind => `
     <div class="row ${state.indicator === ind.id ? 'on' : ''}" data-id="${ind.id}">
       <div class="ico">${indicatorIcon(ind.id)}</div>
-      <div class="lbl">${ind.label}${ind.src === "lila" ? `<span title="${ind.caption}" style="font-size:0.7rem;color:var(--ink-400);cursor:help;margin-left:2px;">ⓘ</span>` : ""}</div>
+      <div class="lbl">${ind.label}${(ind.src === "lila" || ind.src === "fsi") ? `<span title="${ind.caption}" style="font-size:0.7rem;color:var(--ink-400);cursor:help;margin-left:2px;">ⓘ</span>` : ""}</div>
       <div class="unit">${ind.unit}</div>
       <div class="year">${ind.data_year || ""}</div>
     </div>
@@ -898,7 +914,7 @@ async function loadAll() {
     .then(r => r.ok ? r.json() : Promise.reject(new Error(`data/config.json HTTP ${r.status}`)));
   applyConfig(cfg);
 
-  const [tracts, zipcodes, counties, partners, givingMatters, acsTract, acsZip, healthTract, healthZip, lila] = await Promise.all([
+  const [tracts, zipcodes, counties, partners, givingMatters, acsTract, acsZip, healthTract, healthZip, lila, fsiTract] = await Promise.all([
     fetch("data/tracts.geojson").then(r => r.json()).catch(() => null),
     fetch("data/zipcodes.geojson").then(r => r.json()).catch(() => null),
     fetch("data/counties.geojson").then(r => r.json()).catch(() => null),
@@ -908,14 +924,15 @@ async function loadAll() {
     fetch("data/acs_zip.csv").then(r => r.text()).then(parseCsv).catch(() => ({})),
     fetch("data/health_tract.csv").then(r => r.text()).then(parseCsv).catch(() => ({})),
     fetch("data/health_zip.csv").then(r => r.text()).then(parseCsv).catch(() => ({})),
-    fetch("data/usda_lila_tract.csv").then(r => r.text()).then(parseCsv).catch(() => ({}))
+    fetch("data/usda_lila_tract.csv").then(r => r.text()).then(parseCsv).catch(() => ({})),
+    fetch("data/food_insecurity_tract.csv").then(r => r.text()).then(parseCsv).catch(() => ({}))
   ]);
   if (tracts) tracts.features.forEach(f => {
     const g = String(geoidOf(f, "tract") || "");
     f.properties.GEOID = g.padStart(11, "0");
   });
   if (zipcodes) polygonizeZipcodes(zipcodes);
-  state.data = { tracts, zipcodes, counties, partners, givingMatters, acsTract, acsZip, healthTract, healthZip, lila };
+  state.data = { tracts, zipcodes, counties, partners, givingMatters, acsTract, acsZip, healthTract, healthZip, lila, fsiTract };
 }
 
 // ---------- Init ----------

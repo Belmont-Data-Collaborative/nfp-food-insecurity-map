@@ -194,6 +194,36 @@
       "unit_label": "Low Income Pop Beyond 1 mi",
       "default_visible": false,
       "data_year": "2019"
+    },
+    {
+      "id": "food_insecurity_rate",
+      "label": "Food Insecurity Rate",
+      "col": "food_insecurity_rate",
+      "src": "fsi",
+      "granularities": [
+        "tract"
+      ],
+      "palette": "oranges",
+      "fmt": "{:.1f}%",
+      "caption": "Modeled tract-level food insecurity, downscaled from Feeding America county rates (Map the Meal Gap 2025) using ACS predictors. v1 uses overall poverty as a placeholder for non-student poverty (B14006), which can overstate insecurity in student-heavy tracts.\n",
+      "unit_label": "Food Insecurity Rate (%)",
+      "default_visible": false,
+      "data_year": "2023"
+    },
+    {
+      "id": "food_insecure_count",
+      "label": "Food Insecure Population",
+      "col": "food_insecure_count",
+      "src": "fsi",
+      "granularities": [
+        "tract"
+      ],
+      "palette": "ambers",
+      "fmt": "{:,.0f}",
+      "caption": "Estimated number of food-insecure residents per tract (food insecurity rate \u00d7 tract population).\n",
+      "unit_label": "Estimated Food Insecure Persons",
+      "default_visible": false,
+      "data_year": "2023"
     }
   ],
   "partner_types": {

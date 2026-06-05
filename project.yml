@@ -209,6 +209,48 @@ data_sources:
           more than 1 mile (urban) or 10 miles (rural) from the nearest
           supermarket. Source: USDA ERS Food Access Research Atlas, 2019.
 
+  food_insecurity_index:
+    source_type: computed   # computed in-process by pipeline/process_food_insecurity.py
+    output_prefix: food_insecurity
+    frontend_src: fsi
+    tract_only: true
+    note: >
+      Tennessee census-tract food-insecurity index. Computed in-process from
+      ACS 5-year profile predictors + Feeding America (Map the Meal Gap) county
+      rates via the vendored calculation in pipeline/food_insecurity/, then
+      filtered from all 95 TN counties down to the MSA. Methodology mirror of
+      Belmont-Data-and-AI-Collaborative/bdaic-food-security-index-census-tract-level-etl.
+    variables:
+      - id: food_insecurity_rate
+        column: "food_insecurity_rate"
+        display_name: "Food Insecurity Rate"
+        colormap: YlOrRd
+        palette: oranges
+        legend_name: "Food Insecurity Rate (%)"
+        format_str: "{:.1f}%"
+        tooltip_alias: "Food Insecurity"
+        default_visible: false
+        multiplier: 100   # stored 0-1 proportion -> percent for the frontend formatter
+        data_year: "2023"
+        caption: >
+          Modeled tract-level food insecurity, downscaled from Feeding America
+          county rates (Map the Meal Gap 2025) using ACS predictors. v1 uses
+          overall poverty as a placeholder for non-student poverty (B14006),
+          which can overstate insecurity in student-heavy tracts.
+      - id: food_insecure_count
+        column: "food_insecure_count"
+        display_name: "Food Insecure Population"
+        colormap: YlOrBr
+        palette: ambers
+        legend_name: "Estimated Food Insecure Persons"
+        format_str: "{:,.0f}"
+        tooltip_alias: "FI Population"
+        default_visible: false
+        data_year: "2023"
+        caption: >
+          Estimated number of food-insecure residents per tract
+          (food insecurity rate × tract population).
+
   giving_matters:
     source_type: s3
     s3_bucket: bdaic-public-transform

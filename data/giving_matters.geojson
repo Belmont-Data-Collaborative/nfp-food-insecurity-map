@@ -22,22 +22,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.621443,
-          36.3049177
-        ]
-      },
-      "properties": {
-        "partner_name": "100 Club of Sumner County",
-        "address": "P.O. Box 1076",
-        "partner_type": "other",
-        "county": "Sumner"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.3877647,
           35.8508881
         ]
@@ -86,22 +70,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -87.0641699,
-          36.2742207
-        ]
-      },
-      "properties": {
-        "partner_name": "23rd District Judicial Advocates",
-        "address": "P.O. Box 707",
-        "partner_type": "other",
-        "county": "Cheatham"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7417914,
           36.1296061
         ]
@@ -126,22 +94,6 @@
         "partner_name": "510 Foundation",
         "address": "510 Woodland Street, Nashville, TN, USA",
         "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "917 Society",
-        "address": "P.O. Box 50704",
-        "partner_type": "school_summer",
         "county": "Davidson"
       }
     },
@@ -598,22 +550,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "ALIAS Chamber Ensemble",
-        "address": "PO Box 40723",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7456436,
           36.2328406
         ]
@@ -1062,38 +998,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.6694413,
-          35.9522852
-        ]
-      },
-      "properties": {
-        "partner_name": "Art Helps Cancer",
-        "address": "PO Box 441",
-        "partner_type": "medical_health",
-        "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7825235,
-          36.0325687
-        ]
-      },
-      "properties": {
-        "partner_name": "Artists in Christian Testimony",
-        "address": "P.O. Box 1649",
-        "partner_type": "other",
-        "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.79555447565,
           36.135062046136
         ]
@@ -1174,22 +1078,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7825235,
-          36.0325687
-        ]
-      },
-      "properties": {
-        "partner_name": "Assistance League of Nashville",
-        "address": "PO Box 653",
-        "partner_type": "community_development",
-        "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7548386,
           36.085839
         ]
@@ -1213,22 +1101,6 @@
       "properties": {
         "partner_name": "Association of Infant Mental Health in Tennessee",
         "address": "308 N Spring St, Murfreesboro, TN 37130, USA",
-        "partner_type": "medical_health",
-        "county": "Rutherford"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.3921096,
-          35.8460396
-        ]
-      },
-      "properties": {
-        "partner_name": "Assurance Mamas",
-        "address": "PO Box 11955",
         "partner_type": "medical_health",
         "county": "Rutherford"
       }
@@ -2006,22 +1878,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Bonaparte's Retreat",
-        "address": "PO Box 150232",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7657337,
           36.1352845
         ]
@@ -2246,22 +2102,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -87.0641699,
-          36.2742207
-        ]
-      },
-      "properties": {
-        "partner_name": "Braxton Lee Homestead Foundation",
-        "address": "P.O. Box 632",
-        "partner_type": "other",
-        "county": "Cheatham"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.6131836,
           36.0842229
         ]
@@ -2270,22 +2110,6 @@
         "partner_name": "Break Away",
         "address": "718 Holder Dr",
         "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Breaking The SSickle Cell Cycle Foundation",
-        "address": "P.O. Box 218554",
-        "partner_type": "medical_health",
         "county": "Davidson"
       }
     },
@@ -2326,22 +2150,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7825235,
-          36.0325687
-        ]
-      },
-      "properties": {
-        "partner_name": "Brentwood-Franklin Woman's Service Club",
-        "address": "PO BOX 964",
-        "partner_type": "community_development",
-        "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.400888092106,
           35.749537934226
         ]
@@ -2367,22 +2175,6 @@
         "address": "935 Edgehill Ave, Nashville, TN 37203, USA",
         "partner_type": "medical_health",
         "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7825235,
-          36.0325687
-        ]
-      },
-      "properties": {
-        "partner_name": "Bright Heart Foundation",
-        "address": "P.O. Box 3463",
-        "partner_type": "other",
-        "county": "Williamson"
       }
     },
     {
@@ -2446,22 +2238,6 @@
         "partner_name": "Buchanan Arts",
         "address": "1409 Buchanan St, Nashville, TN 37208, USA",
         "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Building Entrepreneurs for Success in Tennessee",
-        "address": "PO Box 90834",
-        "partner_type": "workforce_development",
         "county": "Davidson"
       }
     },
@@ -2950,22 +2726,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Charis Ministries",
-        "address": "P.O. Box 40662",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7032757,
           36.1128765
         ]
@@ -2982,22 +2742,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -87.0511151,
-          36.100615
-        ]
-      },
-      "properties": {
-        "partner_name": "Cheatham County Animal Awareness Foundation",
-        "address": "P.O. Box 361",
-        "partner_type": "other",
-        "county": "Cheatham"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -87.0587295,
           36.2665406
         ]
@@ -3005,22 +2749,6 @@
       "properties": {
         "partner_name": "Cheatham County Historical and Genealogical Association",
         "address": "835 S Main St, Ashland City, TN 37015, USA",
-        "partner_type": "other",
-        "county": "Cheatham"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -87.0641699,
-          36.2742207
-        ]
-      },
-      "properties": {
-        "partner_name": "Cheatham County Lions Charities",
-        "address": "PO Box 41",
         "partner_type": "other",
         "county": "Cheatham"
       }
@@ -3071,22 +2799,6 @@
         "address": "503 Highland Terrace, Suite C",
         "partner_type": "other",
         "county": "Rutherford"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7825235,
-          36.0325687
-        ]
-      },
-      "properties": {
-        "partner_name": "Child Evangelism Fellowship of Tennessee",
-        "address": "PO Box 1967",
-        "partner_type": "other",
-        "county": "Williamson"
       }
     },
     {
@@ -3167,22 +2879,6 @@
         "address": "4183 Franklin Road, Murfreesboro, TN, USA",
         "partner_type": "other",
         "county": "Rutherford"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Chinese Arts Alliance of Nashville",
-        "address": "P.O. Box 121841",
-        "partner_type": "other",
-        "county": "Davidson"
       }
     },
     {
@@ -3318,38 +3014,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Circle Players",
-        "address": "P.O. Box 22985",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7825235,
-          36.0325687
-        ]
-      },
-      "properties": {
-        "partner_name": "Citizens for Brentwood Green Space",
-        "address": "PO BOX 1994",
-        "partner_type": "other",
-        "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.5168279,
           36.2016441
         ]
@@ -3414,38 +3078,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.6722192,
-          36.0600602
-        ]
-      },
-      "properties": {
-        "partner_name": "Club 51 AAU",
-        "address": "P.O. Box 282",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.8849984,
-          36.5092119
-        ]
-      },
-      "properties": {
-        "partner_name": "Coach Boyce Smith Scholarship Fund",
-        "address": "PO Box 1289",
-        "partner_type": "other",
-        "county": "Robertson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.788663924628,
           36.029480679801
         ]
@@ -3455,22 +3087,6 @@
         "address": "7100 Executive Center Dr suite 105, Brentwood, TN, USA",
         "partner_type": "other",
         "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Colby's Army",
-        "address": "P.O. Box 90464",
-        "partner_type": "other",
-        "county": "Davidson"
       }
     },
     {
@@ -3750,38 +3366,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -87.0655751,
-          36.5823718
-        ]
-      },
-      "properties": {
-        "partner_name": "Community Spirit",
-        "address": "P.O. Box 13",
-        "partner_type": "community_development",
-        "county": "Robertson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.4475898,
-          36.3883031
-        ]
-      },
-      "properties": {
-        "partner_name": "Compassionate Counsel",
-        "address": "PO Box 1131",
-        "partner_type": "medical_health",
-        "county": "Sumner"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.2896056,
           36.2092717
         ]
@@ -3814,22 +3398,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Connect Us Outreach Ministry",
-        "address": "P.O. Box 159192",
-        "partner_type": "community_development",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.8175797,
           36.1834556
         ]
@@ -3839,38 +3407,6 @@
         "address": "2013 25th Ave N, Nashville, TN 37208, USA",
         "partner_type": "transitional_housing",
         "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.5186054,
-          36.200055
-        ]
-      },
-      "properties": {
-        "partner_name": "Conquering CHD - Tennessee",
-        "address": "PO Box 1371",
-        "partner_type": "medical_health",
-        "county": "Wilson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7825235,
-          36.0325687
-        ]
-      },
-      "properties": {
-        "partner_name": "Cool Kids Campaign",
-        "address": "PO Box 2912",
-        "partner_type": "medical_health",
-        "county": "Williamson"
       }
     },
     {
@@ -4166,38 +3702,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Crieve Hall Youth Athletic Association",
-        "address": "PO Box 40521",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.8689419,
-          35.925206
-        ]
-      },
-      "properties": {
-        "partner_name": "Crime Stoppers of Williamson County",
-        "address": "PO Box 156",
-        "partner_type": "other",
-        "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.86395744911,
           36.554735624801
         ]
@@ -4470,22 +3974,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.8689419,
-          35.925206
-        ]
-      },
-      "properties": {
-        "partner_name": "Daughters of the King",
-        "address": "PO Box 1415",
-        "partner_type": "other",
-        "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.8248674,
           36.1691298
         ]
@@ -4518,22 +4006,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Davidson County Community Advisory Board",
-        "address": "P.O. Box 100373",
-        "partner_type": "community_development",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.8175797,
           36.1834556
         ]
@@ -4542,22 +4014,6 @@
         "partner_name": "Davidson County Juvenile Vocational Training Center / Judge Dinkins Educational Center",
         "address": "2013 25th Ave N, Nashville, TN 37208, USA",
         "partner_type": "workforce_development",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Davidson County Master Gardeners Association",
-        "address": "PO Box 41055",
-        "partner_type": "other",
         "county": "Davidson"
       }
     },
@@ -5126,22 +4582,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Economic Club of Nashville Charities",
-        "address": "P.O. Box 292949",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.6965272,
           36.1161345
         ]
@@ -5670,22 +5110,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Faith & Culture Center",
-        "address": "P.O.Box 112045",
-        "partner_type": "community_development",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.9265059,
           36.0936658
         ]
@@ -5791,22 +5215,6 @@
         "address": "2400 Clifton Ave, Nashville, TN, USA",
         "partner_type": "medical_health",
         "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.8689419,
-          35.925206
-        ]
-      },
-      "properties": {
-        "partner_name": "Family Dynamics Institute",
-        "address": "P.O. Box 682549",
-        "partner_type": "other",
-        "county": "Williamson"
       }
     },
     {
@@ -6166,22 +5574,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -87.0366685,
-          36.3942164
-        ]
-      },
-      "properties": {
-        "partner_name": "Forget-Me-Not Animal Rescue",
-        "address": "P.O. Box 722",
-        "partner_type": "other",
-        "county": "Cheatham"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.6202217,
           36.3047505
         ]
@@ -6223,22 +5615,6 @@
         "address": "2911 Belmont Blvd, Nashville, TN 37212, USA",
         "partner_type": "other",
         "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.8689419,
-          35.925206
-        ]
-      },
-      "properties": {
-        "partner_name": "Franklin Christian Academy",
-        "address": "PO Box 157",
-        "partner_type": "school_summer",
-        "county": "Williamson"
       }
     },
     {
@@ -6454,22 +5830,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.8689419,
-          35.925206
-        ]
-      },
-      "properties": {
-        "partner_name": "Friends of Franklin Parks",
-        "address": "P.O. Box 549",
-        "partner_type": "other",
-        "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.4246633,
           36.4041516
         ]
@@ -6527,22 +5887,6 @@
         "address": "170 E. Main St.,  Suite D-187",
         "partner_type": "other",
         "county": "Sumner"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Friends of Kellytown",
-        "address": "PO Box 150732",
-        "partner_type": "other",
-        "county": "Davidson"
       }
     },
     {
@@ -6991,22 +6335,6 @@
         "address": "600 Small St, Gallatin, TN 37066, USA",
         "partner_type": "community_development",
         "county": "Sumner"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Gary Sinise Foundation",
-        "address": "P.O. Box 40726",
-        "partner_type": "other",
-        "county": "Davidson"
       }
     },
     {
@@ -7471,22 +6799,6 @@
         "address": "10434 Old Nashville Highway, Smyrna, TN, USA",
         "partner_type": "other",
         "county": "Rutherford"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.8849984,
-          36.5092119
-        ]
-      },
-      "properties": {
-        "partner_name": "Greater Faith Community Action Corporation",
-        "address": "P.O. Box 215",
-        "partner_type": "community_development",
-        "county": "Robertson"
       }
     },
     {
@@ -7990,22 +7302,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Heartstrings",
-        "address": "PO Box 160322",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7887109,
           36.1334474
         ]
@@ -8102,22 +7398,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.5186054,
-          36.200055
-        ]
-      },
-      "properties": {
-        "partner_name": "Hickory Hill Farm",
-        "address": "PO Box 1454",
-        "partner_type": "other",
-        "county": "Wilson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.573578739586,
           36.532647731785
         ]
@@ -8166,22 +7446,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Historic Germantown Nashville",
-        "address": "PO Box 281074",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.3493393,
           36.2231329
         ]
@@ -8198,22 +7462,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Historic Nashville",
-        "address": "P.O. Box 190516",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.5960177,
           36.2801475
         ]
@@ -8223,22 +7471,6 @@
         "address": "139 Rockcastle Lane, Hendersonville, TN, USA",
         "partner_type": "other",
         "county": "Sumner"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.1319341,
-          36.1003358
-        ]
-      },
-      "properties": {
-        "partner_name": "Historic Watertown",
-        "address": "P.O. Box 351",
-        "partner_type": "other",
-        "county": "Wilson"
       }
     },
     {
@@ -8431,22 +7663,6 @@
         "address": "1124 Highway 52, Westmoreland, TN, USA",
         "partner_type": "medical_health",
         "county": "Sumner"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Hope for Justice",
-        "address": "PO Box 280365 Nashville, TN 37228, USA",
-        "partner_type": "other",
-        "county": "Davidson"
       }
     },
     {
@@ -8678,38 +7894,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7825235,
-          36.0325687
-        ]
-      },
-      "properties": {
-        "partner_name": "Huntington's Disease Society of America (TN Chapter)",
-        "address": "PO Box 62",
-        "partner_type": "medical_health",
-        "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "HWEN Corporation",
-        "address": "P.O. Box 120521",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.8074233,
           36.2186531
         ]
@@ -8902,22 +8086,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.8689419,
-          35.925206
-        ]
-      },
-      "properties": {
-        "partner_name": "International Leadership Coalition",
-        "address": "P.O. Box 682541",
-        "partner_type": "other",
-        "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.8475432,
           36.1453944
         ]
@@ -9102,22 +8270,6 @@
         "partner_name": "Jessi Zazu",
         "address": "4463 Cato Road",
         "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Jesus Provisions Ministries",
-        "address": "PO Box 290462",
-        "partner_type": "community_meals",
         "county": "Davidson"
       }
     },
@@ -10054,22 +9206,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.2910945,
-          36.2079779
-        ]
-      },
-      "properties": {
-        "partner_name": "Love One Another Embassy / Joseph's Storehouse Food Ministry",
-        "address": "P.O. Box 2387",
-        "partner_type": "community_meals",
-        "county": "Wilson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.895922592621,
           36.014697204136
         ]
@@ -10094,22 +9230,6 @@
         "partner_name": "Luke 14:12",
         "address": "523 Church St, Nashville, TN 37219, USA",
         "partner_type": "community_meals",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7138861,
-          36.2561646
-        ]
-      },
-      "properties": {
-        "partner_name": "Madison Youth Sports",
-        "address": "PO Box 10",
-        "partner_type": "other",
         "county": "Davidson"
       }
     },
@@ -10157,22 +9277,6 @@
       "properties": {
         "partner_name": "Make a Wish of Middle Tennessee",
         "address": "600 Hill Ave, Nashville, TN 37210, USA",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Make Music Nashville",
-        "address": "PO Box 120481",
         "partner_type": "other",
         "county": "Davidson"
       }
@@ -10607,54 +9711,6 @@
         "address": "3833 Cleghorn Avenue",
         "partner_type": "other",
         "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.3921096,
-          35.8460396
-        ]
-      },
-      "properties": {
-        "partner_name": "Middle Tennessee Fund for Women and Girls",
-        "address": "P.O. Box 330323",
-        "partner_type": "other",
-        "county": "Rutherford"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Middle Tennessee German Shepherd Rescue",
-        "address": "P.O. Box 59016",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.8689419,
-          35.925206
-        ]
-      },
-      "properties": {
-        "partner_name": "Middle Tennessee Golden Retriever Rescue",
-        "address": "P.O. Box 681106",
-        "partner_type": "other",
-        "county": "Williamson"
       }
     },
     {
@@ -11302,22 +10358,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7138861,
-          36.2561646
-        ]
-      },
-      "properties": {
-        "partner_name": "Music City Hayride",
-        "address": "P.O. Box 19",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.751617712364,
           36.266330934041
         ]
@@ -11638,22 +10678,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Nashville Area Association for the Education of Young Children (NAAEYC)",
-        "address": "PO Box 218067",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.782835,
           36.162131
         ]
@@ -11942,22 +10966,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Nashville Dream Center",
-        "address": "P.O. Box 290395",
-        "partner_type": "homeless_outreach",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7972661,
           36.1496043
         ]
@@ -11982,22 +10990,6 @@
         "partner_name": "Nashville Education Community and Arts Television Corporation",
         "address": "120 White Bridge Rd Bldg110",
         "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Nashville Emerging Leaders",
-        "address": "PO Box 128523",
-        "partner_type": "workforce_development",
         "county": "Davidson"
       }
     },
@@ -12182,22 +11174,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Nashville Launch Pad, Inc.",
-        "address": "PO Box 330695",
-        "partner_type": "transitional_housing",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7697963,
           36.1576761
         ]
@@ -12374,22 +11350,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Nashville Pride",
-        "address": "PO Box 330931",
-        "partner_type": "community_development",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7617189,
           36.1745128
         ]
@@ -12413,22 +11373,6 @@
       "properties": {
         "partner_name": "Nashville Public Library Foundation",
         "address": "615 Church St, Nashville, TN 37219, USA",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Nashville Public Media Inc",
-        "address": "P.O. Box 41972",
         "partner_type": "other",
         "county": "Davidson"
       }
@@ -12886,22 +11830,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "National Coalition of 100 Black Women Metropolitan Nashville Chapt",
-        "address": "PO Box 23624",
-        "partner_type": "community_development",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.893434,
           36.084388
         ]
@@ -13247,22 +12175,6 @@
         "address": "813 Charming Ct, Franklin, TN 37064, USA",
         "partner_type": "medical_health",
         "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Noah's Ark Society Inc.",
-        "address": "PO Box 158159",
-        "partner_type": "other",
-        "county": "Davidson"
       }
     },
     {
@@ -13638,38 +12550,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Operation Homefront, Inc.",
-        "address": "PO Box 158010",
-        "partner_type": "community_development",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Operation Rose",
-        "address": "PO Box 290006",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7916492,
           36.1520952
         ]
@@ -13711,22 +12591,6 @@
         "address": "13833 Owens Chapel Rd, Springfield, TN 37172, USA",
         "partner_type": "other",
         "county": "Robertson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Organize Tennessee",
-        "address": "PO Box 40083",
-        "partner_type": "other",
-        "county": "Davidson"
       }
     },
     {
@@ -13791,38 +12655,6 @@
         "address": "643 Spence Lane, Nashville, TN, USA",
         "partner_type": "medical_health",
         "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Our Pride Encompasses Nashville / Nashville Pride",
-        "address": "P.O. Box 330931",
-        "partner_type": "community_development",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.8611139,
-          35.7897004
-        ]
-      },
-      "properties": {
-        "partner_name": "Overture Music Academy",
-        "address": "PO Box 45",
-        "partner_type": "after_school",
-        "county": "Williamson"
       }
     },
     {
@@ -14166,22 +12998,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "PFLAG (Nashville Chapter)",
-        "address": "P.O. Box 331562",
-        "partner_type": "community_development",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.732942250847,
           36.239565279652
         ]
@@ -14191,22 +13007,6 @@
         "address": "311 Walton Lane",
         "partner_type": "other",
         "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.621443,
-          36.3049177
-        ]
-      },
-      "properties": {
-        "partner_name": "Pink Christmas",
-        "address": "PO Box 1045",
-        "partner_type": "other",
-        "county": "Sumner"
       }
     },
     {
@@ -14367,22 +13167,6 @@
         "address": "200 East Main Street, Murfreesboro, TN, USA",
         "partner_type": "medical_health",
         "county": "Rutherford"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.6224959,
-          36.1961664
-        ]
-      },
-      "properties": {
-        "partner_name": "Pregnancy Care Center",
-        "address": "P.O. Box 241",
-        "partner_type": "medical_health",
-        "county": "Davidson"
       }
     },
     {
@@ -14566,22 +13350,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7138861,
-          36.2561646
-        ]
-      },
-      "properties": {
-        "partner_name": "Project Connect, Incorporated",
-        "address": "P.O. Box 295",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7819131,
           36.1639672
         ]
@@ -14662,22 +13430,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Proverbs 1210 Animal Rescue",
-        "address": "PO Box 210830",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.3713269,
           35.8873588
         ]
@@ -14702,38 +13454,6 @@
         "partner_name": "Purpose Preparatory Academy, Inc.",
         "address": "220 Venture Cir, Nashville, TN 37228, USA",
         "partner_type": "school_summer",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Radio Free Nashville, Inc.",
-        "address": "P.O. Box 41488",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Raise the Roof Academy",
-        "address": "PO Box 92216",
-        "partner_type": "after_school",
         "county": "Davidson"
       }
     },
@@ -15638,22 +14358,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.4475898,
-          36.3883031
-        ]
-      },
-      "properties": {
-        "partner_name": "Salvus Center, Inc.",
-        "address": "P.O. Box 8046",
-        "partner_type": "medical_health",
-        "county": "Sumner"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7629934,
           36.1687497
         ]
@@ -15926,22 +14630,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Shine Photography",
-        "address": "PO Box 210321",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7299966,
           36.2143211
         ]
@@ -16070,22 +14758,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Slow Food Middle Tennessee",
-        "address": "P.O. Box 41623",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7866382,
           36.1444224
         ]
@@ -16095,22 +14767,6 @@
         "address": "1119 12th Ave S, Nashville, TN 37203, USA",
         "partner_type": "other",
         "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.5186054,
-          36.200055
-        ]
-      },
-      "properties": {
-        "partner_name": "Small World, Inc",
-        "address": "PO Box 1109",
-        "partner_type": "other",
-        "county": "Wilson"
       }
     },
     {
@@ -16301,22 +14957,6 @@
       "properties": {
         "partner_name": "Southeast Community Capital Corporation / Pathway Lending",
         "address": "201 Venture Circle",
-        "partner_type": "community_development",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Southeast Community Ventures Inc",
-        "address": "PO Box 41292",
         "partner_type": "community_development",
         "county": "Davidson"
       }
@@ -16678,22 +15318,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.8849984,
-          36.5092119
-        ]
-      },
-      "properties": {
-        "partner_name": "Stepping Stones of Robertson County / My Father's House Mission",
-        "address": "PO Box 973",
-        "partner_type": "transitional_housing",
-        "county": "Robertson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.399371060993,
           35.838827965869
         ]
@@ -16734,22 +15358,6 @@
         "partner_name": "Street Theatre Company",
         "address": "4003 Indiana Avenue, Nashville, TN, USA",
         "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Street Works",
-        "address": "PO Box 282065",
-        "partner_type": "homeless_outreach",
         "county": "Davidson"
       }
     },
@@ -16998,22 +15606,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7825235,
-          36.0325687
-        ]
-      },
-      "properties": {
-        "partner_name": "Sweet Sleep, Inc.",
-        "address": "PO Box 1546",
-        "partner_type": "other",
-        "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.3372826,
           36.2135199
         ]
@@ -17038,22 +15630,6 @@
         "partner_name": "T Time Foundation",
         "address": "6339 Charlotte Pk Unit C158",
         "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Talk With Me Tennessee",
-        "address": "PO Box 121113",
-        "partner_type": "medical_health",
         "county": "Davidson"
       }
     },
@@ -17142,22 +15718,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.8689419,
-          35.925206
-        ]
-      },
-      "properties": {
-        "partner_name": "Ten Thousand Villages of Nashville",
-        "address": "P.O. Box 682722",
-        "partner_type": "other",
-        "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.853226,
           36.150155
         ]
@@ -17238,38 +15798,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Tennessee Alliance for Progress",
-        "address": "P.O. Box 60338",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Tennessee Art League",
-        "address": "PO Box 150742",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.1342248,
           36.1003477
         ]
@@ -17327,54 +15855,6 @@
         "address": "615 Main Street, Nashville, TN, USA",
         "partner_type": "other",
         "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.3921096,
-          35.8460396
-        ]
-      },
-      "properties": {
-        "partner_name": "Tennessee Association of Dance",
-        "address": "Po Box 10211",
-        "partner_type": "other",
-        "county": "Rutherford"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.8689419,
-          35.925206
-        ]
-      },
-      "properties": {
-        "partner_name": "Tennessee Baptist Adult Homes, Inc",
-        "address": "PO Box 682789",
-        "partner_type": "transitional_housing",
-        "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7825235,
-          36.0325687
-        ]
-      },
-      "properties": {
-        "partner_name": "Tennessee Baptist Children's Homes",
-        "address": "P.O. Box 2206",
-        "partner_type": "transitional_housing",
-        "county": "Williamson"
       }
     },
     {
@@ -17446,22 +15926,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Tennessee Chapter of the American Academy of Pediatrics, Inc.",
-        "address": "P.O. Box 159201",
-        "partner_type": "medical_health",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.8406739,
           35.911066
         ]
@@ -17486,22 +15950,6 @@
         "partner_name": "Tennessee Charter School Incubator",
         "address": "209 10th Avenue South",
         "partner_type": "school_summer",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Tennessee Coalition for Open Government",
-        "address": "PO Box 22248",
-        "partner_type": "other",
         "county": "Davidson"
       }
     },
@@ -17622,22 +16070,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Tennessee Equality Project Foundation",
-        "address": "PO Box 330875",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.6966107,
           36.2228739
         ]
@@ -17662,38 +16094,6 @@
         "partner_name": "Tennessee Family Solutions Inc.",
         "address": "831 Seven Oaks Blvd",
         "partner_type": "medical_health",
-        "county": "Rutherford"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Tennessee Firefighters Burn Foundation Inc",
-        "address": "PO Box 100262",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.3921096,
-          35.8460396
-        ]
-      },
-      "properties": {
-        "partner_name": "Tennessee Fisher House Foundation, Inc.",
-        "address": "PO Box 11693",
-        "partner_type": "transitional_housing",
         "county": "Rutherford"
       }
     },
@@ -17870,22 +16270,6 @@
         "partner_name": "Tennessee Justice For Our Neighbors (TNJFON)",
         "address": "2195 Nolensville Pk, Nashville, TN 37211, USA",
         "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Tennessee Kidney Foundation Inc",
-        "address": "PO Box 330989",
-        "partner_type": "medical_health",
         "county": "Davidson"
       }
     },
@@ -18214,22 +16598,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.5186054,
-          36.200055
-        ]
-      },
-      "properties": {
-        "partner_name": "Tennessee Senior Olympics",
-        "address": "P.O. Box 681",
-        "partner_type": "senior_services",
-        "county": "Wilson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.796022432855,
           36.152932289274
         ]
@@ -18422,22 +16790,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "TennesseeCAN, Inc.",
-        "address": "PO Box 190492",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.7935551,
           36.1424586
         ]
@@ -18445,22 +16797,6 @@
       "properties": {
         "partner_name": "TennGreen Land Conservancy",
         "address": "1213 16th Ave S, Nashville, TN 37212, USA",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Tenn-Share",
-        "address": "PO Box 331871",
         "partner_type": "other",
         "county": "Davidson"
       }
@@ -18486,22 +16822,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "The AchieveHer Period Project",
-        "address": "PO Box 332062",
-        "partner_type": "medical_health",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.812215,
           36.144374
         ]
@@ -18510,22 +16830,6 @@
         "partner_name": "The Achiever Academy",
         "address": "2817 West End Ave",
         "partner_type": "after_school",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "The Addis Clinic Inc.",
-        "address": "P.O. Box 120074",
-        "partner_type": "medical_health",
         "county": "Davidson"
       }
     },
@@ -18670,22 +16974,6 @@
         "partner_name": "The Beat of Life",
         "address": "1109 Sebetha",
         "partner_type": "medical_health",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "The Beech Firm Foundation Inc",
-        "address": "PO Box 50785",
-        "partner_type": "other",
         "county": "Davidson"
       }
     },
@@ -19206,22 +17494,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.2910945,
-          36.2079779
-        ]
-      },
-      "properties": {
-        "partner_name": "The Hope Society Inc.",
-        "address": "P.O. Box 1196",
-        "partner_type": "other",
-        "county": "Wilson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.8252803,
           36.1596695
         ]
@@ -19350,22 +17622,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.2910945,
-          36.2079779
-        ]
-      },
-      "properties": {
-        "partner_name": "The Keith Edmonds Foundation",
-        "address": "PO Box 485",
-        "partner_type": "other",
-        "county": "Wilson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.4945188,
           36.5749878
         ]
@@ -19438,22 +17694,6 @@
         "partner_name": "The Mary Parrish Center",
         "address": "Nashville, TN 37206, USA",
         "partner_type": "transitional_housing",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "The Minerva Foundation",
-        "address": "P.O. Box 281152",
-        "partner_type": "other",
         "county": "Davidson"
       }
     },
@@ -20070,22 +18310,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Thisbe and Noah Scott Foundation, Inc.",
-        "address": "PO Box 50332",
-        "partner_type": "medical_health",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.8489597,
           36.1520377
         ]
@@ -20094,22 +18318,6 @@
         "partner_name": "Thistle Farms",
         "address": "5122 Charlotte Ave, Nashville, TN 37209, USA",
         "partner_type": "transitional_housing",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Threads By Dreads Foundation",
-        "address": "PO Box 280265",
-        "partner_type": "other",
         "county": "Davidson"
       }
     },
@@ -20230,22 +18438,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Tomorrow's Leaders for Change",
-        "address": "P.O. Box 293016",
-        "partner_type": "after_school",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.6810659,
           36.1627149
         ]
@@ -20334,22 +18526,6 @@
         "partner_name": "Transformation Life Center",
         "address": "1033 Demonbreun Street suite 300, Nashville, TN, USA",
         "partner_type": "transitional_housing",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Transformation Nashville, Inc.",
-        "address": "PO Box 41793",
-        "partner_type": "community_development",
         "county": "Davidson"
       }
     },
@@ -20511,22 +18687,6 @@
         "address": "9505 Elmbrooke Blvd, Brentwood, TN, USA",
         "partner_type": "other",
         "county": "Williamson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "Turners Heroes",
-        "address": "PO Box 331883",
-        "partner_type": "other",
-        "county": "Davidson"
       }
     },
     {
@@ -21414,22 +19574,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.8308324,
-          36.2658869
-        ]
-      },
-      "properties": {
-        "partner_name": "Waypoint Vets Inc",
-        "address": "P.O. Box 118",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.392994551016,
           35.911332411988
         ]
@@ -21518,22 +19662,6 @@
         "partner_name": "West Nashville Dream Center / Dream Streets",
         "address": "520 39th Avenue North, Nashville, TN, USA",
         "partner_type": "community_development",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "West Nashville Sports League",
-        "address": "P.O. Box 50710",
-        "partner_type": "other",
         "county": "Davidson"
       }
     },
@@ -21942,22 +20070,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.2910945,
-          36.2079779
-        ]
-      },
-      "properties": {
-        "partner_name": "Wilson County Salvation Army",
-        "address": "PO Box 835",
-        "partner_type": "community_development",
-        "county": "Wilson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.511102,
           36.1873083
         ]
@@ -21967,22 +20079,6 @@
         "address": "2055 N Mt Juliet Rd, Mt. Juliet, TN 37122, USA",
         "partner_type": "senior_services",
         "county": "Wilson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.6722192,
-          36.0600602
-        ]
-      },
-      "properties": {
-        "partner_name": "Wings of Courage",
-        "address": "PO Box 1999",
-        "partner_type": "other",
-        "county": "Davidson"
       }
     },
     {
@@ -22198,22 +20294,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -86.7742984,
-          36.1622767
-        ]
-      },
-      "properties": {
-        "partner_name": "WXNA",
-        "address": "PO Box 60205",
-        "partner_type": "other",
-        "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -86.57352184043,
           36.042557474204
         ]
@@ -22335,22 +20415,6 @@
         "address": "1515 16th Ave S",
         "partner_type": "after_school",
         "county": "Davidson"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -86.621443,
-          36.3049177
-        ]
-      },
-      "properties": {
-        "partner_name": "Young Life Sumner",
-        "address": "PO Box 362",
-        "partner_type": "after_school",
-        "county": "Sumner"
       }
     },
     {
