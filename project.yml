@@ -263,6 +263,12 @@ data_sources:
       address_column: address
       category_column: partner_type
     geocode_cache_key: "nfp-mapping/partners/giving_matters_geocode_cache.csv"
+    suppress_types:
+      - arts_culture
+      - animal_welfare
+      - sports_recreation
+      - historical_preservation
+      - public_media
     point_layer_name: "Community Partners (Giving Matters)"
     marker_style: "circle"  # Use circle markers to distinguish from NFP partner pins
     default_color: "#17BECF"
@@ -313,6 +319,30 @@ partners:
       label: "Community Meals"
       color: "#2E7D32"
       icon: "utensils"
+    child_advocacy:
+      label: "Child Advocacy & CASA"
+      color: "#D81B60"
+      icon: "shield-alt"
+    legal_advocacy:
+      label: "Legal Aid & Advocacy"
+      color: "#6A1B9A"
+      icon: "balance-scale"
+    veterans_military:
+      label: "Veterans & Military Services"
+      color: "#1565C0"
+      icon: "flag"
+    faith_ministry:
+      label: "Faith & Ministry"
+      color: "#4E342E"
+      icon: "church"
+    environment_conservation:
+      label: "Environment & Conservation"
+      color: "#558B2F"
+      icon: "leaf"
+    higher_education:
+      label: "Higher Education"
+      color: "#37474F"
+      icon: "university"
     other:
       label: "Other"
       color: "#607D8B"

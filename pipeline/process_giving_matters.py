@@ -487,6 +487,17 @@ def process_giving_matters(
             df[col] = ""
         df[col] = df[col].fillna("").astype(str).str.strip()
 
+    suppress_types = source_config.get("suppress_types") or []
+    if suppress_types:
+        before = len(df)
+        df = df[~df["partner_type"].isin(suppress_types)].reset_index(drop=True)
+        dropped = before - len(df)
+        if dropped:
+            logger.info(
+                "Suppressed %d rows with non-map-relevant partner_type values: %s",
+                dropped, suppress_types,
+            )
+
     df = _geocode_rows(df, source_config, use_mock, mock_dir)
     _to_geojson(df, OUTPUT_GEOJSON)
 
