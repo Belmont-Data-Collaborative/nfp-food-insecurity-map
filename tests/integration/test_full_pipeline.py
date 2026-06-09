@@ -74,6 +74,7 @@ class TestParquetAndCsvContracts:
         "health_lila_tract": {"GEOID", "DIABETES", "BPHIGH", "OBESITY"},
         "health_lila_zip": {"GEOID", "DIABETES", "BPHIGH", "OBESITY"},
         "usda_lila_tract": {"GEOID", "LILATracts_1And10", "lapop1", "lalowi1"},
+        "food_insecurity_tract": {"GEOID", "food_insecurity_rate", "food_insecure_count"},
     }
 
     CSV_RENAMES = {"health_lila_tract": "health_tract", "health_lila_zip": "health_zip"}
