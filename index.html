@@ -91,7 +91,7 @@
 
     .footer {
       border-top: 1px solid var(--ink-200);
-      padding: 28px;
+      padding: 20px 28px;
       margin-top: 72px;
       color: var(--ink-500);
       font-size: 0.82rem;
@@ -100,7 +100,7 @@
       gap: 14px;
       justify-content: center;
     }
-    .footer img { height: 28px; }
+    .footer img { height: 40px; }
 
     @media (max-width: 880px) {
       .hero { grid-template-columns: 1fr; }
@@ -113,17 +113,17 @@
 <body>
 
 <nav class="topnav">
-  <div class="brand">
+  <a class="brand" href="index.html">
     <img src="assets/nfp-logo.png" alt="Nashville Food Project" style="height:28px;width:auto;display:block;" />
     <span>Food Insecurity Map</span>
-  </div>
+  </a>
   <div class="links">
     <a href="index.html" class="active">Home</a>
     <a href="Map.html">Map</a>
     <a href="About.html">About the Data</a>
   </div>
   <div class="spacer"></div>
-  <div class="meta">v2.0 · Updated Apr 2026</div>
+  <div class="meta">v2.0 · Updated Jun 2026</div>
 </nav>
 
 <main>
@@ -247,7 +247,7 @@
 
   <footer class="footer">
     <span>Built by</span>
-    <img src="assets/bdaic-logo.png" alt="Belmont Data & AI Collaborative" style="height:24px; opacity: 0.85;" />
+    <img src="assets/bdaic-logo.png" alt="Belmont Data & AI Collaborative" style="opacity: 0.85;" />
     <span class="mono">·</span>
     <span>for the Nashville Food Project</span>
     <span class="mono">·</span>
@@ -290,18 +290,10 @@
     set("partners", fmt(partners));
     set("giving_matters", fmt(gm));
 
-    // Data freshness = newest mtime among data/*.parquet, via HEAD last-modified.
-    // Falls back to today's date if the static server doesn't expose it.
+    // Data freshness — written by the pipeline at export time.
     try {
-      const head = await fetch("data/acs_tract.csv", { method: "HEAD" });
-      const lm = head.headers.get("last-modified");
-      if (lm) {
-        const d = new Date(lm);
-        const iso = d.toISOString().slice(0, 10);
-        document.getElementById("freshness").textContent = iso;
-      } else {
-        document.getElementById("freshness").textContent = "—";
-      }
+      const r = await fetch("data/last_updated.txt");
+      document.getElementById("freshness").textContent = r.ok ? (await r.text()).trim() : "—";
     } catch {
       document.getElementById("freshness").textContent = "—";
     }

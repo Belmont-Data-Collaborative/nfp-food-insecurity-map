@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import json
 import logging
+from datetime import datetime, timezone
 from pathlib import Path
 
 from src import config as app_config
@@ -35,6 +36,7 @@ from pipeline.load_source import upload_file_to_s3
 logger = logging.getLogger(__name__)
 
 OUTPUT_PATH = Path("data/config.json")
+FRESHNESS_PATH = Path("data/last_updated.txt")
 
 
 def _infer_granularities(source_config: dict) -> list[str]:
@@ -133,6 +135,14 @@ def export_config() -> Path:
     if app_config.S3_OUTPUT_BUCKET:
         key = f"{app_config.S3_OUTPUT_PREFIX.rstrip('/')}/{OUTPUT_PATH.name}"
         upload_file_to_s3(str(OUTPUT_PATH), app_config.S3_OUTPUT_BUCKET, key)
+
+    run_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    FRESHNESS_PATH.write_text(run_date)
+    logger.info("Wrote %s (%s)", FRESHNESS_PATH, run_date)
+    if app_config.S3_OUTPUT_BUCKET:
+        key = f"{app_config.S3_OUTPUT_PREFIX.rstrip('/')}/{FRESHNESS_PATH.name}"
+        upload_file_to_s3(str(FRESHNESS_PATH), app_config.S3_OUTPUT_BUCKET, key)
+
     return OUTPUT_PATH
 
 

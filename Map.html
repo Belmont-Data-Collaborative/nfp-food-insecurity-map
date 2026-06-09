@@ -313,6 +313,8 @@
     [data-density="compact"] .sidebar { font-size: 0.84rem; }
     [data-density="compact"] .sb-section { margin-top: 12px; }
 
+    /* Top nav — ensure it layers above the map shell */
+    .topnav { position: relative; z-index: 600; }
     /* Top nav logos */
     .topnav .brand img { height: 28px; width: auto; display: block; }
     .topnav .partner-lockup {
@@ -338,10 +340,10 @@
 <body>
 
 <nav class="topnav">
-  <div class="brand">
+  <a class="brand" href="index.html">
     <img src="assets/nfp-logo.png" alt="Nashville Food Project" style="width: 110px; height: 50px;" />
     <span>Food Insecurity Map</span>
-  </div>
+  </a>
   <div class="links">
     <a href="index.html">Home</a>
     <a href="Map.html" class="active">Map</a>
@@ -418,7 +420,7 @@
         <div>Census ACS · <span class="mono" style="color:var(--ink-700)">2020–2024</span></div>
         <div>CDC PLACES · <span class="mono" style="color:var(--ink-700)">2024</span></div>
         <div>USDA LILA · <span class="mono" style="color:var(--ink-700)">2019</span></div>
-        <div>Partners · <span class="mono" style="color:var(--ink-700)">Apr 2026</span></div>
+        <div>Partners · <span class="mono" style="color:var(--ink-700)">Jun 2026</span></div>
       </div>
     </div>
 
