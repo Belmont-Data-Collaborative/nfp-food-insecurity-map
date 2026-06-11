@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   <style>
     .hero-wrap { max-width: 1180px; margin: 0 auto; padding: 56px 28px 24px; }
     .hero {
@@ -29,13 +31,30 @@
       background:
         radial-gradient(circle at 30% 40%, rgba(46,125,50,0.14), transparent 60%),
         radial-gradient(circle at 70% 70%, rgba(201,111,23,0.14), transparent 55%),
+        linear-gradient(to right, #d8e5da 0.5px, transparent 0.5px) 0 0 / 20px 20px,
+        linear-gradient(to bottom, #d8e5da 0.5px, transparent 0.5px) 0 0 / 20px 20px,
         var(--nfp-green-50);
       border: 1px solid var(--ink-200);
       border-radius: var(--radius-lg);
       position: relative;
       overflow: hidden;
+      display: block;
+      cursor: pointer;
+      text-decoration: none;
+      transition: box-shadow 0.16s ease, border-color 0.16s ease;
     }
-    .hero-visual svg { width: 100%; height: 100%; display: block; }
+    .hero-visual:hover { border-color: var(--nfp-green-300); box-shadow: var(--shadow); }
+    #hero-map { position: absolute; inset: 0; }
+    #hero-map.leaflet-container { background: transparent; }
+    .hero-map-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(20,57,26,0.12) 100%),
+        linear-gradient(to bottom, transparent 60%, rgba(20,57,26,0.08) 100%);
+      border-radius: var(--radius-lg);
+    }
 
     .stats {
       max-width: 1180px;
@@ -130,7 +149,7 @@
   <div class="hero-wrap">
     <div class="hero">
       <div>
-        <div class="eyebrow">A tool by the Nashville Food Project · Built with BDAIC</div>
+        <div class="eyebrow">A tool by The Nashville Food Project · Built with BDAIC</div>
         <h1>Where Nashville's neighbors need food&nbsp;— and where we can meet them.</h1>
         <p class="lede">
           An interactive map of food insecurity indicators across the 14-county
@@ -142,39 +161,10 @@
           <a class="btn" href="About.html">How the data works</a>
         </div>
       </div>
-      <div class="hero-visual" aria-hidden="true">
-        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#d8e5da" stroke-width="0.5"/>
-            </pattern>
-          </defs>
-          <rect width="400" height="300" fill="url(#grid)" />
-          <!-- stylized choropleth tracts -->
-          <g opacity="0.9">
-            <polygon points="40,60 110,50 130,110 80,140 30,120" fill="#a8c9ac" stroke="#fbfbf7" stroke-width="1.5"/>
-            <polygon points="110,50 200,55 210,100 130,110" fill="#2e7d32" stroke="#fbfbf7" stroke-width="1.5"/>
-            <polygon points="200,55 290,70 280,130 210,100" fill="#1b5e20" stroke="#fbfbf7" stroke-width="1.5"/>
-            <polygon points="290,70 370,90 360,160 280,130" fill="#5aa460" stroke="#fbfbf7" stroke-width="1.5"/>
-            <polygon points="30,120 80,140 90,200 40,220" fill="#c4dbc6" stroke="#fbfbf7" stroke-width="1.5"/>
-            <polygon points="80,140 130,110 210,100 220,170 150,200 90,200" fill="#3e8e41" stroke="#fbfbf7" stroke-width="1.5"/>
-            <polygon points="210,100 280,130 260,200 220,170" fill="#7ab37e" stroke="#fbfbf7" stroke-width="1.5"/>
-            <polygon points="280,130 360,160 350,230 260,200" fill="#2e7d32" stroke="#fbfbf7" stroke-width="1.5"/>
-            <polygon points="40,220 90,200 150,200 140,260 60,270" fill="#e3efe4" stroke="#fbfbf7" stroke-width="1.5"/>
-            <polygon points="150,200 220,170 260,200 250,260 140,260" fill="#a8c9ac" stroke="#fbfbf7" stroke-width="1.5"/>
-            <polygon points="260,200 350,230 330,280 250,260" fill="#3e8e41" stroke="#fbfbf7" stroke-width="1.5"/>
-          </g>
-          <!-- partner pins -->
-          <g>
-            <circle cx="150" cy="130" r="6" fill="#c96f17" stroke="white" stroke-width="2"/>
-            <circle cx="230" cy="90" r="6" fill="#a14b28" stroke="white" stroke-width="2"/>
-            <circle cx="310" cy="180" r="6" fill="#1b5e20" stroke="white" stroke-width="2"/>
-            <circle cx="90" cy="170" r="6" fill="#c96f17" stroke="white" stroke-width="2"/>
-            <circle cx="200" cy="220" r="6" fill="#a14b28" stroke="white" stroke-width="2"/>
-            <circle cx="270" cy="240" r="6" fill="#1b5e20" stroke="white" stroke-width="2"/>
-          </g>
-        </svg>
-      </div>
+      <a class="hero-visual" href="Map.html" aria-label="Open the interactive map">
+        <div id="hero-map"></div>
+        <div class="hero-map-overlay"></div>
+      </a>
     </div>
 
     <div class="stats" id="home-stats">
@@ -249,11 +239,116 @@
     <span>Built by</span>
     <img src="assets/bdaic-logo.png" alt="Belmont Data & AI Collaborative" style="opacity: 0.85;" />
     <span class="mono">·</span>
-    <span>for the Nashville Food Project</span>
+    <span>for The Nashville Food Project</span>
     <span class="mono">·</span>
     <span>Data last refreshed <span id="freshness">—</span></span>
   </footer>
 </main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+  // Hero map — non-interactive static choropleth of Davidson County tracts
+  // colored by poverty rate, with NFP partner dots overlaid.
+  (async () => {
+    function parseCsv(text) {
+      const rows = text.trim().split(/\r?\n/);
+      const headers = rows[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+      return rows.slice(1).map(row => {
+        const vals = row.split(',');
+        const obj = {};
+        headers.forEach((h, i) => { obj[h] = (vals[i] || '').trim().replace(/^"|"$/g, ''); });
+        return obj;
+      });
+    }
+
+    const GREENS = ['#e8f1e8', '#c4dbc6', '#7ab37e', '#3e8e41', '#1b5e20'];
+    function povertyColor(rate) {
+      if (rate == null || isNaN(rate)) return GREENS[1];
+      if (rate < 5)  return GREENS[0];
+      if (rate < 10) return GREENS[1];
+      if (rate < 20) return GREENS[2];
+      if (rate < 30) return GREENS[3];
+      return GREENS[4];
+    }
+
+    const map = L.map('hero-map', {
+      dragging: false, touchZoom: false, doubleClickZoom: false,
+      scrollWheelZoom: false, boxZoom: false, keyboard: false,
+      zoomControl: false, attributionControl: false,
+      zoomSnap: 0
+    });
+
+    try {
+      const [tractsGJ, acsText, partnersGJ, countiesGJ] = await Promise.all([
+        fetch('data/tracts.geojson').then(r => r.ok ? r.json() : null),
+        fetch('data/acs_tract.csv').then(r => r.ok ? r.text() : null),
+        fetch('data/partners.geojson').then(r => r.ok ? r.json() : null),
+        fetch('data/counties.geojson').then(r => r.ok ? r.json() : null),
+      ]);
+
+      if (!tractsGJ) return;
+
+      const poverty = {};
+      if (acsText) {
+        parseCsv(acsText).forEach(row => {
+          const geoid = row['GEOID'];
+          const val = parseFloat(row['Percent of Population Below Poverty Level']);
+          if (geoid) poverty[geoid] = val;
+        });
+      }
+
+      const davidsonTracts = {
+        type: 'FeatureCollection',
+        features: tractsGJ.features.filter(f => f.properties.GEOID?.startsWith('47037'))
+      };
+
+      const tractLayer = L.geoJSON(davidsonTracts, {
+        style: feat => ({
+          fillColor: povertyColor(poverty[feat.properties.GEOID]),
+          fillOpacity: 0.88,
+          color: '#fbfbf7',
+          weight: 0.7,
+        }),
+        interactive: false
+      }).addTo(map);
+
+      const bounds = tractLayer.getBounds();
+      map.fitBounds(bounds, { padding: [18, 18], animate: false });
+
+      // County outline
+      if (countiesGJ) {
+        const davidson = {
+          type: 'FeatureCollection',
+          features: countiesGJ.features.filter(f => f.properties.GEOID === '47037')
+        };
+        L.geoJSON(davidson, {
+          style: { fill: false, color: '#2e7d32', weight: 2, opacity: 0.6 },
+          interactive: false
+        }).addTo(map);
+      }
+
+      // Partner dots within Davidson bounds
+      if (partnersGJ) {
+        partnersGJ.features.forEach(f => {
+          if (!f.geometry || f.geometry.type !== 'Point') return;
+          const [lng, lat] = f.geometry.coordinates;
+          if (!bounds.contains([lat, lng])) return;
+          L.circleMarker([lat, lng], {
+            radius: 3.5,
+            fillColor: '#c96f17',
+            fillOpacity: 0.92,
+            color: '#fbfbf7',
+            weight: 1.5,
+            interactive: false
+          }).addTo(map);
+        });
+      }
+    } catch (e) {
+      // Silently fail — hero-visual shows fallback background
+    }
+  })();
+</script>
 
 <script>
   // Dynamic landing-page stats — mirrors app.py::_gather_key_stats from the

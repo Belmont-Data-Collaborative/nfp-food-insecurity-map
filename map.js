@@ -393,7 +393,8 @@ function openFeatureDetail(f, layer) {
   const obesity = valueFor(geoid, "obesity");
   const lila = state.geo === "tract" ? valueFor(geoid, "lila_flag") : null;
   const lapop = state.geo === "tract" ? valueFor(geoid, "lapop1") : null;
-  const fiRate = state.geo === "tract" ? valueFor(geoid, "food_insecurity_rate") : null;
+  const fiRate  = state.geo === "tract" ? valueFor(geoid, "food_insecurity_rate")  : null;
+  const fiCount = state.geo === "tract" ? valueFor(geoid, "food_insecure_count")   : null;
 
   const statGrid = `
     <div class="stat-grid">
@@ -419,9 +420,9 @@ function openFeatureDetail(f, layer) {
 
   const accessSection = (state.geo === "tract") ? `
     <h4>Food access & insecurity</h4>
-    <div class="bar"><span class="k">Insecurity</span><div class="track"><div class="fill" style="width:${fiRate != null ? Math.min(100, fiRate) : 0}%; background: var(--accent-amber);"></div></div><span class="v">${fiRate != null ? fiRate.toFixed(1) + "%" : "—"}</span></div>
+    <div class="bar"><span class="k">Insecurity</span><div class="track"><div class="fill" style="width:${fiCount != null ? Math.min(100, (fiCount / indicatorRange('food_insecure_count')[1])*100) : 0}%; background: var(--accent-amber);"></div></div><span class="v">${fiCount != null ? Math.round(fiCount).toLocaleString() : "—"}</span></div>
     ${lapop != null ? `<div class="bar"><span class="k">Low access</span><div class="track"><div class="fill" style="width:${Math.min(100, (lapop / indicatorRange('lapop1')[1])*100)}%; background: var(--nfp-green-700);"></div></div><span class="v">${Math.round(lapop).toLocaleString()}</span></div>` : ""}
-    <div class="bar"><span class="k">LILA</span><div class="track"><div class="fill" style="width:${lila == 1 ? 100 : 0}%; background: ${lila == 1 ? 'var(--accent-rust)' : 'var(--nfp-green-700)'};"></div></div><span class="v">${lila == 1 ? "Yes" : lila == 0 ? "No" : "—"}</span></div>
+    <div class="bar"><span class="k">LILA</span><span></span><span class="v">${lila == 1 ? `<span style="background:#954424;color:#FFFFFF;border:1px solid rgba(0,0,0,0.15);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08);padding:1px 7px;border-radius:4px;font-size:0.75rem;font-weight:600;">Yes</span>` : lila == 0 ? `<span style="background:var(--nfp-green-100);color:var(--nfp-green-800);padding:1px 7px;border-radius:3px;font-size:0.75rem;font-weight:600;">No</span>` : "—"}</span></div>
   ` : "";
 
   const centroid = featureCentroid(f);
