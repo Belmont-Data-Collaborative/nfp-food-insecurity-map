@@ -557,9 +557,7 @@ function indicatorIcon(id) {
   }[id] || base(`<circle cx="12" cy="12" r="8"/>`);
 }
 
-function renderOrgList() {
-  const el = document.getElementById("org-list");
-  if (!el) return;
+function orgCountsBySource() {
   const nfpCounts = {};
   const gmCounts = {};
   if (state.data.partners) {
@@ -574,6 +572,19 @@ function renderOrgList() {
       gmCounts[k] = (gmCounts[k] || 0) + 1;
     }
   }
+  return { nfpCounts, gmCounts };
+}
+
+function isCategoryAvailable(id, nfpCounts, gmCounts) {
+  const n = nfpCounts[id] || 0;
+  const g = gmCounts[id] || 0;
+  return (state.showPartners && n > 0) || (state.showGivingMatters && g > 0);
+}
+
+function renderOrgList() {
+  const el = document.getElementById("org-list");
+  if (!el) return;
+  const { nfpCounts, gmCounts } = orgCountsBySource();
   el.innerHTML = Object.entries(PARTNER_TYPES).map(([id, meta]) => {
     const n = (nfpCounts[id] || 0);
     const g = (gmCounts[id] || 0);
@@ -588,14 +599,106 @@ function renderOrgList() {
   }).join("");
   el.querySelectorAll("input").forEach(inp => {
     inp.addEventListener("change", () => {
-      if (inp.checked) state.orgFilters.add(inp.dataset.id);
-      else state.orgFilters.delete(inp.dataset.id);
+      const id = inp.dataset.id;
+      const { nfpCounts, gmCounts } = orgCountsBySource();
+      if (inp.checked) {
+        state.orgFilters.add(id);
+        enableSourcesForCategory(id, nfpCounts, gmCounts);
+      } else {
+        state.orgFilters.delete(id);
+        syncSourceTogglesFromFilters();
+      }
+      syncOrgListCheckboxes();
       drawNfpPartners();
       drawGivingMatters();
+      updatePartnerCount();
+      updateGmCount();
+      updateStatus();
     });
   });
+  syncOrgListCheckboxes();
   updatePartnerCount();
   updateGmCount();
+}
+
+function nfpCategorySet() {
+  if (!state.data.partners) return new Set();
+  return new Set(state.data.partners.features.map(f => f.properties.partner_type || "other"));
+}
+
+function gmCategorySet() {
+  if (!state.data.givingMatters) return new Set();
+  return new Set(state.data.givingMatters.features.map(f => f.properties.partner_type || "other"));
+}
+
+function enableSourcesForCategory(id, nfpCounts, gmCounts) {
+  const n = nfpCounts[id] || 0;
+  const g = gmCounts[id] || 0;
+  if (n > 0 && !state.showPartners) {
+    state.showPartners = true;
+    setSourceToggle("nfp", true);
+  }
+  if (g > 0 && !state.showGivingMatters) {
+    state.showGivingMatters = true;
+    setSourceToggle("gm", true);
+  }
+}
+
+function setSourceToggle(which, checked) {
+  const label = document.querySelector(`[data-src-toggle="${which}"]`);
+  if (!label) return;
+  const input = label.querySelector("input");
+  input.checked = checked;
+  label.classList.toggle("on", checked);
+}
+
+function syncSourceTogglesFromFilters() {
+  const nfpCats = nfpCategorySet();
+  const gmCats = gmCategorySet();
+  const hasSelectedNfp = [...nfpCats].some(id => state.orgFilters.has(id));
+  const hasSelectedGm = [...gmCats].some(id => state.orgFilters.has(id));
+  if (state.showPartners && !hasSelectedNfp) {
+    state.showPartners = false;
+    setSourceToggle("nfp", false);
+  }
+  if (state.showGivingMatters && !hasSelectedGm) {
+    state.showGivingMatters = false;
+    setSourceToggle("gm", false);
+  }
+}
+
+function ensureNfpCategoriesSelected() {
+  const nfpCats = nfpCategorySet();
+  if (![...nfpCats].some(id => state.orgFilters.has(id))) {
+    for (const id of nfpCats) state.orgFilters.add(id);
+  }
+}
+
+function ensureAllCategoriesIfNoneSelected() {
+  if (state.orgFilters.size === 0) {
+    state.orgFilters = new Set(Object.keys(PARTNER_TYPES));
+  }
+}
+
+function pruneCategoriesWhenGmOff() {
+  const nfpCats = nfpCategorySet();
+  const hasSelectedNfp = [...nfpCats].some(id => state.orgFilters.has(id));
+  if (state.showPartners && !state.showGivingMatters && hasSelectedNfp) {
+    state.orgFilters = new Set([...nfpCats].filter(id => state.orgFilters.has(id)));
+  }
+}
+
+function syncOrgListCheckboxes() {
+  const el = document.getElementById("org-list");
+  if (!el) return;
+  const { nfpCounts, gmCounts } = orgCountsBySource();
+  el.querySelectorAll("label.row").forEach(row => {
+    const inp = row.querySelector("input[data-id]");
+    if (!inp) return;
+    const available = isCategoryAvailable(inp.dataset.id, nfpCounts, gmCounts);
+    inp.checked = state.orgFilters.has(inp.dataset.id);
+    row.classList.toggle("off", !available);
+  });
 }
 
 function updatePartnerCount() {
@@ -985,8 +1088,22 @@ async function init() {
       if (which === "nfp") state.showPartners = input.checked;
       if (which === "gm") state.showGivingMatters = input.checked;
       label.classList.toggle("on", input.checked);
-      if (which === "nfp") drawNfpPartners();
-      if (which === "gm") drawGivingMatters();
+      const bothOff = !state.showPartners && !state.showGivingMatters;
+      if (bothOff) {
+        state.orgFilters.clear();
+      } else if (which === "nfp" && state.showPartners) {
+        ensureNfpCategoriesSelected();
+      } else if (which === "gm" && state.showGivingMatters) {
+        ensureAllCategoriesIfNoneSelected();
+      } else if (which === "gm" && !state.showGivingMatters) {
+        pruneCategoriesWhenGmOff();
+      }
+      syncOrgListCheckboxes();
+      drawNfpPartners();
+      drawGivingMatters();
+      updatePartnerCount();
+      updateGmCount();
+      updateStatus();
     });
   });
 

@@ -141,6 +141,7 @@
     <aside class="toc">
       <div class="toc-title">On this page</div>
       <a href="#sources">Data sources</a>
+      <a href="#food-insecurity">Food insecurity index</a>
       <a href="#pipeline">Processing pipeline</a>
       <a href="#lila-crosswalk">LILA crosswalk</a>
       <a href="#partner-classification">Partner classification</a>
@@ -153,7 +154,7 @@
 
       <section id="sources">
         <h2>Data sources</h2>
-        <p>The map harmonizes five datasets at two geographic grains — 2020 Census tracts (434 tracts) and 2020 ZCTAs — clipped to the 14-county Nashville MSA.</p>
+        <p>The map harmonizes five primary datasets plus a computed food-insecurity index at two geographic grains — 2020 Census tracts (434 tracts) and 2020 ZCTAs — clipped to the 14-county Nashville MSA. Food insecurity indicators are tract-only.</p>
 
         <div class="source-card">
           <div class="src-head">
@@ -222,6 +223,47 @@
             <dt>Source</dt><dd>NFP Operations CRM export, geocoded against Census</dd>
             <dt>Fields</dt><dd>Partner name, address, partner type, program type</dd>
           </dl>
+        </div>
+
+        <div class="source-card">
+          <div class="src-head">
+            <span class="tag">Computed</span>
+            <h3>Food Insecurity Index · Map the Meal Gap downscaling</h3>
+            <span class="vintage">2023 vintage</span>
+          </div>
+          <dl>
+            <dt>Variables</dt><dd>Food insecurity rate, food insecure population</dd>
+            <dt>Geography</dt><dd>Census tract only (not available at ZIP)</dd>
+            <dt>Inputs</dt><dd>Feeding America <em>Map the Meal Gap</em> 2025 county rates + ACS 2023 profile</dd>
+            <dt>Method</dt><dd>County-anchored downscaling — <a href="#food-insecurity">see below</a></dd>
+          </dl>
+        </div>
+      </section>
+
+      <section id="food-insecurity">
+        <h2>Food insecurity index</h2>
+        <p>
+          <strong>Food Insecurity Rate</strong> is the estimated share of tract residents who lack reliable
+          access to adequate food, shown as a percentage. <strong>Food Insecure Population</strong> is that
+          rate multiplied by tract population (ACS <code>DP05_0001E</code>). Both are modeled — not measured
+          directly — by downscaling Feeding America's <em>Map the Meal Gap</em> (MMG) county rates to census
+          tracts using ACS 2023 predictors and MMG 2025 regression coefficients.
+        </p>
+        <div class="callout">
+          <strong>Equation.</strong>
+          FI(t) = FI<sub>county</sub>(c) + Σ β<sub>k</sub> · ( X<sub>k</sub>(t) − X̄<sub>k</sub>(c) )
+          — the published county MMG rate plus weighted deviations from population-weighted county means
+          on seven ACS predictors: poverty, unemployment, median income, % Hispanic, % Black, homeownership,
+          and disability. Result clipped to [0, 1]; tract rates re-aggregate to the county anchor within ±0.01.
+        </div>
+        <p>
+          Computed statewide for Tennessee, then filtered to the 14-county MSA. Tract-only — not available
+          at ZIP. Tracts with missing data are omitted; those under 500 population are flagged as low-confidence.
+        </p>
+        <div class="callout warn">
+          <strong>Caveats.</strong> Use for comparing relative need across tracts, not as exact headcounts.
+          v1 substitutes overall poverty (<code>DP03_0128PE</code>) for MMG's non-student poverty
+          (<code>B14006</code>), which can overstate rates in student-heavy tracts.
         </div>
       </section>
 
@@ -292,6 +334,9 @@
             <tr><td class="term">ACS</td><td>American Community Survey — Census Bureau's ongoing demographic survey.</td></tr>
             <tr><td class="term">PLACES</td><td>CDC program producing model-based small-area health estimates.</td></tr>
             <tr><td class="term">Choropleth</td><td>A map where geographic areas are shaded by the value of a variable.</td></tr>
+            <tr><td class="term">Map the Meal Gap</td><td>Feeding America's annual research program estimating food insecurity and meal costs at the county level. County rates anchor our tract downscaling model.</td></tr>
+            <tr><td class="term">Food Insecurity Rate</td><td>Modeled share of tract residents who lack reliable access to adequate food. Downscaled from MMG county rates using ACS predictors; displayed as a percentage.</td></tr>
+            <tr><td class="term">Food Insecure Population</td><td>Estimated count of food-insecure residents in a tract (food insecurity rate × total population).</td></tr>
           </tbody>
         </table>
       </section>
@@ -299,12 +344,15 @@
       <section id="caveats">
         <h2>Known caveats</h2>
         <ul>
-          <li><strong>Vintage mismatch.</strong> USDA LILA is from 2019. ACS is 2020–24. CDC PLACES is 2024. We show the most recent available but readers should know they don't all describe the same year.</li>
+          <li><strong>Vintage mismatch.</strong> USDA LILA is from 2019. ACS is 2020–24. Food insecurity is modeled on 2023 ACS + Feeding America county rates. CDC PLACES is 2024. We show the most recent available but readers should know they don't all describe the same year.</li>
           <li><strong>Modeled vs measured.</strong> PLACES diabetes rates are modeled, not observed. Treat as a directional signal, not a count of cases.</li>
           <li><strong>Suppressed tracts.</strong> ACS suppresses estimates for tracts with very small populations. These appear as "—" on the map.</li>
           <li><strong>LILA boundary error.</strong> 3–6% tract-level error from the 2010→2020 crosswalk. See above.</li>
           <li><strong>Partner registry is a snapshot.</strong> Giving Matters changes weekly; we refresh quarterly. Some listed orgs may have closed or merged.</li>
           <li><strong>Not a census of food assistance.</strong> Not every food-providing org is in Giving Matters. Informal, church-based, and mutual-aid networks are under-represented.</li>
+          <li><strong>Modeled food insecurity.</strong> Tract food-insecurity rates are regression outputs anchored to Feeding America county estimates — not direct survey counts. Do not treat tract-level differences below ~1–2 percentage points as meaningful.</li>
+          <li><strong>Food insecurity is tract-only.</strong> ZIP-level views show ACS, health, and LILA indicators but not food insecurity rate or population — those layers require the tract choropleth.</li>
+          <li><strong>Poverty placeholder (v1).</strong> The model substitutes overall ACS poverty for MMG's non-student poverty predictor. Student-heavy tracts may show inflated rates. See <a href="#food-insecurity">Food insecurity index</a>.</li>
         </ul>
       </section>
 
