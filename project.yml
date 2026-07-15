@@ -210,16 +210,27 @@ data_sources:
           supermarket. Source: USDA ERS Food Access Research Atlas, 2019.
 
   food_insecurity_index:
-    source_type: computed   # computed in-process by pipeline/process_food_insecurity.py
+    source_type: s3
+    # Different bucket from every other source in this file -- v2 lake, not
+    # v1 (bdaic-public-transform). This is the sibling ETL's PUBLISHED
+    # OUTPUT (already computed, QA-hardened, and validated there), not a
+    # raw input this repo transforms itself.
+    s3_bucket: bdaic-public-transform-v2
+    s3_prefix:
+      tract: "nfp-mapping/food_insecurity_index/geo_tract/"
+      zip: "nfp-mapping/food_insecurity_index/geo_zcta/"
     output_prefix: food_insecurity
+    geoid_column: geo_id
     frontend_src: fsi
-    tract_only: true
     note: >
-      Tennessee census-tract food-insecurity index. Computed in-process from
-      ACS 5-year profile predictors + Feeding America (Map the Meal Gap) county
-      rates via the vendored calculation in pipeline/food_insecurity/, then
-      filtered from all 95 TN counties down to the MSA. Methodology mirror of
-      Belmont-Data-and-AI-Collaborative/bdaic-food-security-index-census-tract-level-etl.
+      Tennessee census-tract/ZCTA food-insecurity index, read directly from
+      Belmont-Data-and-AI-Collaborative/bdaic-food-security-index-census-tract-level-etl's
+      own published S3 output (filtered from all 95 TN counties down to the
+      MSA at load time, same as every other s3-type source in this file).
+      Previously computed in-process here via a vendored copy of that repo's
+      calculation code (pipeline/food_insecurity/) -- removed in favor of
+      reading the real, upstream-validated output directly, eliminating the
+      drift risk between the two copies.
     variables:
       - id: food_insecurity_rate
         column: "food_insecurity_rate"

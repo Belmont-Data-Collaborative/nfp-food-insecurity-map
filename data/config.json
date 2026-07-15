@@ -201,7 +201,8 @@
       "col": "food_insecurity_rate",
       "src": "fsi",
       "granularities": [
-        "tract"
+        "tract",
+        "zip"
       ],
       "palette": "oranges",
       "fmt": "{:.1f}%",
@@ -216,7 +217,8 @@
       "col": "food_insecure_count",
       "src": "fsi",
       "granularities": [
-        "tract"
+        "tract",
+        "zip"
       ],
       "palette": "ambers",
       "fmt": "{:,.0f}",
